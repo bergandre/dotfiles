@@ -2,7 +2,7 @@
 #░█▀▄░░█░░█░█░█░█░▀▀█
 #░▀▀░░▀▀▀░▀░▀░▀▀░░▀▀▀
 
-#cmd - return : open -a Ghostty
+cmd - return : open -a Ghostty
 
 # Swap window with adjacent windows
 alt - left  : yabai -m window --swap west; sketchybar --trigger window_focus

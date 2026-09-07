@@ -5,10 +5,10 @@
 cmd - return : open -na Ghostty
 
 # Swap window with adjacent windows
-alt - left  : yabai -m window --swap west; sketchybar --trigger window_focus
-alt - right : yabai -m window --swap east; sketchybar --trigger window_focus
-alt - up    : yabai -m window --swap north; sketchybar --trigger window_focus
-alt - down  : yabai -m window --swap south; sketchybar --trigger window_focus
+ctrl + alt - left  : yabai -m window --swap west; sketchybar --trigger window_focus
+ctrl + alt - right : yabai -m window --swap east; sketchybar --trigger window_focus
+ctrl + alt - up    : yabai -m window --swap north; sketchybar --trigger window_focus
+ctrl + alt - down  : yabai -m window --swap south; sketchybar --trigger window_focus
 
 # Toggle full screen using command + F
 ctrl - f : yabai -m window --toggle zoom-fullscreen; sketchybar --trigger window_focus
@@ -17,10 +17,10 @@ ctrl - f : yabai -m window --toggle zoom-fullscreen; sketchybar --trigger window
 cmd - m : yabai -m window --resize left:0:-100; yabai -m window --resize top:0:-100; sketchybar --trigger window_focus
 
 # Focus stuff
-cmd - j: yabai -m window --focus west; sketchybar --trigger window_focus
-cmd - l: yabai -m window --focus east; sketchybar --trigger window_focus
-cmd - i: yabai -m window --focus north; sketchybar --trigger window_focus
-cmd - k: yabai -m window --focus south; sketchybar --trigger window_focus
+alt - left  : yabai -m window --focus west; sketchybar --trigger window_focus
+alt - right : yabai -m window --focus east; sketchybar --trigger window_focus
+alt - up    : yabai -m window --focus north; sketchybar --trigger window_focus
+alt - down  : yabai -m window --focus south; sketchybar --trigger window_focus
 
 
 
@@ -63,7 +63,7 @@ shift + alt - 8 : yabai -m window --space 18; yabai -m space --focus 18; sketchy
 shift + alt - 9 : yabai -m window --space 19; yabai -m space --focus 19; sketchybar --trigger windows_on_spaces
 shift + alt - 0 : yabai -m window --space 20; yabai -m space --focus 20; sketchybar --trigger windows_on_spaces
 
-cmd - delete      : yabai -m space --focus 16; sketchybar --trigger window_focus
+cmd - delete      : yabai -m space --focus 18; sketchybar --trigger window_focus
 cmd - pageup      : yabai -m space --focus 17; sketchybar --trigger window_focus
 cmd - pagedown    : yabai -m space --focus 18; sketchybar --trigger window_focus
 cmd - home        : yabai -m space --focus 19; sketchybar --trigger window_focus
@@ -96,3 +96,10 @@ shift + cmd - end         : yabai -m window --space 20; yabai -m space --focus 1
 
 shift + cmd - 0x21 : wid=$(yabai -m query --windows --window | jq -r '.id'); yabai -m window "$wid" --space prev; yabai -m space --focus prev; yabai -m window --focus "$wid"; sketchybar --trigger windows_on_spaces; sketchybar --trigger window_focus
 shift + cmd - 0x1E : wid=$(yabai -m query --windows --window | jq -r '.id'); yabai -m window "$wid" --space next; yabai -m space --focus next; yabai -m window --focus "$wid"; sketchybar --trigger windows_on_spaces; sketchybar --trigger window_focus
+
+# # --- Spotify Controls ---
+ctrl - space : osascript -e 'tell application "Spotify" to playpause'
+ctrl - right : osascript -e 'tell application "Spotify" to next track'
+ctrl - left : osascript -e 'tell application "Spotify" to previous track'
+ctrl + cmd - end : osascript -e 'tell application "Spotify" to set sound volume to (sound volume + 10)'
+ctrl + cmd - right : osascript -e 'tell application "Spotify" to set sound volume to (sound volume - 10)'

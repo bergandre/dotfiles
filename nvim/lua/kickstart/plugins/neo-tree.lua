@@ -18,6 +18,7 @@ return {
       window = {
         mappings = {
           ['\\'] = 'close_window',
+          ['p'] = { 'toggle_preview', config = { use_float = true } },
         },
       },
     },

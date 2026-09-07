@@ -555,8 +555,8 @@ require("lazy").setup({
 					-- Jump to the definition of the word under your cursor.
 					--  This is where a variable was first declared, or where a function is defined, etc.
 					--  To jump back, press <C-o>.
-					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-					map("grd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition") -- keep for muscle memory
+					map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+					map("grd", vim.lsp.buf.definition, "[G]oto [D]efinition") -- keep for muscle memory
 
 					-- WARN: This is not Goto Definition, this is Goto Declaration.
 					--  For example, in C this would take you to the header.

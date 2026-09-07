@@ -4,7 +4,6 @@ DOTFILES="${DOTFILES:-$HOME/repositories/dotfiles}"
 [[ -f "$DOTFILES/zsh/.zshrc_arch" ]] && source "$DOTFILES/zsh/.zshrc_arch"
 [[ -f "$DOTFILES/zsh/.zshrc_work" ]] && source "$DOTFILES/zsh/.zshrc_work"
 
-eval "$(zoxide init zsh)"
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
@@ -13,6 +12,7 @@ ENABLE_CORRECTION="true"
 plugins=(mvn git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages command-not-found common-aliases brew zsh-fzf-history-search)
 
 source $ZSH/oh-my-zsh.sh
+eval "$(zoxide init zsh)"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 

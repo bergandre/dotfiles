@@ -127,6 +127,36 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+-- Auto-insert package statement for new Java files
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost" }, {
+	desc = "Auto-insert package statement for new Java files",
+	group = vim.api.nvim_create_augroup("java-package-auto", { clear = true }),
+	pattern = "*.java",
+	callback = function()
+		-- Only run if buffer is empty
+		if vim.api.nvim_buf_line_count(0) > 1 or vim.fn.getline(1) ~= "" then
+			return
+		end
+		local filepath = vim.fn.expand("%:p")
+		-- Match src/main/java/ or src/test/java/ and extract package path
+		local package_path = filepath:match(".*/src/main/java/(.+)/[^/]+%.java$")
+			or filepath:match(".*/src/test/java/(.+)/[^/]+%.java$")
+		if package_path then
+			local package_name = package_path:gsub("/", ".")
+			local classname = vim.fn.expand("%:t:r")
+			vim.api.nvim_buf_set_lines(0, 0, 0, false, {
+				"package " .. package_name .. ";",
+				"",
+				"public class " .. classname .. " {",
+				"",
+				"}",
+			})
+			-- Position cursor inside the class
+			vim.api.nvim_win_set_cursor(0, { 4, 0 })
+		end
+	end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -337,11 +367,19 @@ require("lazy").setup({
 				-- You can put your default mappings / updates / etc. in here
 				--  All the info you're looking for is in `:help telescope.setup()`
 				--
-				-- defaults = {
+				defaults = {
+					file_ignore_patterns = {
+						"%.class$",
+						"%.jar$",
+						"node_modules/",
+						"%.git/",
+						"target/",
+						"build/",
+					},
 				--   mappings = {
 				--     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
 				--   },
-				-- },
+				},
 				-- pickers = {}
 				extensions = {
 					["ui-select"] = {

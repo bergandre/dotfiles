@@ -49,6 +49,10 @@ vim.o.timeoutlen = 300
 vim.o.splitright = true
 vim.o.splitbelow = true
 
+-- Line length formatting
+vim.o.textwidth = 120          -- wrap text at 120 characters when formatting
+vim.o.colorcolumn = "120"      -- show vertical line at column 120
+
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
@@ -220,6 +224,7 @@ require("lazy").setup({
 				topdelete = { text = "‾" },
 				changedelete = { text = "~" },
 			},
+			linehl = true, -- highlight changed lines
 		},
 	},
 	{
@@ -465,7 +470,18 @@ require("lazy").setup({
 		{
 			"nvim-java/nvim-java",
 			config = function()
-				require("java").setup()
+				require("java").setup({
+					jdtls = {
+						settings = {
+							java = {
+								format = {
+									tabSize = 4,
+									insertSpaces = true,
+								},
+							},
+						},
+					},
+				})
 			end,
 		},
 		"folke/lazydev.nvim",
@@ -544,12 +560,15 @@ require("lazy").setup({
 					-- Execute a code action, usually your cursor needs to be on top of an error
 					-- or a suggestion from your LSP for this to activate.
 					map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
+					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
 
 					-- Find references for the word under your cursor.
 					map("grr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+					map("gu", require("telescope.builtin").lsp_references, "[G]oto [U]sages")
 
 					-- Jump to the implementation of the word under your cursor.
 					--  Useful when your language has ways of declaring types without an actual implementation.
+					map("gi", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 					map("gri", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 
 					-- Jump to the definition of the word under your cursor.
@@ -560,7 +579,14 @@ require("lazy").setup({
 
 					-- WARN: This is not Goto Definition, this is Goto Declaration.
 					--  For example, in C this would take you to the header.
+					--  In Java, this goes to the interface/parent method for overrides.
+					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 					map("grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+
+					-- Organize imports (removes unused, sorts)
+					map("<leader>oi", function()
+						vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+					end, "[O]rganize [I]mports")
 
 					-- Fuzzy find all the symbols in your current document.
 					--  Symbols are things like variables, functions, types, etc.
@@ -850,7 +876,7 @@ require("lazy").setup({
 				-- <c-k>: Toggle signature help
 				--
 				-- See :h blink-cmp-config-keymap for defining your own keymap
-				preset = "default",
+				preset = "enter",
 
 				-- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
 				--    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps

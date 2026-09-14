@@ -13,6 +13,7 @@ plugins=(mvn git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages c
 
 source $ZSH/oh-my-zsh.sh
 eval "$(zoxide init zsh)"
+source <(ng completion script)
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 

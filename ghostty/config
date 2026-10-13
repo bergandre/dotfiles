@@ -1,4 +1,12 @@
 # Ghostty config
-background-opacity = 0.8
+background-opacity = 0.9
 background-blur = true
 theme = Dracula
+
+# pane switching, same on mac and linux (super = cmd on mac)
+keybind = super+alt+arrow_left=goto_split:left
+keybind = super+alt+arrow_right=goto_split:right
+keybind = super+alt+arrow_up=goto_split:up
+keybind = super+alt+arrow_down=goto_split:down
+keybind = ctrl+page_up=goto_split:previous
+keybind = ctrl+page_down=goto_split:next

@@ -1,54 +1,50 @@
 DOTFILES="${DOTFILES:-$HOME/repositories/dotfiles}"
-[[ -f "$DOTFILES/zsh/.aliases" ]] && source "$DOTFILES/zsh/.aliases"
+export PATH="$HOME/.local/bin:$HOME/.pyenv/bin:$PATH"
+
 [[ -f "$DOTFILES/zsh/.work_variables" ]] && source "$DOTFILES/zsh/.work_variables"
 [[ -f "$DOTFILES/zsh/.zshrc_arch" ]] && source "$DOTFILES/zsh/.zshrc_arch"
 [[ -f "$DOTFILES/zsh/.zshrc_work" ]] && source "$DOTFILES/zsh/.zshrc_work"
 
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+### Zinit
+ZINIT_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"
+[[ ! -d $ZINIT_HOME ]] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "$ZINIT_HOME/zinit.zsh"
+compdef() { zicompdef "$@" } # queue completions until compinit runs (see last plugin)
 
-ENABLE_CORRECTION="true"
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit light zdharma-continuum/zinit-annex-bin-gem-node # needed for node'' below
+zinit snippet OMZL::history.zsh # not turbo: history has to be set before the first prompt
 
-plugins=(mvn git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages command-not-found common-aliases brew zsh-fzf-history-search)
+### Lists — add stuff here
+libs=(completion key-bindings directories git)
+omz_plugins=(git mvn colored-man-pages command-not-found common-aliases)
+[[ $OSTYPE == darwin* ]] && omz_plugins+=(brew)
+programs=(junegunn/fzf) # binaries from GitHub releases
+plugins=(joshskidmore/zsh-fzf-history-search)
 
-source $ZSH/oh-my-zsh.sh
-eval "$(zoxide init zsh)"
-source <(ng completion script)
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# wait lucid = turbo: load right after the prompt shows, quietly
+for lib in $libs; do zinit ice wait lucid; zinit snippet "OMZL::$lib.zsh"; done
+for plugin in $omz_plugins; do zinit ice wait lucid; zinit snippet "OMZP::$plugin"; done
+for program in $programs; do zinit ice wait lucid from'gh-r' as'program'; zinit light $program; done
+for plugin in $plugins; do zinit ice wait lucid; zinit light $plugin; done
+
+### Plugins that need extra setup
+zinit wait lucid for \
+  from'gh-r' as'program' atload'eval "$(zoxide init zsh)"' \
+    ajeetdsouza/zoxide \
+  as'null' id-as'angular-cli' node'ng <- !@angular/cli -> ng' atload'source <(ng completion script)' \
+    zdharma-continuum/null \
+  atload'!_zsh_autosuggest_start' \
+    zsh-users/zsh-autosuggestions \
+  atinit'ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay' \
+    zdharma-continuum/fast-syntax-highlighting # must stay last: runs compinit
+
+### Settings
+setopt correct
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export PATH="$HOME/.local/bin:$HOME/.pyenv/bin:$PATH"
-
-######## Plugins
-
-
-extract () {
-    if [ ! -f "$1" ]
-    then
-        echo "'$1' does not exist."
-        return 1
-    fi
-    case "$1" in
-        (*.tar.bz2) tar xvjf "$1" ;;
-        (*.tar.xz) tar xvJf "$1" ;;
-        (*.tar.gz) tar xvzf "$1" ;;
-        (*.bz2) bunzip2 "$1" ;;
-        (*.rar) rar x "$1" ;;
-        (*.gz) gunzip "$1" ;;
-        (*.tar) tar xvf "$1" ;;
-        (*.tbz2) tar xvjf "$1" ;;
-        (*.tgz) tar xvzf "$1" ;;
-        (*.zip) unzip "$1" ;;
-        (*.Z) uncompress "$1" ;;
-        (*.xz) xz -d "$1" ;;
-        (*.7z) 7z x "$1" ;;
-        (*.a) ar x "$1" ;;
-        (*) echo "Unable to extract '$1'." ;;
-    esac
-}
-
-source "$DOTFILES/zsh/.functions" #I dunno, this is tem, something is overriding ls, but not sure which (on both systems different things, lmao)
-
+source "$DOTFILES/zsh/.aliases"
+source "$DOTFILES/zsh/.functions"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/taavaanj/.rd/bin:$PATH"

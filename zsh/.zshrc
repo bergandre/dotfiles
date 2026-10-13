@@ -9,13 +9,16 @@ export PATH="$HOME/.local/bin:$HOME/.pyenv/bin:$PATH"
 ZINIT_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"
 [[ ! -d $ZINIT_HOME ]] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "$ZINIT_HOME/zinit.zsh"
-compdef() { zicompdef "$@" } # queue completions until compinit runs (see last plugin)
+compdef() { zicompdef "$@" } #  compdef issue fix
 
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+export STARSHIP_CONFIG="$DOTFILES/starship/starship.toml"
+zinit ice as'command' from'gh-r' \
+  atclone'./starship init zsh > init.zsh; ./starship completions zsh > _starship' \
+  atpull'%atclone' src'init.zsh' # not turbo: the prompt has to exist before it's shown
+zinit light starship/starship
 zinit light zdharma-continuum/zinit-annex-bin-gem-node # needed for node'' below
 zinit snippet OMZL::history.zsh # not turbo: history has to be set before the first prompt
 
-### Lists — add stuff here
 libs=(completion key-bindings directories git)
 omz_plugins=(git mvn colored-man-pages command-not-found common-aliases)
 [[ $OSTYPE == darwin* ]] && omz_plugins+=(brew)
@@ -41,11 +44,10 @@ zinit wait lucid for \
 
 ### Settings
 setopt correct
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 source "$DOTFILES/zsh/.aliases"
 source "$DOTFILES/zsh/.functions"
 
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT) grinning teeth emoji
 export PATH="/Users/taavaanj/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

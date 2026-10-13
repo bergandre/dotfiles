@@ -1,0 +1,4 @@
+# Ghostty config
+background-opacity = 0.8
+background-blur = true
+theme = Dracula

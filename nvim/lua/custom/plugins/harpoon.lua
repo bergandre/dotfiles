@@ -4,7 +4,20 @@ return {
 	dependencies = { "nvim-lua/plenary.nvim" },
 	config = function()
 		local harpoon = require("harpoon")
-		harpoon:setup()
+		harpoon:setup({
+			settings = {
+				save_on_toggle = true,
+				sync_on_ui_close = true,
+				key = function()
+					-- Use git root or cwd as key, stored outside repo
+					local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+					if vim.v.shell_error == 0 and git_root then
+						return git_root
+					end
+					return vim.loop.cwd()
+				end,
+			},
+		})
 
 		vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end, { desc = "[H]arpoon [A]dd file" })
 		vim.keymap.set("n", "<leader>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "[H]arpoon menu" })

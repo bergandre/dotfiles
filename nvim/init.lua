@@ -53,6 +53,17 @@ vim.o.splitbelow = true
 vim.o.textwidth = 120          -- wrap text at 120 characters when formatting
 vim.o.colorcolumn = "120"      -- show vertical line at column 120
 
+-- Java indentation: always use 4 spaces
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "java",
+	callback = function()
+		vim.bo.expandtab = true
+		vim.bo.tabstop = 4
+		vim.bo.shiftwidth = 4
+		vim.bo.softtabstop = 4
+	end,
+})
+
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
@@ -77,6 +88,22 @@ vim.o.scrolloff = 10
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.o.confirm = true
+
+-- Transparent background (inherits terminal transparency)
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
+  end,
+})
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -189,7 +216,12 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require("lazy").setup({
 	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-	"NMAC427/guess-indent.nvim", -- Detect tabstop and shiftwidth automatically
+	{
+		"NMAC427/guess-indent.nvim",
+		opts = {
+			filetype_exclude = { "java" },
+		},
+	},
 	"tpope/vim-fugitive", -- Git commands in nvim (:Git, :Gdiff, etc.)
 
 	-- NOTE: Plugins can also be added by using a table,
@@ -373,6 +405,16 @@ require("lazy").setup({
 				--  All the info you're looking for is in `:help telescope.setup()`
 				--
 				defaults = {
+					smart_case = true,
+					vimgrep_arguments = {
+						"rg",
+						"--color=never",
+						"--no-heading",
+						"--with-filename",
+						"--line-number",
+						"--column",
+						"--smart-case",
+					},
 					file_ignore_patterns = {
 						"%.class$",
 						"%.jar$",
@@ -475,8 +517,15 @@ require("lazy").setup({
 						settings = {
 							java = {
 								format = {
-									tabSize = 4,
-									insertSpaces = true,
+									settings = {
+										url = "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+									},
+								},
+								eclipse = {
+									downloadSources = true,
+								},
+								maven = {
+									downloadSources = true,
 								},
 							},
 						},
@@ -659,6 +708,7 @@ require("lazy").setup({
 						client
 						and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
 					then
+						vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })  -- enable by default
 						map("<leader>th", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 						end, "[T]oggle Inlay [H]ints")

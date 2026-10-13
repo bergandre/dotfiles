@@ -144,5 +144,18 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    -- F7 toggle UI (works without starting a debug session)
+    vim.keymap.set('n', '<F7>', function() require('dapui').toggle() end, { desc = 'Debug: Toggle UI' })
+
+    -- Global Java attach configuration (no launch.json needed)
+    dap.configurations.java = dap.configurations.java or {}
+    table.insert(dap.configurations.java, {
+      type = 'java',
+      name = 'Attach to JVM (port 5005)',
+      request = 'attach',
+      hostName = 'localhost',
+      port = 5005,
+    })
   end,
 }

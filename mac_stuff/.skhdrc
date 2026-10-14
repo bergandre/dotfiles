@@ -98,8 +98,8 @@ shift + cmd - 0x21 : wid=$(yabai -m query --windows --window | jq -r '.id'); yab
 shift + cmd - 0x1E : wid=$(yabai -m query --windows --window | jq -r '.id'); yabai -m window "$wid" --space next; yabai -m space --focus next; yabai -m window --focus "$wid"; sketchybar --trigger windows_on_spaces; sketchybar --trigger window_focus
 
 # # --- Spotify Controls ---
-ctrl - space : osascript -e 'tell application "Spotify" to playpause'
-ctrl - right : osascript -e 'tell application "Spotify" to next track'
-ctrl - left : osascript -e 'tell application "Spotify" to previous track'
-ctrl + cmd - end : osascript -e 'tell application "Spotify" to set sound volume to (sound volume + 10)'
-ctrl + cmd - right : osascript -e 'tell application "Spotify" to set sound volume to (sound volume - 10)'
+hyper - space : osascript -e 'tell application "Spotify" to playpause'
+hyper - right : osascript -e 'tell application "Spotify" to next track'
+hyper - left : osascript -e 'tell application "Spotify" to previous track'
+hyper - up : osascript -e 'tell application "Spotify" to set sound volume to (sound volume + 10)'
+hyper - down : osascript -e 'tell application "Spotify" to set sound volume to (sound volume - 10)'

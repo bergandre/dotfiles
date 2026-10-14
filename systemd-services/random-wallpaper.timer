@@ -1,0 +1,10 @@
+[Unit]
+Description=Run random wallpaper every 5 minutes
+
+[Timer]
+OnBootSec=30sec
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=default.target
+

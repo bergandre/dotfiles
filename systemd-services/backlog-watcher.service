@@ -1,0 +1,11 @@
+[Unit]
+Description=Backlog: дописывает лог при смене статуса игры
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 %h/.local/bin/backlog-watcher.py
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target

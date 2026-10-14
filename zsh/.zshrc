@@ -35,6 +35,8 @@ for plugin in $plugins; do zinit ice wait lucid; zinit light $plugin; done
 zinit wait lucid for \
   from'gh-r' as'program' atload'eval "$(zoxide init zsh)"' \
     ajeetdsouza/zoxide \
+  from'gh-r' as'program' bpick'tree-sitter-cli-*' \
+    tree-sitter/tree-sitter \
   as'null' id-as'angular-cli' node'ng <- !@angular/cli -> ng' atload'source <(ng completion script)' \
     zdharma-continuum/null \
   atload'!_zsh_autosuggest_start' \

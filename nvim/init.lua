@@ -1036,11 +1036,13 @@ require("lazy").setup({
 	},
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
+		lazy = false, -- the main branch does not support lazy-loading
 		build = ":TSUpdate",
-		main = "nvim-treesitter.configs", -- Sets main module to use for opts
 		-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-		opts = {
-			ensure_installed = {
+		config = function()
+			local ts = require("nvim-treesitter")
+			ts.install({
 				"bash",
 				"c",
 				"diff",
@@ -1053,22 +1055,43 @@ require("lazy").setup({
 				"vim",
 				"vimdoc",
 				"java",
-			},
-			-- Autoinstall languages that are not installed
-			auto_install = true,
-			highlight = {
-				enable = true,
+			})
+
+			-- Highlighting/indent are no longer enabled by the plugin, so start them per buffer.
+			-- Parsers that aren't installed yet get installed on first use (old `auto_install`).
+			local function enable(buf, lang)
+				vim.treesitter.start(buf, lang)
 				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-				--  If you are experiencing weird indenting issues, add the language to
-				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-				additional_vim_regex_highlighting = { "ruby" },
-			},
-			indent = { enable = true, disable = { "ruby" } },
-		},
+				if lang == "ruby" then
+					vim.bo[buf].syntax = "on"
+				else
+					vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end
+			end
+
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("kickstart-treesitter", { clear = true }),
+				callback = function(event)
+					local lang = vim.treesitter.language.get_lang(event.match)
+					if not lang then
+						return
+					end
+					if vim.treesitter.language.add(lang) then
+						enable(event.buf, lang)
+					elseif vim.list_contains(ts.get_available(), lang) then
+						ts.install(lang):await(vim.schedule_wrap(function()
+							if vim.api.nvim_buf_is_valid(event.buf) and vim.treesitter.language.add(lang) then
+								enable(event.buf, lang)
+							end
+						end))
+					end
+				end,
+			})
+		end,
 		-- There are additional nvim-treesitter modules that you can use to interact
 		-- with nvim-treesitter. You should go explore a few and see what interests you:
 		--
-		--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
+		--    - Incremental selection: built into Neovim 0.12, see `:help v_an`
 		--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
 		--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},

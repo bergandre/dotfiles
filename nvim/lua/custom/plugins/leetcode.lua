@@ -18,5 +18,15 @@ return {
 	},
 	opts = {
 		lang = "java",
+		hooks = {
+			-- some shitty workaround to make the linter work with leetcode problems
+			["enter"] = {
+				function()
+					local home = vim.fn.stdpath("data") .. "/leetcode"
+					vim.fn.mkdir(home .. "/.git", "p")
+					vim.fn.chdir(home)
+				end,
+			},
+		},
 	},
 }

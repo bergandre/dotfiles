@@ -2,7 +2,7 @@
 Description=Run random wallpaper every 5 minutes
 
 [Timer]
-OnBootSec=30sec
+OnBootSec=1sec
 OnUnitActiveSec=5min
 
 [Install]

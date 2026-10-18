@@ -641,6 +641,45 @@ require("lazy").setup({
 					--  Symbols are things like variables, functions, types, etc.
 					map("gO", require("telescope.builtin").lsp_document_symbols, "Open Document Symbols")
 
+					-- Open the class under your cursor in a float to read its source and docs.
+					-- A float is a new window, so it also works in leetcode windows where
+					-- 'winfixbuf' blocks gd. Press q to close it.
+					map("grc", function()
+						vim.lsp.buf.definition({
+							on_list = function(list)
+								local item = list.items[1]
+								if not item then
+									return
+								end
+								local loc = item.user_data
+								local buf = vim.uri_to_bufnr(loc.uri or loc.targetUri)
+								vim.fn.bufload(buf) -- triggers nvim-java's jdt:// decompiler for JDK classes
+
+								local width = math.floor(vim.o.columns * 0.85)
+								local height = math.floor(vim.o.lines * 0.85)
+								local win = vim.api.nvim_open_win(buf, true, {
+									relative = "editor",
+									width = width,
+									height = height,
+									row = math.floor((vim.o.lines - height) / 2),
+									col = math.floor((vim.o.columns - width) / 2),
+									border = "rounded",
+								})
+								vim.wo[win].winfixbuf = false -- floats copy window options from the current window
+								vim.api.nvim_win_set_cursor(win, { item.lnum, item.col - 1 })
+
+								vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = buf })
+								vim.api.nvim_create_autocmd("WinClosed", {
+									pattern = tostring(win),
+									once = true,
+									callback = function()
+										pcall(vim.keymap.del, "n", "q", { buffer = buf })
+									end,
+								})
+							end,
+						})
+					end, "[G]oto [C]lass in float")
+
 					-- Fuzzy find all the symbols in your current workspace.
 					--  Similar to document symbols, except searches over your entire project.
 					map("gW", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Open Workspace Symbols")
@@ -980,6 +1019,9 @@ require("lazy").setup({
 				styles = {
 					comments = { italic = false }, -- Disable italics in comments
 				},
+				on_colors = function(colors)
+					colors.comment = "#9aa5ce" -- brighter comments, readable over ghostty blur
+				end,
 			})
 
 			-- Load the colorscheme here.

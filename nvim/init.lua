@@ -708,6 +708,20 @@ require("lazy").setup({
 					--
 					-- When you move your cursor, the highlights will be cleared (the second autocommand).
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+					-- leetcode isn't a Spring project; spring-boot only attaches there via cwd fallback
+					-- and its inlay hints race jdtls' ("Invalid 'col': out of range" on nvim 0.12)
+					if
+						client
+						and client.name == "spring-boot"
+						and vim.api.nvim_buf_get_name(event.buf):find(vim.fn.stdpath("data") .. "/leetcode", 1, true)
+					then
+						vim.schedule(function()
+							vim.lsp.buf_detach_client(event.buf, client.id)
+						end)
+						return
+					end
+
 					if
 						client
 						and client_supports_method(

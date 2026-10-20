@@ -1,7 +1,7 @@
 unalias ls 2>/dev/null
 
 ls() {
-  (( $# == 0 )) && command lsd -la || command lsd "$@"
+  (( $# == 0 )) && command lsd -lA || command lsd "$@"
 }
 
 bg() {

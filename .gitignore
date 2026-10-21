@@ -6,3 +6,4 @@ zsh/.zshenv_old
 zsh/.zprofile
 zsh/.zshenv
 user_scripts/claude
+*local

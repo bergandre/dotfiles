@@ -3,7 +3,6 @@
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"
 
 [ "$(tty)" = "/dev/tty1" ] && exec uwsm start default
-export DOTFILES="$HOME/repositories/dotfiles"
 
 
 # Kiro CLI post block. Keep at the bottom of this file.

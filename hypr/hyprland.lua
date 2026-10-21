@@ -1,0 +1,899 @@
+-- MADE IN POLAND DEPLOYED IN LATVIA... NEVERFORGET HYPRLANG
+-- Y U MADE ME DO THIS????
+
+---@module 'hl'
+
+--b.             8     ,o888888o.  `8.`888b           ,8' .8.
+--888o.          8  . 8888     `88. `8.`888b         ,8' .888.
+--Y88888o.       8 ,8 8888       `8b `8.`888b       ,8' :88888.
+--.`Y888888o.    8 88 8888        `8b `8.`888b     ,8' . `88888.
+--8o. `Y888888o. 8 88 8888         88  `8.`888b   ,8' .8. `88888.
+--8`Y8o. `Y88888o8 88 8888         88   `8.`888b ,8' .8`8. `88888.
+--8   `Y8o. `Y8888 88 8888        ,8P    `8.`888b8' .8' `8. `88888.
+--8      `Y8o. `Y8 `8 8888       ,8P      `8.`888' .8'   `8. `88888.
+--8         `Y8o.`  ` 8888     ,88'        `8.`8' .888888888. `88888.
+--8            `Yo     `8888888P'           `8.` .8'       `8. `88888.
+
+-- Variables
+
+local terminal = "ghostty"
+
+local fileManager = "dolphin"
+
+local menu = "wofi --show drun"
+
+local editor = "nvim"
+
+local mainMod = "SUPER"
+
+local hyper = "CTRL + ALT + SUPER + SHIFT"
+
+local bottom_monitor = "DP-3"
+
+local top_monitor = "DP-2"
+
+local side_monitor = "DP-1"
+
+local tv = "HDMI-A-1"
+
+-- #Some default env vars.
+
+hl.env("XCURSOR_SIZE", 24)
+
+hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
+
+-- change to qt6ct if you have that
+
+hl.env("LIBVA_DRIVER_NAME", "nvidia")
+
+hl.env("XDG_SESSION_TYPE", "wayland")
+
+hl.env("GBM_BACKEND", "nvidia-drm")
+
+hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+
+hl.env("HDR", 1)
+
+hl.env("CM", 1)
+
+hl.env("ENABLE_HDR_WSI", 1)
+
+hl.env("DXVK_HDR", 1)
+
+hl.config({
+	input = {
+		kb_layout = "us",
+		"ru",
+		"lv",
+		kb_options = "grp:ctrl_space_toggle,lv3:switch,altwin:swap_alt_win",
+		follow_mouse = 0,
+		touchpad = {
+			natural_scroll = false,
+		},
+		sensitivity = 0,
+		-- -1.0 to 1.0, 0 means no modification.
+	},
+})
+
+hl.config({
+	debug = {
+		disable_logs = false,
+	},
+})
+
+hl.config({
+	general = {
+		gaps_in = 5,
+		gaps_out = 20,
+		border_size = 2,
+		layout = "dwindle",
+		-- Caution
+		allow_tearing = false,
+		col = {
+			active_border = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
+			inactive_border = "rgba(595959aa)",
+		},
+	},
+})
+
+hl.config({
+	cursor = {
+		no_hardware_cursors = true,
+	},
+})
+
+hl.config({
+	decoration = {
+		rounding = 10,
+		blur = {
+			enabled = true,
+		},
+		shadow = {
+			enabled = true,
+			range = 4,
+			render_power = 3,
+			color = "rgba(1a1a1aee)",
+		},
+	},
+})
+
+hl.config({
+	animations = {
+		enabled = true,
+	},
+})
+hl.curve("myBezier", {
+	type = "bezier",
+	points = { { 0.05, 0.9 }, { 0.1, 1.05 } },
+})
+hl.animation({ leaf = "windows", enabled = true, speed = 7, bezier = "myBezier" })
+hl.animation({ leaf = "windowsOut", enabled = true, speed = 7, bezier = "default", style = "popin 80%" })
+hl.animation({ leaf = "border", enabled = true, speed = 10, bezier = "default" })
+hl.animation({ leaf = "borderangle", enabled = true, speed = 8, bezier = "default" })
+hl.animation({ leaf = "fade", enabled = true, speed = 7, bezier = "default" })
+hl.animation({ leaf = "workspaces", enabled = true, speed = 6, bezier = "default" })
+
+hl.config({
+	dwindle = {
+		-- See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
+		preserve_split = true,
+		-- you probably want this
+		smart_split = true,
+	},
+})
+
+hl.config({
+	master = {
+		-- See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
+		new_status = "slave",
+	},
+})
+
+hl.config({
+	misc = {
+		force_default_wallpaper = 0,
+		-- Set to 0 or 1 to disable the anime mascot wallpapers
+	},
+})
+
+hl.device({
+	name = "sino-wealth-usb-keyboard",
+	kb_options = "grp:CTRL_space_toggle",
+})
+
+--░█▄█░█▀█░█▀█░▀█▀░▀█▀░█▀█░█▀▄░█▀▀
+
+--░█░█░█░█░█░█░░█░░░█░░█░█░█▀▄░▀▀█
+
+--░▀░▀░▀▀▀░▀░▀░▀▀▀░░▀░░▀▀▀░▀░▀░▀▀▀
+
+hl.monitor({
+	output = bottom_monitor,
+	mode = "3440x1440@164.90",
+	position = "0x0",
+	scale = 1,
+	vrr = 2,
+	--huj
+	-- bitdepth = 10
+	-- cm = hdr
+	-- sdrbrightness = 1.1
+	-- sdrsaturation = 1.3
+	-- sdr_min_luminance = 0.005
+	-- sdr_max_luminance = 300
+	-- min_luminance = 0.005
+	-- max_luminance = 1001
+})
+
+hl.monitor({
+	output = top_monitor,
+	mode = "3440x1440@99.98Hz",
+	position = "0x-1440",
+	scale = 1,
+	disabled = false,
+	--   vrr = 3
+	--   bitdepth = 10
+	--   cm = hdr
+	--   sdrbrightness = 1.2
+	--   sdrsaturation = 1.2
+})
+
+hl.monitor({
+	output = side_monitor,
+	mode = "2560x1440@75",
+	position = "3440x-720",
+	scale = 1,
+	transform = 3,
+	vrr = 3,
+	bitdepth = 10,
+	cm = "hdr",
+	sdrbrightness = 1.0,
+	sdrsaturation = 1.1,
+})
+
+hl.monitor({
+	output = tv,
+	mode = "3840x2160@120",
+	position = "4880x-720",
+	scale = 1,
+	bitdepth = 10,
+	cm = "hdr",
+	sdrbrightness = 1.3,
+	sdrsaturation = 1.3,
+})
+
+-- eto VR + no side
+
+--monitorv2 {
+
+--    output = $tv
+
+--    mode = 3840x2160@120
+
+--    position = 3440x-720
+
+--    scale = 1
+
+--    bitdepth = 10
+
+--    cm = hdr
+
+--    sdrbrightness = 1.3
+
+--    sdrsaturation = 1.3
+
+--}
+
+--monitorv2 {
+
+--    output = $side_monitor
+
+--    disabled = true
+
+--}
+
+--monitorv2 {
+
+--    output = $top_monitor
+
+--    disabled = true
+
+--}
+
+--monitorv2 {
+
+--    output = $bottom_monitor
+
+--    disabled = true
+
+--}
+
+--░█░█░█▀█░█▀▄░█░█░█▀▀░█▀█░█▀█░█▀▀░█▀▀░█▀▀
+
+--░█▄█░█░█░█▀▄░█▀▄░▀▀█░█▀▀░█▀█░█░░░█▀▀░▀▀█
+
+--░▀░▀░▀▀▀░▀░▀░▀░▀░▀▀▀░▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀
+
+hl.workspace_rule({
+	workspace = 1,
+	monitor = "DP-3",
+})
+
+hl.workspace_rule({
+	workspace = 2,
+	monitor = "DP-3",
+})
+
+hl.workspace_rule({
+	workspace = 3,
+	monitor = "DP-3",
+})
+
+hl.workspace_rule({
+	workspace = 4,
+	monitor = "DP-3",
+})
+
+hl.workspace_rule({
+	workspace = 5,
+	monitor = "DP-3",
+})
+
+hl.workspace_rule({
+	workspace = 6,
+	monitor = "DP-3",
+})
+
+hl.workspace_rule({
+	workspace = 7,
+	monitor = "DP-3",
+})
+
+hl.workspace_rule({
+	workspace = 8,
+	monitor = "DP-3",
+})
+
+hl.workspace_rule({
+	workspace = 9,
+	monitor = "DP-3",
+})
+
+hl.workspace_rule({
+	workspace = 10,
+	monitor = "DP-3",
+})
+
+hl.workspace_rule({
+	workspace = 11,
+	monitor = "DP-2",
+})
+
+hl.workspace_rule({
+	workspace = 12,
+	monitor = "DP-2",
+})
+
+hl.workspace_rule({
+	workspace = 13,
+	monitor = "DP-2",
+})
+
+hl.workspace_rule({
+	workspace = 14,
+	monitor = "DP-2",
+})
+
+hl.workspace_rule({
+	workspace = 15,
+	monitor = "DP-2",
+})
+
+hl.workspace_rule({
+	workspace = 16,
+	monitor = "DP-2",
+})
+
+hl.workspace_rule({
+	workspace = 17,
+	monitor = "DP-2",
+})
+
+hl.workspace_rule({
+	workspace = 18,
+	monitor = "DP-2",
+})
+
+hl.workspace_rule({
+	workspace = 19,
+	monitor = "DP-2",
+})
+
+hl.workspace_rule({
+	workspace = 20,
+	monitor = "DP-2",
+})
+
+hl.workspace_rule({
+	workspace = 21,
+	monitor = "DP-1",
+})
+
+hl.workspace_rule({
+	workspace = 22,
+	monitor = "DP-1",
+})
+
+hl.workspace_rule({
+	workspace = 23,
+	monitor = "DP-1",
+})
+
+hl.workspace_rule({
+	workspace = 24,
+	monitor = "DP-1",
+})
+
+hl.workspace_rule({
+	workspace = 25,
+	monitor = "DP-1",
+})
+
+hl.workspace_rule({
+	workspace = 26,
+	monitor = "DP-1",
+})
+
+hl.workspace_rule({
+	workspace = 27,
+	monitor = "DP-1",
+})
+
+hl.workspace_rule({
+	workspace = 28,
+	monitor = "DP-1",
+})
+
+hl.workspace_rule({
+	workspace = 29,
+	monitor = "DP-1",
+})
+
+hl.workspace_rule({
+	workspace = 30,
+	monitor = "DP-1",
+})
+
+--░█▀▄░█░█░█░░░█▀▀░█▀▀
+
+--░█▀▄░█░█░█░░░█▀▀░▀▀█
+
+--░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀
+
+--               _
+
+-- _ _ _ ___ ___| |_ ___ ___ ___ ___ ___
+
+--| | | | . |  _| '_|_ -| . | .'|  _| -_|
+
+--|_____|___|_| |_,_|___|  _|__,|___|___|
+
+--                      |_|
+
+--### DP-2 - Bottom Ultrawide
+
+-- 1 - main
+
+-- 2 - big terminal with splits
+
+-- 3 - gaming
+
+hl.window_rule({
+	name = "workspace_3_silent_272",
+	match = {
+		class = "steam",
+	},
+	workspace = "3 silent",
+})
+
+hl.window_rule({
+	name = "workspace_3_silent_273",
+	match = {
+		class = "com.usebottles.bottles",
+	},
+	workspace = "3 silent",
+})
+
+hl.window_rule({
+	name = "workspace_3_silent_274",
+	match = {
+		class = "WowUpCf",
+	},
+	workspace = "3 silent",
+})
+
+hl.window_rule({
+	name = "workspace_3_silent_275",
+	match = {
+		class = "shf-win64-shipping.exe",
+	},
+	workspace = "3 silent",
+})
+
+hl.window_rule({
+	name = "workspace_3_276",
+	match = {
+		class = "battle.net.exe",
+	},
+	workspace = 3,
+})
+
+--### DP-3 - Top Ultrawide
+
+--### HDMI-n - Side Portrait
+
+-- 21 - main, tipo v brauzere sizhu na side
+
+-- 22 - Device connection and switching
+
+hl.window_rule({
+	name = "workspace_22_silent_283",
+	match = {
+		class = "blueman.*",
+	},
+	workspace = "22 silent",
+})
+
+hl.window_rule({
+	name = "workspace_22_silent_284",
+	match = {
+		class = "org.pulseaudio.pavucontrol",
+	},
+	workspace = "22 silent",
+})
+
+-- 23 - music and EQ
+
+hl.window_rule({
+	name = "workspace_23_silent_286",
+	match = {
+		class = "Spotify",
+	},
+	workspace = "23 silent",
+})
+
+hl.window_rule({
+	name = "workspace_23_silent_287",
+	match = {
+		class = "com.github.wwmm.easyeffects",
+	},
+	workspace = "23 silent",
+})
+
+-- 24 - social
+
+hl.window_rule({
+	name = "workspace_24_silent_289",
+	match = {
+		class = "Beeper",
+	},
+	workspace = "24 silent",
+})
+
+hl.window_rule({
+	name = "workspace_24_silent_290",
+	match = {
+		class = "vesktop",
+	},
+	workspace = "24 silent",
+})
+
+-- 25 - srs business lmao
+
+hl.window_rule({
+	name = "workspace_25_silent_292",
+	match = {
+		class = "org.mozilla.Thunderbird",
+	},
+	workspace = "25 silent",
+})
+
+hl.window_rule({
+	name = "workspace_25_silent_293",
+	match = {
+		class = "ticktick",
+	},
+	workspace = "25 silent",
+})
+
+--##### Dump stuff I rarely use or has problems with floating
+
+--windowrule = workspace 27 silent, match:class Immersed
+
+--### Scratchpad
+
+--windowrule = workspace special:magic silent, match:class obsidian
+
+hl.window_rule({
+	name = "workspace_special_ma_301",
+	match = {
+		class = "Beeper",
+	},
+	workspace = "special:magic silent",
+})
+
+hl.window_rule({
+	name = "workspace_special_ma_302",
+	match = {
+		class = "vesktop",
+	},
+	workspace = "special:magic silent",
+})
+
+--░█▀▄░▀█▀░█▀█░█▀▄░█▀▀
+--░█▀▄░░█░░█░█░█░█░▀▀█
+--░▀▀░░▀▀▀░▀░▀░▀▀░░▀▀▀
+
+hl.bind(mainMod .. " + " .. "T", hl.dsp.window.pin())
+hl.bind(mainMod .. " + " .. "Tab", hl.dsp.window.cycle_next())
+hl.bind(mainMod .. " + " .. "C", hl.dsp.send_shortcut({ mods = "CTRL", key = "C" }))
+hl.bind(mainMod .. " + " .. "V", hl.dsp.send_shortcut({ mods = "CTRL", key = "V" }))
+hl.bind(mainMod .. " + " .. "X", hl.dsp.send_shortcut({ mods = "CTRL", key = "X" }))
+hl.bind(mainMod .. " + " .. "A", hl.dsp.send_shortcut({ mods = "CTRL", key = "A" }))
+hl.bind(mainMod .. " + " .. "Z", hl.dsp.send_shortcut({ mods = "CTRL", key = "Z" }))
+hl.bind(mainMod .. " + " .. "S", hl.dsp.send_shortcut({ mods = "CTRL", key = "S" }))
+hl.bind(mainMod .. " + " .. "F", hl.dsp.send_shortcut({ mods = "CTRL", key = "F" }))
+hl.bind(mainMod .. " + " .. "CTRL" .. " + " .. "S", hl.dsp.exec_cmd("grimblast copy area"))
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "F", hl.dsp.window.fullscreen_state({ internal = 0, client = 2 }))
+hl.bind(mainMod .. " + " .. "F", hl.dsp.window.fullscreen())
+hl.bind(mainMod .. " + " .. "F", hl.dsp.exec_cmd("$notifycmd 'Fullscreen Mode' SUPER"))
+hl.bind(mainMod .. " + " .. "R", hl.dsp.exec_cmd("wofi --show drun"))
+hl.bind(mainMod .. " + " .. "Return", hl.dsp.exec_cmd("ghostty"))
+hl.bind(mainMod .. " + " .. "Q", hl.dsp.window.close())
+hl.bind(mainMod .. " + " .. "M", hl.dsp.exit())
+hl.bind(mainMod .. " + " .. "E", hl.dsp.exec_cmd("dolphin"))
+
+--       _       _
+
+-- _ _ _|_|___ _| |___ _ _ _
+
+--| | | | |   | . | . | | | |
+
+--|_____|_|_|_|___|___|_____|
+
+hl.bind(mainMod .. " + " .. "ALT" .. " + " .. "Space", hl.dsp.window.float())
+
+hl.bind(mainMod .. " + " .. "Space", hl.dsp.window.center())
+
+hl.bind(mainMod .. " + " .. "C", hl.dsp.exec_cmd("wl-copy"))
+
+hl.bind(mainMod .. " + " .. "V", hl.dsp.exec_cmd("wl-paste"))
+
+hl.bind(mainMod .. " + " .. "X", hl.dsp.exec_cmd("wl-copy --cut"))
+
+hl.bind(mainMod .. " + " .. "A", hl.dsp.exec_cmd("wtype -M ctrl a"))
+
+hl.bind(
+	mainMod .. " + " .. "ALT" .. " + " .. "h",
+	hl.dsp.window.resize({ x = -20, y = 0, relative = true }),
+	{ repeating = true }
+)
+
+hl.bind(
+	mainMod .. " + " .. "ALT" .. " + " .. "l",
+	hl.dsp.window.resize({ x = 20, y = 0, relative = true }),
+	{ repeating = true }
+)
+
+hl.bind(
+	mainMod .. " + " .. "ALT" .. " + " .. "k",
+	hl.dsp.window.resize({ x = 0, y = -20, relative = true }),
+	{ repeating = true }
+)
+
+hl.bind(
+	mainMod .. " + " .. "ALT" .. " + " .. "j",
+	hl.dsp.window.resize({ x = 0, y = 20, relative = true }),
+	{ repeating = true }
+)
+
+hl.bind(mainMod .. " + " .. "mouse:272", hl.dsp.window.drag(), { mouse = true })
+
+hl.bind(mainMod .. " + " .. "mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+-- _____ ___ _| |_|___
+
+--|     | -_| . | | .'|
+
+--|_|_|_|___|___|_|__,|
+
+-- spotify
+
+hl.bind(
+	hyper .. " + " .. "RIGHT",
+	hl.dsp.exec_cmd(
+		"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify/org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+	)
+)
+
+hl.bind(
+	hyper .. " + " .. "LEFT",
+	hl.dsp.exec_cmd(
+		"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify/org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+	)
+)
+
+hl.bind(
+	hyper .. " + " .. "SPACE",
+	hl.dsp.exec_cmd(
+		"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify/org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+	)
+)
+
+hl.bind(hyper .. " + " .. "UP", hl.dsp.exec_cmd("playerctl --player=spotify volume 0.1+"))
+
+hl.bind(hyper .. " + " .. "DOWN", hl.dsp.exec_cmd("playerctl --player=spotify volume 0.1-"))
+
+-- youtube (firefox)
+
+hl.bind(hyper .. " + " .. "K", hl.dsp.exec_cmd("playerctl --player=firefox play-pause"))
+
+hl.bind(hyper .. " + " .. "N", hl.dsp.exec_cmd("playerctl --player=firefox next"))
+
+hl.bind(hyper .. " + " .. "P", hl.dsp.exec_cmd("playerctl --player=firefox previous"))
+
+hl.bind(hyper .. " + " .. 1, hl.dsp.exec_cmd("playerctl --player=firefox position 5-"))
+
+hl.bind(hyper .. " + " .. 2, hl.dsp.exec_cmd("playerctl --player=firefox position 5+"))
+
+--░█░█░█▀█░█▀▄░█░█░█▀▀░█▀█░█▀█░█▀▀░█▀▀░█▀▀
+
+--░█▄█░█░█░█▀▄░█▀▄░▀▀█░█▀▀░█▀█░█░░░█▀▀░▀▀█
+
+--░▀░▀░▀▀▀░▀░▀░▀░▀░▀▀▀░▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀
+
+-- bottom ultrawide (1–9)
+
+hl.bind(mainMod .. " + " .. 1, hl.dsp.focus({ workspace = 1 }))
+
+hl.bind(mainMod .. " + " .. 2, hl.dsp.focus({ workspace = 2 }))
+
+hl.bind(mainMod .. " + " .. 3, hl.dsp.focus({ workspace = 3 }))
+
+hl.bind(mainMod .. " + " .. 4, hl.dsp.focus({ workspace = 4 }))
+
+hl.bind(mainMod .. " + " .. 5, hl.dsp.focus({ workspace = 5 }))
+
+hl.bind(mainMod .. " + " .. 6, hl.dsp.focus({ workspace = 6 }))
+
+hl.bind(mainMod .. " + " .. 7, hl.dsp.focus({ workspace = 7 }))
+
+hl.bind(mainMod .. " + " .. 8, hl.dsp.focus({ workspace = 8 }))
+
+hl.bind(mainMod .. " + " .. 9, hl.dsp.focus({ workspace = 9 }))
+
+hl.bind(mainMod .. " + " .. 0, hl.dsp.focus({ workspace = 10 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. 1, hl.dsp.window.move({ workspace = 1 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. 2, hl.dsp.window.move({ workspace = 2 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. 3, hl.dsp.window.move({ workspace = 3 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. 4, hl.dsp.window.move({ workspace = 4 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. 5, hl.dsp.window.move({ workspace = 5 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. 6, hl.dsp.window.move({ workspace = 6 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. 7, hl.dsp.window.move({ workspace = 7 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. 8, hl.dsp.window.move({ workspace = 8 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. 9, hl.dsp.window.move({ workspace = 9 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. 0, hl.dsp.window.move({ workspace = 0 }))
+
+-- top ultrawide (11–20) — Alt (left of SUPER) + 1..0
+
+hl.bind("ALT + 1", hl.dsp.focus({ workspace = 11 }))
+
+hl.bind("ALT + 2", hl.dsp.focus({ workspace = 12 }))
+
+hl.bind("ALT + 3", hl.dsp.focus({ workspace = 13 }))
+
+hl.bind("ALT + 4", hl.dsp.focus({ workspace = 14 }))
+
+hl.bind("ALT + 5", hl.dsp.focus({ workspace = 15 }))
+
+hl.bind("ALT + 6", hl.dsp.focus({ workspace = 16 }))
+
+hl.bind("ALT + 7", hl.dsp.focus({ workspace = 17 }))
+
+hl.bind("ALT + 8", hl.dsp.focus({ workspace = 18 }))
+
+hl.bind("ALT + 9", hl.dsp.focus({ workspace = 19 }))
+
+hl.bind("ALT + 0", hl.dsp.focus({ workspace = 20 }))
+
+hl.bind("ALT + SHIFT + 1", hl.dsp.window.move({ workspace = 11 }))
+
+hl.bind("ALT + SHIFT + 2", hl.dsp.window.move({ workspace = 12 }))
+
+hl.bind("ALT + SHIFT + 3", hl.dsp.window.move({ workspace = 13 }))
+
+hl.bind("ALT + SHIFT + 4", hl.dsp.window.move({ workspace = 14 }))
+
+hl.bind("ALT + SHIFT + 5", hl.dsp.window.move({ workspace = 15 }))
+
+hl.bind("ALT + SHIFT + 6", hl.dsp.window.move({ workspace = 16 }))
+
+hl.bind("ALT + SHIFT + 7", hl.dsp.window.move({ workspace = 17 }))
+
+hl.bind("ALT + SHIFT + 8", hl.dsp.window.move({ workspace = 18 }))
+
+hl.bind("ALT + SHIFT + 9", hl.dsp.window.move({ workspace = 19 }))
+
+hl.bind("ALT + SHIFT + 0", hl.dsp.window.move({ workspace = 20 }))
+
+-- portretnik 21-30
+
+hl.bind(mainMod .. " + " .. "DELETE", hl.dsp.focus({ workspace = 21 }))
+
+hl.bind(mainMod .. " + " .. "HOME", hl.dsp.focus({ workspace = 22 }))
+
+hl.bind(mainMod .. " + " .. "END", hl.dsp.focus({ workspace = 23 }))
+
+hl.bind(mainMod .. " + " .. "PAGE_UP", hl.dsp.focus({ workspace = 24 }))
+
+hl.bind(mainMod .. " + " .. "PAGE_DOWN", hl.dsp.focus({ workspace = 25 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "DELETE", hl.dsp.window.move({ workspace = 21 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "HOME", hl.dsp.window.move({ workspace = 22 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "END", hl.dsp.window.move({ workspace = 23 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "PAGE_UP", hl.dsp.window.move({ workspace = 24 }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "PAGE_DOWN", hl.dsp.window.move({ workspace = 25 }))
+
+-- focus
+
+hl.bind(mainMod .. " + " .. "left", hl.dsp.focus({ direction = "left" }))
+
+hl.bind(mainMod .. " + " .. "right", hl.dsp.focus({ direction = "right" }))
+
+hl.bind(mainMod .. " + " .. "up", hl.dsp.focus({ direction = "up" }))
+
+hl.bind(mainMod .. " + " .. "down", hl.dsp.focus({ direction = "down" }))
+
+-- tab switching, mac-style (translates to ctrl+pgup/pgdn)
+
+hl.bind(
+	mainMod .. " + " .. "ALT" .. " + " .. "left",
+	hl.dsp.send_shortcut({ mods = "CTRL", key = "Prior", "activewindow" })
+)
+
+hl.bind(
+	mainMod .. " + " .. "ALT" .. " + " .. "right",
+	hl.dsp.send_shortcut({ mods = "CTRL", key = "Next", "activewindow" })
+)
+
+-- scratchpad
+
+hl.bind(mainMod .. " + " .. "S", hl.dsp.workspace.toggle_special("magic"))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "S", hl.dsp.window.move({ workspace = "special:magic" }))
+
+-- relative switching (stays on current monitor)
+
+hl.bind(mainMod .. " + " .. "bracketleft", hl.dsp.focus({ workspace = "r-1" }))
+
+hl.bind(mainMod .. " + " .. "bracketright", hl.dsp.focus({ workspace = "r+1" }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "bracketleft", hl.dsp.window.move({ direction = "left" }))
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "bracketright", hl.dsp.window.move({ direction = "right" }))
+
+-- mouse
+
+hl.bind(mainMod .. " + " .. "mouse:272", hl.dsp.window.drag(), { mouse = true })
+
+hl.bind(mainMod .. " + " .. "mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+--▞▀▖▚▗▘▞▀▖▞▀▖▄▄▖▞▀▖▛▀▖▞▀▖▞▀▖
+
+--▛▀ ▗▚ ▛▀ ▌ ▖   ▌ ▌▌ ▌▌ ▖▛▀
+
+--▝▀▘▘ ▘▝▀▘▝▀    ▝▀ ▘ ▘▝▀ ▝▀▘
+
+--exec-once = vesktop
+
+--exec-once = immersed
+
+--exec-once = hypridle
+
+--exec-once = ~/appshortcuts.sh vertical kpop+instagram...
+
+--exec-once = ~/Downloads/alvr_streamer_linux/bin/alvr_dashboard
+
+--Rules for meeeee (styling, poka tut)
+
+--Do and posle kategoriji i.e. BINDS 2 empty lines
+
+-- Autostart
+hl.on("hyprland.start", function()
+	hl.exec_cmd("spotify")
+	hl.exec_cmd("steam")
+	hl.exec_cmd("obsidian")
+	hl.exec_cmd("easyeffects")
+	hl.exec_cmd("hyprpaper")
+	hl.exec_cmd("pavucontrol")
+	hl.exec_cmd("waybar")
+	hl.exec_cmd("beeper")
+	hl.exec_cmd("blueman-manager")
+	hl.exec_cmd("sunshine")
+	hl.exec_cmd("hyprctl reload")
+	hl.exec_cmd("sleep 3 && ticktick")
+	hl.exec_cmd("thunderbird")
+end)

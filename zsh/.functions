@@ -8,6 +8,12 @@ bg() {
   "$@" >/dev/null 2>&1 & disown
 }
 
+uss() {
+    sudo pacman -Syuu && sudo shutdown "$@"
+}
+
+hochu() {
+    yay -S "$@" --noconfirm
 
 extract () {
     if [ ! -f "$1" ]

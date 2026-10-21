@@ -62,7 +62,7 @@ hl.env("DXVK_HDR", 1)
 
 hl.config({
 	input = {
-		kb_layout = "us",
+		kb_layout = "us, ru, lv",
 		"ru",
 		"lv",
 		kb_options = "grp:ctrl_space_toggle,lv3:switch,altwin:swap_alt_win",

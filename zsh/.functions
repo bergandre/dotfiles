@@ -14,6 +14,7 @@ uss() {
 
 hochu() {
     yay -S "$@" --noconfirm
+}
 
 extract () {
     if [ ! -f "$1" ]

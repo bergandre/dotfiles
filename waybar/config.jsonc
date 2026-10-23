@@ -304,7 +304,9 @@
     "interval": 1,
     "return-type": "json",
     "tooltip": true,
-    "on-click": "foot ~/.local/bin/pomotui-tui"
+    "on-click": "~/.config/waybar/scripts/pomotui-toggle.sh",
+    "on-click-middle": "~/.local/bin/pomotui stop",
+    "on-click-right": "foot ~/.local/bin/pomotui-tui"
   },
   "tray": {
     "icon-size": 17,

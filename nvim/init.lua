@@ -22,9 +22,9 @@ vim.o.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
---vim.schedule(function()
---	vim.o.clipboard = "unnamedplus"
---end)
+vim.schedule(function()
+	vim.o.clipboard = "unnamedplus"
+end)
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -50,19 +50,12 @@ vim.o.splitright = true
 vim.o.splitbelow = true
 
 -- Line length formatting
-vim.o.textwidth = 120          -- wrap text at 120 characters when formatting
-vim.o.colorcolumn = "120"      -- show vertical line at column 120
+vim.o.textwidth = 120 -- wrap text at 120 characters when formatting
+vim.o.colorcolumn = "120" -- show vertical line at column 120
 
--- Java indentation: always use 4 spaces
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "java",
-	callback = function()
-		vim.bo.expandtab = true
-		vim.bo.tabstop = 4
-		vim.bo.shiftwidth = 4
-		vim.bo.softtabstop = 4
-	end,
-})
+-- Per-filetype settings: see lua/custom/filetypes/
+require("custom.filetypes.java")
+require("custom.filetypes.markdown")
 
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
@@ -91,13 +84,13 @@ vim.o.confirm = true
 
 -- Transparent background (inherits terminal transparency)
 vim.api.nvim_create_autocmd("ColorScheme", {
-  callback = function()
-    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
-  end,
+	callback = function()
+		vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+		vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+		vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+		vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
+	end,
 })
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
@@ -259,29 +252,7 @@ require("lazy").setup({
 			linehl = true, -- highlight changed lines
 		},
 	},
-	{
-		"yetone/avante.nvim",
-		event = "VeryLazy",
-		lazy = false,
-		version = false,
-		build = "make",
-		opts = {
-			provider = "kiro",
-			-- Use the dedicated ACP table instead of standard providers
-			acp_providers = {
-				kiro = {
-					command = "kiro-cli", -- Switch to absolute path (e.g., "/usr/bin/kiro-cli") if it fails to find the binary
-					args = { "acp" },
-				},
-			},
-		},
-		dependencies = {
-			"stevearc/dressing.nvim",
-			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
-			"nvim-tree/nvim-web-devicons",
-		},
-	}, -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
+	-- NOTE: Plugins can also be configured to run Lua code when they are loaded.
 	--
 	-- This is often very useful to both group configuration, as well as handle
 	-- lazy loading plugins that don't need to be loaded immediately at startup.
@@ -423,9 +394,9 @@ require("lazy").setup({
 						"target/",
 						"build/",
 					},
-				--   mappings = {
-				--     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-				--   },
+					--   mappings = {
+					--     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+					--   },
 				},
 				-- pickers = {}
 				extensions = {
@@ -455,21 +426,23 @@ require("lazy").setup({
 				local action_state = require("telescope.actions.state")
 
 				local files = vim.fn.systemlist("git diff --name-only " .. commit .. "~1 " .. commit)
-				pickers.new({}, {
-					prompt_title = "Files Changed in Last Commit",
-					finder = finders.new_table({ results = files }),
-					sorter = conf.generic_sorter({}),
-					attach_mappings = function(prompt_bufnr, map)
-						actions.select_default:replace(function()
-							actions.close(prompt_bufnr)
-							local selection = action_state.get_selected_entry()
-							if selection then
-								vim.cmd("edit " .. selection[1])
-							end
-						end)
-						return true
-					end,
-				}):find()
+				pickers
+					.new({}, {
+						prompt_title = "Files Changed in Last Commit",
+						finder = finders.new_table({ results = files }),
+						sorter = conf.generic_sorter({}),
+						attach_mappings = function(prompt_bufnr, map)
+							actions.select_default:replace(function()
+								actions.close(prompt_bufnr)
+								local selection = action_state.get_selected_entry()
+								if selection then
+									vim.cmd("edit " .. selection[1])
+								end
+							end)
+							return true
+						end,
+					})
+					:find()
 			end, { desc = "[G]it [D]iff files in last commit" })
 			vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
 			vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
@@ -761,7 +734,7 @@ require("lazy").setup({
 						client
 						and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
 					then
-						vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })  -- enable by default
+						vim.lsp.inlay_hint.enable(true, { bufnr = event.buf }) -- enable by default
 						map("<leader>th", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 						end, "[T]oggle Inlay [H]ints")
@@ -860,6 +833,7 @@ require("lazy").setup({
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
+				"markdownlint", -- Used by nvim-lint for markdown
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -1172,7 +1146,7 @@ require("lazy").setup({
 	--    This is the easiest way to modularize your config.
 	--
 	--  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-	{ import = 'custom.plugins' },
+	{ import = "custom.plugins" },
 	--
 	-- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
 	-- Or use telescope!

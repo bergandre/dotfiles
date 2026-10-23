@@ -130,12 +130,6 @@
       "class<PrusaSlicer|UltiMaker-Cura|OrcaSlicer>": "󰹛"
     }
   },
-  "custom/launcher": {
-    "format": "",
-    "on-click": "rofi -show drun",
-    "on-click-right": "ghostty",
-    "tooltip-format": "Launcher"
-  },
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {

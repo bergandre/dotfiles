@@ -12,8 +12,6 @@
   "group/left1": {
     "orientation": "inherit",
     "modules": [
-      "custom/launcher",
-      "clock",
       "idle_inhibitor"
     ]
   },
@@ -34,10 +32,10 @@
       "bluetooth",
       "pulseaudio#output",
       "pulseaudio#input",
-      "power-profiles-daemon",
       "memory",
       "cpu",
-      "battery"
+      "gpu",
+      "clock"
     ]
   },
   "group/right2": {
@@ -168,7 +166,7 @@
     ]
   },
   "clock": {
-    "format": " {:%H:%M %d/%m/%Y}",
+    "format": "{:%d/%m/%Y  %H:%M}",
     "format-alt": "{:L%d %B W%V %Y}",
     "tooltip-format": "<span>{calendar}</span>",
     "calendar": {

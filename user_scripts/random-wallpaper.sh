@@ -14,7 +14,7 @@ TELEVISION_MONITOR=("HDMI-A-1")
 PORTRAIT_WP=$(find "$PORTRAIT_DIR" -type f | shuf -n 1)
 TELEVISION_WP=$(find "$TELEVISION_DIR" -type f | shuf -n 1)
 
-mapfile -d '' FILES < <(find "$ULTRAWIDE_DIR" -type f ! -ipath '*/archive/*' ! -ipath '*/kpop/*'  \( \
+mapfile -d '' FILES < <(find "$ULTRAWIDE_DIR" -type f ! -ipath '*/archive/*' ! -ipath '*.DS_Store' \( \
   -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \
 \) -print0)
 

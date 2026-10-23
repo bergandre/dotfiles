@@ -716,8 +716,8 @@ hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "S", hl.dsp.window.move({ worksp
 
 hl.bind(mainMod .. " + " .. "bracketleft", hl.dsp.focus({ workspace = "r-1" }))
 hl.bind(mainMod .. " + " .. "bracketright", hl.dsp.focus({ workspace = "r+1" }))
-hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "bracketleft", hl.dsp.window.move({ direction = "left" }))
-hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "bracketright", hl.dsp.window.move({ direction = "right" }))
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "bracketleft", hl.dsp.window.move({ workspace = "r-1" }))
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "bracketright", hl.dsp.window.move({ workspace = "r+1" }))
 
 -- mouse
 

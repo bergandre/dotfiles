@@ -8,9 +8,6 @@
 - Я учусь: когда используешь неочевидный приём, одной строкой поясни почему.
 
 ## Working style
-- When I ask about nvim keybinds, after answering also record them in `$KEYBINDS/nvim.md`
-  (Obsidian cheatsheet; `$KEYBINDS` is a dir). Match its format (`- \`key\` — description`),
-  put them under the fitting `##`/`###` section, skip duplicates.
 
 ## Git / commits
 

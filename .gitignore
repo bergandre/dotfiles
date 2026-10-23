@@ -7,3 +7,4 @@ zsh/.zprofile
 zsh/.zshenv
 user_scripts/claude
 *local
+claude/skills/synced

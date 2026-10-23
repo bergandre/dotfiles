@@ -67,7 +67,7 @@ hl.config({
 hl.config({
 	general = {
 		gaps_in = 5,
-		gaps_out = 20,
+		gaps_out = { top = 6, right = 8, bottom = 8, left = 8 },
 		border_size = 2,
 		layout = "dwindle",
 		-- Caution

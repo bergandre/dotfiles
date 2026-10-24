@@ -1,6 +1,7 @@
 /* was: @import "../omarchy/current/theme/waybar.css"; colors defined inline instead */
 @define-color background #1a1b26;
 @define-color foreground #c0caf5;
+@define-color accent #33ccff; /* matches Hyprland active_border */
 
 /* @import "colors.css"; */
 
@@ -77,8 +78,9 @@ button:hover {
 }
 
 #workspaces button.active {
-background-color: alpha(@foreground, 0.1);
-  color: @foreground;
+  background-color: @accent;
+  color: @background;
+  font-weight: bold;
 }
 
 #workspaces button.empty {
@@ -88,8 +90,8 @@ background-color: alpha(@foreground, 0.1);
 }
 
 #workspaces button.empty.active {
-  background-color: alpha(@foreground, 0.15);
-  color: alpha(@foreground, 0.8);
+  background-color: @accent;
+  color: @background;
   border-radius: 6px;
   box-shadow: none;
   margin: 0px 2px;

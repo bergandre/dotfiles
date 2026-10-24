@@ -625,6 +625,8 @@ hl.bind(hyper .. " + " .. "N", hl.dsp.exec_cmd("playerctl --player=firefox next"
 hl.bind(hyper .. " + " .. "P", hl.dsp.exec_cmd("playerctl --player=firefox previous"))
 hl.bind(hyper .. " + " .. 1, hl.dsp.exec_cmd("playerctl --player=firefox position 5-"))
 hl.bind(hyper .. " + " .. 2, hl.dsp.exec_cmd("playerctl --player=firefox position 5+"))
+hl.bind(hyper .. " + " .. 3, hl.dsp.exec_cmd("playerctl --player=firefox volume .1-"))
+hl.bind(hyper .. " + " .. 4, hl.dsp.exec_cmd("playerctl --player=firefox volume .1+"))
 
 --░█░█░█▀█░█▀▄░█░█░█▀▀░█▀█░█▀█░█▀▀░█▀▀░█▀▀
 --░█▄█░█░█░█▀▄░█▀▄░▀▀█░█▀▀░█▀█░█░░░█▀▀░▀▀█

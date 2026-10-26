@@ -392,13 +392,13 @@ hl.workspace_rule({
 -- 2 - big terminal with splits
 -- 3 - gaming
 
-hl.window_rule({
-	name = "workspace_3_silent_272",
-	match = {
-		class = "steam",
-	},
-	workspace = "3 silent",
-})
+-- hl.window_rule({
+-- 	name = "workspace_3_silent_272",
+-- 	match = {
+-- 		class = "steam",
+-- 	},
+-- 	workspace = "3 silent",
+-- })
 
 hl.window_rule({
 	name = "workspace_3_silent_273",
@@ -739,7 +739,7 @@ hl.bind(mainMod .. " + " .. "mouse:273", hl.dsp.window.resize(), { mouse = true 
 -- Autostart
 hl.on("hyprland.start", function()
 	hl.exec_cmd("spotify")
-	hl.exec_cmd("steam")
+	--	hl.exec_cmd("steam")
 	hl.exec_cmd("obsidian")
 	hl.exec_cmd("easyeffects")
 	hl.exec_cmd("hyprpaper")

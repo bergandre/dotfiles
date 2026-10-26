@@ -8,3 +8,5 @@ zsh/.zshenv
 user_scripts/claude
 *local
 claude/skills/synced
+ghostty/matugen-colors
+nvim/lua/custom/matugen.lua

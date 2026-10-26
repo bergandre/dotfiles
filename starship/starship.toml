@@ -26,7 +26,21 @@ $time\
 [ ](fg:color_bg1)\
 $line_break$character"""
 
-palette = 'gruvbox_dark'
+palette = 'matugen'
+
+# blocks use extra terminal palette slots 16-22 (wallpaper colors from matugen, see ghostty/config),
+# prompt character keeps plain ANSI colors for success/error
+[palettes.matugen]
+color_fg0 = '22'
+color_bg1 = '21'
+color_bg3 = '20'
+color_blue = '19'
+color_aqua = '18'
+color_green = 'green'
+color_orange = '16'
+color_purple = 'purple'
+color_red = 'red'
+color_yellow = '17'
 
 [palettes.gruvbox_dark]
 color_fg0 = '#fbf1c7'
@@ -42,7 +56,7 @@ color_yellow = '#d79921'
 
 [os]
 disabled = false
-style = "bg:color_orange fg:color_fg0"
+style = "bg:color_orange fg:color_bg1"
 
 [os.symbols]
 Windows = "󰍲"
@@ -68,8 +82,8 @@ Pop = ""
 
 [username]
 show_always = true
-style_user = "bg:color_orange fg:color_fg0"
-style_root = "bg:color_orange fg:color_fg0"
+style_user = "bg:color_orange fg:color_bg1"
+style_root = "bg:color_orange fg:color_bg1"
 format = '[ $user ]($style)'
 
 [directory]
@@ -142,7 +156,7 @@ format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
 [docker_context]
 symbol = ""
 style = "bg:color_bg3"
-format = '[[ $symbol( $context) ](fg:#83a598 bg:color_bg3)]($style)'
+format = '[[ $symbol( $context) ](fg:color_blue bg:color_bg3)]($style)'
 
 [time]
 disabled = false

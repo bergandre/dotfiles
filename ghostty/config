@@ -1,7 +1,18 @@
 # Ghostty config
 background-opacity = 0.9
 background-blur = true
-theme = Dracula
+# theme = Dracula
+# colors generated from the wallpaper by matugen (see random-wallpaper.sh)
+config-file = ?matugen-colors
+
+# starship prompt blocks use palette 16-22; gruvbox here, overridden by matugen-colors on linux
+palette = 16=#d65d0e
+palette = 17=#d79921
+palette = 18=#689d6a
+palette = 19=#458588
+palette = 20=#665c54
+palette = 21=#3c3836
+palette = 22=#fbf1c7
 
 # pane switching, same on mac and linux (super = cmd on mac)
 keybind = super+alt+arrow_left=goto_split:left

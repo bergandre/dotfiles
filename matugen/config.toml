@@ -1,0 +1,42 @@
+[config]
+
+[templates.ghostty]
+input_path = "~/.config/matugen/templates/ghostty-colors"
+output_path = "~/.config/ghostty/matugen-colors"
+
+[templates.nvim]
+input_path = "~/.config/matugen/templates/nvim-colors.lua"
+output_path = "~/.config/nvim/lua/custom/matugen.lua"
+
+# pure ANSI colors blended towards the wallpaper's hue
+[config.custom_colors.red]
+color = "#FF0000"
+blend = true
+
+[config.custom_colors.green]
+color = "#00FF00"
+blend = true
+
+[config.custom_colors.orange]
+color = "#FF8000"
+blend = true
+
+[config.custom_colors.yellow]
+color = "#FFFF00"
+blend = true
+
+[config.custom_colors.blue]
+color = "#0000FF"
+blend = true
+
+[config.custom_colors.magenta]
+color = "#FF00FF"
+blend = true
+
+[config.custom_colors.cyan]
+color = "#00FFFF"
+blend = true
+
+[config.custom_colors.white]
+color = "#FFFFFF"
+blend = true

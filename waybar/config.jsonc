@@ -7,7 +7,9 @@
   "margin-top": 0,
   "modules-left": [
     "group/left1", 
-    "group/left2"
+    "group/left2",
+    "group/left3",
+    "group/left4"
   ],
   "group/left1": {
     "orientation": "inherit",
@@ -18,6 +20,14 @@
   "group/left2": {
     "orientation": "inherit",
     "modules": ["tray"]
+  },
+  "group/left3": {
+    "orientation": "inherit",
+    "modules": ["hyprland/window#class"]
+  },
+  "group/left4": {
+    "orientation": "inherit",
+    "modules": ["custom/window-audio", "hyprland/window#title"]
   },
   "modules-center": [
     "hyprland/workspaces"
@@ -129,6 +139,20 @@
       "class<localsend>":"",
       "class<PrusaSlicer|UltiMaker-Cura|OrcaSlicer>": "󰹛"
     }
+  },
+  "hyprland/window#class": {
+    "format": "<b>{class}</b>",
+    "separate-outputs": true
+  },
+  "hyprland/window#title": {
+    "format": "{title}",
+    "max-length": 50,
+    "separate-outputs": true
+  },
+  "custom/window-audio": {
+    "exec": "~/.config/waybar/scripts/window-audio.sh",
+    "interval": 1,
+    "tooltip": false
   },
   "idle_inhibitor": {
     "format": "{icon}",

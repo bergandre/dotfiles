@@ -21,7 +21,7 @@ window#waybar > box {
   background-color: alpha(@background, 0.7);
 }
 
-#left1, #left2, #left3, #right1, #right2 {
+#left1, #left2, #left3, #left4, #right1, #right2 {
   background-color: alpha(@foreground, 0.1);
   margin: 4px 2px;
   padding: 0px 8px; 
@@ -33,7 +33,7 @@ margin-left: 4px;
   border-radius: 10px 4px 4px 10px;
 }
 
-#left2, #left3, #right2 {
+#left2, #left3, #left4, #right2 {
  border-radius: 4px;
   padding: 0px 10px; 
 }
@@ -73,6 +73,11 @@ button:hover {
   background-color: transparent;
 }
 
+#workspaces button.visible {
+  background-color: alpha(@accent, 0.3);
+  color: @foreground;
+}
+
 #workspaces button.active {
   background-color: @accent;
   color: @background;
@@ -83,6 +88,11 @@ button:hover {
   color: alpha(@foreground, 0.2);
   background-color: transparent;
   box-shadow: none;
+}
+
+#workspaces button.empty.visible {
+  background-color: alpha(@accent, 0.3);
+  color: @foreground;
 }
 
 #workspaces button.empty.active {
@@ -110,6 +120,7 @@ button:hover {
 
 #mpris,
 #custom-pomotui,
+#custom-window-audio,
 #idle_inhibitor,
 #custom-updatespacman,
 #custom-launcher,
@@ -122,6 +133,7 @@ button:hover {
 #custom-voxtype.recording,
 #custom-voxtype.transcribing,
 #tray,
+#window,
 #cpu,
 #memory,
 #battery,

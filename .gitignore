@@ -10,3 +10,9 @@ user_scripts/claude
 claude/skills/synced
 ghostty/matugen-colors
 nvim/lua/custom/matugen.lua
+mako/matugen-colors
+thunderbird/chrome/userChrome.css
+hypr/matugen-colors.lua
+
+#file types
+*bak

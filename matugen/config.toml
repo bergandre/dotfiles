@@ -8,6 +8,30 @@ output_path = "~/.config/ghostty/matugen-colors"
 input_path = "~/.config/matugen/templates/nvim-colors.lua"
 output_path = "~/.config/nvim/lua/custom/matugen.lua"
 
+[templates.beeper]
+input_path = "~/.config/matugen/templates/beeper.css"
+output_path = "~/.config/BeeperTexts/custom.css"
+
+[templates.hypr]
+input_path = "~/.config/matugen/templates/hypr-colors.lua"
+output_path = "~/.config/hypr/matugen-colors.lua"
+post_hook = "hyprctl reload"
+
+[templates.waybar]
+input_path = "~/.config/matugen/templates/waybar-colors.css"
+output_path = "~/.config/waybar/colors.css"
+post_hook = "pkill -SIGUSR2 waybar"
+
+[templates.mako]
+input_path = "~/.config/matugen/templates/mako-colors"
+output_path = "~/.config/mako/matugen-colors"
+post_hook = "makoctl reload"
+
+# no live reload, thunderbird picks it up on restart
+[templates.thunderbird]
+input_path = "~/.config/matugen/templates/thunderbird.css"
+output_path = "~/repositories/dotfiles/thunderbird/chrome/userChrome.css"
+
 # pure ANSI colors blended towards the wallpaper's hue
 [config.custom_colors.red]
 color = "#FF0000"

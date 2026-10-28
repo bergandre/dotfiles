@@ -1,0 +1,35 @@
+# mako notification daemon; colors come from matugen-colors (see random-wallpaper.sh)
+anchor=top-right
+layer=overlay
+sort=-time
+# outer-margin matches hyprland gaps_out, margin is the gap between stacked popups
+outer-margin=6,8,0,0
+margin=6,0,0,0
+
+width=360
+height=200
+padding=12,14
+border-size=2
+border-radius=10
+font=JetBrainsMono Nerd Font 11
+format=<b>%s</b>\n%b
+markup=1
+
+icons=1
+icon-path=/usr/share/icons/Papirus
+max-icon-size=48
+icon-location=left
+
+max-visible=5
+default-timeout=5000
+ignore-timeout=1
+
+# must stay before the sections below: it sets global colors and ends inside [urgency=high]
+include=~/.config/mako/matugen-colors
+
+[urgency=high]
+default-timeout=0
+
+[category=mpd]
+default-timeout=2000
+group-by=category

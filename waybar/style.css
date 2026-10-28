@@ -95,6 +95,11 @@ button:hover {
   opacity: 1;
 }
 
+#workspaces button.urgent {
+  background-color: @error;
+  color: @background;
+}
+
 #workspaces button:hover.empty,
 #workspaces button:hover {
     background-color: @foreground;

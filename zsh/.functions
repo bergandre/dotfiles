@@ -4,6 +4,8 @@ ls() {
   (( $# == 0 )) && command lsd -A || command lsd "$@"
 }
 
+note() { export PANE_NOTE="$*" }
+
 bg() {
   "$@" >/dev/null 2>&1 & disown
 }

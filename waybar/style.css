@@ -120,6 +120,7 @@ button:hover {
 
 #mpris,
 #custom-pomotui,
+#custom-countdown,
 #custom-window-audio,
 #idle_inhibitor,
 #custom-updatespacman,
@@ -150,6 +151,10 @@ button:hover {
 
 tooltip {
   padding: 2px;
+}
+
+#custom-countdown.soon {
+  color: @warning;
 }
 
 #custom-launcher, #clock, #mpris {

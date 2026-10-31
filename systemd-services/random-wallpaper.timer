@@ -2,9 +2,9 @@
 Description=Run random wallpaper every 4 hours
 
 [Timer]
-OnBootSec=1sec
+OnActiveSec=1s
 OnUnitActiveSec=4h
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target
 

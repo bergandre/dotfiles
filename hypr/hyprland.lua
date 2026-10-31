@@ -130,8 +130,8 @@ hl.config({
 	dwindle = {
 		-- See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
 		preserve_split = true,
-		-- you probably want this
-		smart_split = true,
+		-- false: split by aspect ratio (side by side on wide monitors) instead of cursor position
+		smart_split = false,
 	},
 })
 
@@ -164,15 +164,17 @@ hl.monitor({
 	position = "0x0",
 	scale = 1,
 	vrr = 2,
-	--huj
-	-- bitdepth = 10
-	-- cm = hdr
-	-- sdrbrightness = 1.1
-	-- sdrsaturation = 1.3
-	-- sdr_min_luminance = 0.005
-	-- sdr_max_luminance = 300
-	-- min_luminance = 0.005
-	-- max_luminance = 1001
+	bitdepth = 10,
+	cm = "hdr",
+	sdrbrightness = 1.2,
+	sdrsaturation = 1.2,
+	sdr_max_luminance = 1000,
+})
+
+hl.config({
+	render = {
+		cm_auto_hdr = 1,
+	},
 })
 
 hl.monitor({
@@ -205,7 +207,7 @@ hl.monitor({
 	output = tv,
 	mode = "3840x2160@120",
 	position = "4880x-720",
-	scale = 1,
+	scale = 1.88,
 	bitdepth = 10,
 	cm = "hdr",
 	vrr = 0,
@@ -561,6 +563,14 @@ hl.bind(mainMod .. " + " .. "Return", hl.dsp.exec_cmd("ghostty"))
 hl.bind(mainMod .. " + " .. "Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + " .. "M", hl.dsp.exit())
 hl.bind(mainMod .. " + " .. "E", hl.dsp.exec_cmd("dolphin"))
+-- wl-kbptr: hints on detected elements / grid for precise clicks
+-- pkill first so the key toggles it and never stacks instances
+hl.bind(
+	mainMod .. " + " .. "G",
+	hl.dsp.exec_cmd("pkill wl-kbptr || wl-kbptr -o modes=floating,click -o mode_floating.source=detect")
+)
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "G", hl.dsp.exec_cmd("pkill wl-kbptr || wl-kbptr"))
+hl.bind(mainMod .. " + " .. "Escape", hl.dsp.exec_cmd("pkill wl-kbptr"))
 
 --       _       _
 -- _ _ _|_|___ _| |___ _ _ _
@@ -629,15 +639,15 @@ hl.bind(
 hl.bind(hyper .. " + " .. "UP", hl.dsp.exec_cmd("playerctl --player=spotify volume 0.1+"))
 hl.bind(hyper .. " + " .. "DOWN", hl.dsp.exec_cmd("playerctl --player=spotify volume 0.1-"))
 
--- youtube (firefox)
+-- youtube (freey)
 
-hl.bind(hyper .. " + " .. "K", hl.dsp.exec_cmd("playerctl --player=firefox play-pause"))
-hl.bind(hyper .. " + " .. "N", hl.dsp.exec_cmd("playerctl --player=firefox next"))
-hl.bind(hyper .. " + " .. "P", hl.dsp.exec_cmd("playerctl --player=firefox previous"))
-hl.bind(hyper .. " + " .. 1, hl.dsp.exec_cmd("playerctl --player=firefox position 5-"))
-hl.bind(hyper .. " + " .. 2, hl.dsp.exec_cmd("playerctl --player=firefox position 5+"))
-hl.bind(hyper .. " + " .. 3, hl.dsp.exec_cmd("playerctl --player=firefox volume .1-"))
-hl.bind(hyper .. " + " .. 4, hl.dsp.exec_cmd("playerctl --player=firefox volume .1+"))
+hl.bind(hyper .. " + " .. "K", hl.dsp.exec_cmd("playerctl --player=chromium play-pause"))
+hl.bind(hyper .. " + " .. "N", hl.dsp.exec_cmd("playerctl --player=chromium next"))
+hl.bind(hyper .. " + " .. "P", hl.dsp.exec_cmd("playerctl --player=chromium previous"))
+hl.bind(hyper .. " + " .. 1, hl.dsp.exec_cmd("playerctl --player=chromium position 5-"))
+hl.bind(hyper .. " + " .. 2, hl.dsp.exec_cmd("playerctl --player=chromium position 5+"))
+hl.bind(hyper .. " + " .. 3, hl.dsp.exec_cmd("playerctl --player=chromium volume .1-"))
+hl.bind(hyper .. " + " .. 4, hl.dsp.exec_cmd("playerctl --player=chromium volume .1+"))
 
 --░█░█░█▀█░█▀▄░█░█░█▀▀░█▀█░█▀█░█▀▀░█▀▀░█▀▀
 --░█▄█░█░█░█▀▄░█▀▄░▀▀█░█▀▀░█▀█░█░░░█▀▀░▀▀█
@@ -707,6 +717,21 @@ hl.bind(mainMod .. " + " .. "left", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + " .. "right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + " .. "up", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + " .. "down", hl.dsp.focus({ direction = "down" }))
+
+-- move window within workspace
+
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "left", hl.dsp.window.move({ direction = "left" }))
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "right", hl.dsp.window.move({ direction = "right" }))
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "up", hl.dsp.window.move({ direction = "up" }))
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "down", hl.dsp.window.move({ direction = "down" }))
+hl.bind(mainMod .. " + " .. "J", hl.dsp.layout("togglesplit"))
+
+-- focus monitor
+
+hl.bind(hyper .. " + " .. "W", hl.dsp.focus({ monitor = "u" }))
+hl.bind(hyper .. " + " .. "A", hl.dsp.focus({ monitor = "l" }))
+hl.bind(hyper .. " + " .. "S", hl.dsp.focus({ monitor = "d" }))
+hl.bind(hyper .. " + " .. "D", hl.dsp.focus({ monitor = "r" }))
 
 -- tab switching, mac-style (translates to ctrl+pgup/pgdn)
 

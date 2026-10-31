@@ -175,3 +175,7 @@ vimcmd_symbol = '[](bold fg:color_green)'
 vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
 vimcmd_replace_symbol = '[](bold fg:color_purple)'
 vimcmd_visual_symbol = '[](bold fg:color_yellow)'
+
+[env_var.PANE_NOTE]
+format = "[📌 $env_value]($style) "
+style = "bold yellow"

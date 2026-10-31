@@ -14,6 +14,13 @@ TELEVISION_MONITOR=("HDMI-A-1")
 COLOR_PRIORITY=( "DP-3" "DP-2" "HDMI-A-1" "DP-1" )
 declare -A MON_WP
 
+# on login hyprpaper may not be up yet, wait up to 10s for its socket
+HYPRPAPER_SOCK="$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.hyprpaper.sock"
+for i in {1..20}; do
+  [ -S "$HYPRPAPER_SOCK" ] && break
+  sleep 0.5
+done
+
 PORTRAIT_WP=$(find "$PORTRAIT_DIR" -type f ! -ipath '*/archive/*' | shuf -n 1)
 TELEVISION_WP=$(find "$TELEVISION_DIR" -type f ! -ipath '*/archive/*' | shuf -n 1)
 
@@ -31,15 +38,12 @@ for MON in "${ULTRAWIDE_MONITORS[@]}";
 do
 	echo "$MON" 
       	WP="${FILES[RANDOM % ${#FILES[@]}]}"
-  hyprctl hyprpaper preload "$WP"
   echo "$WP"
   hyprctl hyprpaper wallpaper "$MON,$WP"
   MON_WP[$MON]="$WP"
 done
 
 
-hyprctl hyprpaper preload "$PORTRAIT_WP"
-hyprctl hyprpaper preload "$TELEVISION_WP"
 hyprctl hyprpaper wallpaper "$PORTRAIT_MONITOR, $PORTRAIT_WP"
 hyprctl hyprpaper wallpaper "$TELEVISION_MONITOR, $TELEVISION_WP"
 MON_WP[$PORTRAIT_MONITOR]="$PORTRAIT_WP"

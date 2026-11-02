@@ -776,7 +776,7 @@ hl.bind(mainMod .. " + " .. "mouse:273", hl.dsp.window.resize(), { mouse = true 
 hl.on("hyprland.start", function()
 	hl.exec_cmd("spotify")
 	--	hl.exec_cmd("steam")
-	hl.exec_cmd("obsidian")
+	-- hl.exec_cmd("obsidian")
 	hl.exec_cmd("easyeffects")
 	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd("pavucontrol")

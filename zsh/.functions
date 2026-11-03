@@ -4,7 +4,28 @@ ls() {
   (( $# == 0 )) && command lsd -A || command lsd "$@"
 }
 
-note() { export PANE_NOTE="$*" }
+# splits of one Ghostty window share its window id (Hyprland on linux, yabai on mac), so the note
+# is stored per window and a new pane loads it on startup (the window is still focused right after the split key)
+if [[ $TERM_PROGRAM == ghostty ]]; then
+  if (( $+commands[hyprctl] )); then
+    _note_win=$(hyprctl activewindow -j 2>/dev/null | jq -r 'select(.class == "com.mitchellh.ghostty") | .address')
+  elif (( $+commands[yabai] )); then
+    _note_win=$(yabai -m query --windows --window 2>/dev/null | jq -r 'select(.app == "Ghostty") | .id')
+  fi
+  # macOS has no XDG_RUNTIME_DIR, $TMPDIR is its per-user temp dir
+  [[ -n $_note_win ]] && _note_file="${XDG_RUNTIME_DIR:-$TMPDIR}/pane-notes/$_note_win"
+  [[ -r $_note_file ]] && export PANE_NOTE=$(<$_note_file)
+fi
+
+note() {
+  if (( $# == 0 )); then
+    unset PANE_NOTE
+    [[ -n $_note_file ]] && rm -f "$_note_file"
+  else
+    export PANE_NOTE="$*"
+    [[ -n $_note_file ]] && mkdir -p "${_note_file:h}" && print -r -- "$*" > "$_note_file"
+  fi
+}
 
 bg() {
   "$@" >/dev/null 2>&1 & disown

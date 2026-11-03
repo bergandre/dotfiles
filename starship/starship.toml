@@ -1,6 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
+${env_var.PANE_NOTE}\
 [](color_orange)\
 $os\
 $username\
@@ -176,6 +177,6 @@ vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
 vimcmd_replace_symbol = '[](bold fg:color_purple)'
 vimcmd_visual_symbol = '[](bold fg:color_yellow)'
 
+# per-pane note set with `note <text>` (zsh/.functions), drawn as its own pill so the bar colors stay intact
 [env_var.PANE_NOTE]
-format = "[📌 $env_value]($style) "
-style = "bold yellow"
+format = "[](fg:color_bg3)[ 󰐃 $env_value ](fg:color_fg0 bg:color_bg3)[ ](fg:color_bg3)"

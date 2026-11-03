@@ -34,13 +34,17 @@ read -r ts _ <<<"${upcoming[0]}"
 # Under 24h away gets its own class so style.css can highlight it.
 if (( ts - now < 86400 )); then class=soon; else class=later; fi
 
+sep="<span fgalpha='35%'>  │  </span>"
 text=""
 tooltip=""
 for e in "${upcoming[@]}"; do
   read -r t l <<<"$e"
-  text+="$l $(fmt "$t") · "
+  # Pango markup: dimmed label, bold time, so each event reads as one unit
+  l_esc=$(sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g' <<<"$l")
+  [[ -n "$text" ]] && text+="$sep"
+  text+="<span fgalpha='60%'>$l_esc</span> <b>$(fmt "$t")</b>"
   tooltip+="$(date -d "@$t" '+%a %d.%m %H:%M')  $l  ($(fmt "$t"))"$'\n'
 done
 
-jq -cn --arg text "󰃰 ${text% · }" --arg tooltip "${tooltip%$'\n'}" --arg class "$class" \
+jq -cn --arg text "󰃰 $text" --arg tooltip "${tooltip%$'\n'}" --arg class "$class" \
   '{text: $text, tooltip: $tooltip, class: $class}'

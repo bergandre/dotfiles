@@ -13,6 +13,7 @@ nvim/lua/custom/matugen.lua
 mako/matugen-colors
 thunderbird/chrome/userChrome.css
 hypr/matugen-colors.lua
+waybar/colors.css
 
 #file types
 *bak

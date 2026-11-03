@@ -3,6 +3,17 @@
 #░▀▀░░▀▀▀░▀░▀░▀▀░░▀▀▀
 
 cmd - return : open -na Ghostty
+cmd - e : open -a Finder
+# cmd - g : open -a Shortcat
+
+# Cycle through windows
+cmd - tab : yabai -m window --focus next || yabai -m window --focus first
+
+# Center window
+cmd - space : yabai -m window --grid 4:4:1:1:2:2; sketchybar --trigger window_focus
+
+# Toggle split direction
+cmd - j : yabai -m window --toggle split; sketchybar --trigger window_focus
 
 # Swap window with adjacent windows
 ctrl + alt - left  : yabai -m window --swap west; sketchybar --trigger window_focus
@@ -10,17 +21,36 @@ ctrl + alt - right : yabai -m window --swap east; sketchybar --trigger window_fo
 ctrl + alt - up    : yabai -m window --swap north; sketchybar --trigger window_focus
 ctrl + alt - down  : yabai -m window --swap south; sketchybar --trigger window_focus
 
-# Toggle full screen using command + F
-ctrl - f : yabai -m window --toggle zoom-fullscreen; sketchybar --trigger window_focus
+# Toggle full screen
+cmd - f : yabai -m window --toggle zoom-fullscreen; sketchybar --trigger window_focus
 
-# Shrink window dimensions using command + M
-cmd - m : yabai -m window --resize left:0:-100; yabai -m window --resize top:0:-100; sketchybar --trigger window_focus
+# Resize windows with keys
+cmd + alt - h : yabai -m window --resize left:-20:0; sketchybar --trigger window_focus
+cmd + alt - l : yabai -m window --resize right:20:0; sketchybar --trigger window_focus
+cmd + alt - k : yabai -m window --resize top:0:-20; sketchybar --trigger window_focus
+cmd + alt - j : yabai -m window --resize bottom:0:20; sketchybar --trigger window_focus
 
-# Focus stuff
-alt - left  : yabai -m window --focus west; sketchybar --trigger window_focus
-alt - right : yabai -m window --focus east; sketchybar --trigger window_focus
-alt - up    : yabai -m window --focus north; sketchybar --trigger window_focus
-alt - down  : yabai -m window --focus south; sketchybar --trigger window_focus
+# Focus window (cmd + arrows) - crosses monitors
+cmd - left  : yabai -m window --focus west || (yabai -m display --focus west && yabai -m window --focus first); sketchybar --trigger window_focus
+cmd - right : yabai -m window --focus east || (yabai -m display --focus east && yabai -m window --focus first); sketchybar --trigger window_focus
+cmd - up    : yabai -m window --focus north || (yabai -m display --focus north && yabai -m window --focus first); sketchybar --trigger window_focus
+cmd - down  : yabai -m window --focus south || (yabai -m display --focus south && yabai -m window --focus first); sketchybar --trigger window_focus
+
+# Move window (shift + cmd + arrows)
+shift + cmd - left  : yabai -m window --swap west || yabai -m window --display west; sketchybar --trigger window_focus
+shift + cmd - right : yabai -m window --swap east || yabai -m window --display east; sketchybar --trigger window_focus
+shift + cmd - up    : yabai -m window --swap north || yabai -m window --display north; sketchybar --trigger window_focus
+shift + cmd - down  : yabai -m window --swap south || yabai -m window --display south; sketchybar --trigger window_focus
+
+# Focus monitor (hyper + W/A/S/D)
+hyper - w : yabai -m display --focus north; sketchybar --trigger window_focus
+hyper - a : yabai -m display --focus west; sketchybar --trigger window_focus
+hyper - s : yabai -m display --focus south; sketchybar --trigger window_focus
+hyper - d : yabai -m display --focus east; sketchybar --trigger window_focus
+
+# Tab switching (like Hyprland's SUPER+ALT+left/right -> ctrl+pgup/pgdn)
+cmd + alt - left : skhd -k "ctrl - pageup"
+cmd + alt - right : skhd -k "ctrl - pagedown"
 
 
 
@@ -110,3 +140,5 @@ hyper - n : nowplaying-cli next
 hyper - p : nowplaying-cli previous
 hyper - 1 : t=$(nowplaying-cli get elapsedTime); nowplaying-cli seek $(( ${t%.*} - 5 ))
 hyper - 2 : t=$(nowplaying-cli get elapsedTime); nowplaying-cli seek $(( ${t%.*} + 5 ))
+hyper - 3 : osascript -e 'set volume output volume ((output volume of (get volume settings)) - 10)'
+hyper - 4 : osascript -e 'set volume output volume ((output volume of (get volume settings)) + 10)'

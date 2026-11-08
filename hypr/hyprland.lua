@@ -49,8 +49,8 @@ hl.config({
 		kb_layout = "us, ru, lv",
 		"ru",
 		"lv",
-		kb_options = "grp:ctrl_space_toggle,lv3:switch,altwin:swap_alt_win",
-		follow_mouse = 0,
+		kb_options = "grp:ctrl_space_toggle,altwin:swap_alt_win",
+		follow_mouse = 1,
 		touchpad = {
 			natural_scroll = false,
 		},
@@ -183,17 +183,13 @@ hl.monitor({
 	position = "0x-1440",
 	scale = 1,
 	disabled = false,
-	--   vrr = 3
-	--   bitdepth = 10
-	--   cm = hdr
-	--   sdrbrightness = 1.2
-	--   sdrsaturation = 1.2
 })
 
 hl.monitor({
 	output = side_monitor,
 	mode = "2560x1440@75",
 	position = "3440x-720",
+	--	position = "2320x-720", --this is for tv
 	scale = 1,
 	transform = 3,
 	vrr = 3,
@@ -207,7 +203,8 @@ hl.monitor({
 	output = tv,
 	mode = "3840x2160@120",
 	position = "4880x-720",
-	scale = 1.88,
+	scale = 1.00,
+	-- scale = 1.88,
 	bitdepth = 10,
 	cm = "hdr",
 	vrr = 0,
@@ -561,6 +558,7 @@ hl.bind(mainMod .. " + " .. "F", hl.dsp.exec_cmd("$notifycmd 'Fullscreen Mode' S
 hl.bind(mainMod .. " + " .. "R", hl.dsp.exec_cmd("wofi --show drun"))
 hl.bind(mainMod .. " + " .. "Return", hl.dsp.exec_cmd("ghostty"))
 hl.bind(mainMod .. " + " .. "Q", hl.dsp.window.close())
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "Q", hl.dsp.window.kill())
 hl.bind(mainMod .. " + " .. "M", hl.dsp.exit())
 hl.bind(mainMod .. " + " .. "E", hl.dsp.exec_cmd("dolphin"))
 -- wl-kbptr: hints on detected elements / grid for precise clicks
@@ -644,10 +642,13 @@ hl.bind(hyper .. " + " .. "DOWN", hl.dsp.exec_cmd("playerctl --player=spotify vo
 hl.bind(hyper .. " + " .. "K", hl.dsp.exec_cmd("playerctl --player=chromium play-pause"))
 hl.bind(hyper .. " + " .. "N", hl.dsp.exec_cmd("playerctl --player=chromium next"))
 hl.bind(hyper .. " + " .. "P", hl.dsp.exec_cmd("playerctl --player=chromium previous"))
-hl.bind(hyper .. " + " .. 1, hl.dsp.exec_cmd("playerctl --player=chromium position 5-"))
-hl.bind(hyper .. " + " .. 2, hl.dsp.exec_cmd("playerctl --player=chromium position 5+"))
-hl.bind(hyper .. " + " .. 3, hl.dsp.exec_cmd("playerctl --player=chromium volume .1-"))
-hl.bind(hyper .. " + " .. 4, hl.dsp.exec_cmd("playerctl --player=chromium volume .1+"))
+--hl.bind(hyper .. " + " .. 1, hl.dsp.exec_cmd("playerctl --player=chromium position 5-"))
+--hl.bind(hyper .. " + " .. 2, hl.dsp.exec_cmd("playerctl --player=chromium position 5+"))
+--hl.bind(hyper .. " + " .. 3, hl.dsp.exec_cmd("playerctl --player=chromium volume .1-"))
+--hl.bind(hyper .. " + " .. 4, hl.dsp.exec_cmd("playerctl --player=chromium volume .1+"))
+
+-- WoW: hyper + keys -> WoW on the top monitor (naga side grid + rshift/rctrl via keyd/naga.conf)
+dofile(os.getenv("HOME") .. "/.config/hypr/wow.lua")(hyper, top_monitor)
 
 --░█░█░█▀█░█▀▄░█░█░█▀▀░█▀█░█▀█░█▀▀░█▀▀░█▀▀
 --░█▄█░█░█░█▀▄░█▀▄░▀▀█░█▀▀░█▀█░█░░░█▀▀░▀▀█
@@ -725,13 +726,6 @@ hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "right", hl.dsp.window.move({ di
 hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "up", hl.dsp.window.move({ direction = "up" }))
 hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "down", hl.dsp.window.move({ direction = "down" }))
 hl.bind(mainMod .. " + " .. "J", hl.dsp.layout("togglesplit"))
-
--- focus monitor
-
-hl.bind(hyper .. " + " .. "W", hl.dsp.focus({ monitor = "u" }))
-hl.bind(hyper .. " + " .. "A", hl.dsp.focus({ monitor = "l" }))
-hl.bind(hyper .. " + " .. "S", hl.dsp.focus({ monitor = "d" }))
-hl.bind(hyper .. " + " .. "D", hl.dsp.focus({ monitor = "r" }))
 
 -- tab switching, mac-style (translates to ctrl+pgup/pgdn)
 

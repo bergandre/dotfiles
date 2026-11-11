@@ -4,7 +4,7 @@
 -- one keypress -> one client (no broadcasting)
 
 local focus_delay = 30 -- ms after focusing the target before the key goes out (wine must notice the switch)
-local delay = 30 -- ms after sending before focusing back / sending the next key
+local delay = 10 -- ms after sending before focusing back / sending the next key
 
 -- mouse buttons can't be sent like keys (they'd go to the window under the cursor),
 -- so they reach the top wow as these keys instead

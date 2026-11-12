@@ -1,6 +1,11 @@
 {
   "cleanupPeriodDays": 36500,
-  "model": "opus",
+  "permissions": {
+    "ask": [
+      "Bash(msmtp:*)"
+    ]
+  },
+  "model": "fable",
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"

@@ -189,7 +189,7 @@ hl.monitor({
 	output = side_monitor,
 	mode = "2560x1440@75",
 	position = "3440x-720",
-	--	position = "2320x-720", --this is for tv
+	--position = "2320x-720", --this is for tv
 	scale = 1,
 	transform = 3,
 	vrr = 3,

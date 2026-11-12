@@ -10,9 +10,7 @@ Content is mostly shell scripts and config files — no build, no tests.
 - For non-trivial plans or design decisions, use the `grilling` skill to
   stress-test the idea before implementing (the user may also trigger it
   manually via `/grill-me`).
-- Never delete or rename config files without asking — retired configs are kept
-  with an `_old` suffix (e.g. `.zshrc_old`, `old_init.lua`), not removed.
-
+- ask before deleting files not managed by version control
 ## Repo layout
 
 - `zsh/` — zsh config: `.zshrc`, `.zshenv`, `.zprofile`, `.aliases`,

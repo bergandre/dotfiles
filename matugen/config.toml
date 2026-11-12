@@ -20,7 +20,7 @@ post_hook = "hyprctl reload"
 [templates.waybar]
 input_path = "~/.config/matugen/templates/waybar-colors.css"
 output_path = "~/.config/waybar/colors.css"
-post_hook = "pkill -SIGUSR2 waybar"
+# no SIGUSR2: reload_style_on_change picks up colors.css, a full reload crashes waybar
 
 [templates.mako]
 input_path = "~/.config/matugen/templates/mako-colors"

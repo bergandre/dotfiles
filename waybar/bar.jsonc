@@ -37,7 +37,7 @@
   "modules-center": [
     "hyprland/workspaces"
   ],
-  "modules-right": ["group/right2", "group/right1"],
+  "modules-right": ["group/right2", "custom/music", "group/right1"],
 
   "group/right1": {
     "orientation": "inherit",
@@ -55,7 +55,7 @@
   },
   "group/right2": {
     "orientation": "inherit",
-    "modules": ["custom/pomotui", "mpris"]
+    "modules": ["custom/pomotui"]
   },
 
   "hyprland/workspaces": {
@@ -324,6 +324,14 @@
       "paused": "󰋐"  
     },
     "ignored-players": ["firefox", "chromium", "brave"]
+  },
+  "custom/music": {
+    "exec": "~/.config/waybar/scripts/music.sh",
+    "interval": 1,
+    "return-type": "json",
+    "on-click": "playerctl -i firefox,chromium,brave play-pause",
+    "on-scroll-up": "playerctl -i firefox,chromium,brave volume 0.05+",
+    "on-scroll-down": "playerctl -i firefox,chromium,brave volume 0.05-"
   },
   "custom/updatespacman": {
     "format": "{}{icon}",

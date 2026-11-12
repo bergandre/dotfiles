@@ -163,6 +163,14 @@ tooltip {
   padding: 0px 4px;
 }
 
+/* own pill, not a group: an empty group would leave an empty pill when nothing plays */
+#custom-music {
+  background-color: alpha(@foreground, 0.1);
+  margin: 4px 2px;
+  padding: 0px 10px;
+  border-radius: 4px;
+}
+
 #power-profiles-daemon,
 #power-profiles-daemon.performance,
 #power-profiles-daemon.balanced,
@@ -242,7 +250,7 @@ tooltip label {
 }
 
 
-#mpris {
+#mpris, #custom-music {
 color: @foreground;
   box-shadow: none;
   animation: blink 3s linear infinite alternate;

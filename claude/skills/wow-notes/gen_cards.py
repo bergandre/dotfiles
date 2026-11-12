@@ -34,15 +34,19 @@ def tooltip_lines(tt: str) -> list[str]:
     s = re.sub(r"<table[^>]*>", "\n", s)                              # every table starts a new line
     s = re.sub(r"<b class=\"q\d\">.*?</b>", "", s, count=1)           # name → callout title
     s = re.sub(r"<th>\s*(.*?)\s*</th>", r'<span class="r">\1</span>', s, flags=re.S)
-    s = re.sub(r"<a [^>]*>(.*?)</a>", r"\1", s, flags=re.S)           # keep link text only
+    s = re.sub(r"</?a\b[^>]*>", "", s)                                 # keep link text only (links nest)
+    s = re.sub(r'<span class="q[^"]*whtt-ilvl">', "<span>", s)          # ilvl wrapper spans a <br>
     s = re.sub(r"<span id=\"[^\"]*\" class=", "<span class=", s)
     s = re.sub(r"<span>(.*?)</span>", r"\1", s, flags=re.S)
     s = re.sub(r"<div class=\"whtt-sellprice\">", '\n<span class="sell">', s)
-    s = re.sub(r"<div class=\"whtt-extra[^\"]*\">", '\n<span class="extra">', s)
+    s = re.sub(r"(<div[^>]*>)\s*<br\s*/?>", r"\1", s)                  # no break right after a div opens
+    s = re.sub(r"<div class=\"[^\"]*whtt-reagents[^\"]*\">", '\n<span class="reagents">', s)
+    s = re.sub(r"<div class=\"[^\"]*whtt-extra[^\"]*\">", '\n<span class="extra">', s)
     s = s.replace("</div>", "</span>\n")
     s = re.sub(r"<br\s*/?>|</tr>", "\n", s)
     s = re.sub(r"</?(table|tr|td)[^>]*>", "", s)
     out = []
+    seen_sell = 0
     for line in s.split("\n"):
         line = re.sub(r"\s+", " ", line).strip()
         # a span opened before a <br> and closed on another line → balance tags
@@ -51,6 +55,13 @@ def tooltip_lines(tt: str) -> list[str]:
             line = line.replace("</span>", "", extra_close)
         elif extra_close < 0:
             line += "</span>" * -extra_close
+        # recipes embed the crafted item's tooltip after their own sell price
+        m = re.fullmatch(r'<span class="q(\d)">([^<]+)</span>', line)
+        if m and seen_sell == 1:
+            line = f'<span class="created q{m.group(1)}">{m.group(2)}</span>'
+            seen_sell += 1                                              # only the first line after
+        if 'class="sell"' in line:
+            seen_sell += 1
         if line.startswith("Item Level"):
             line = f'<span class="ilvl">{line}</span>'
         if re.sub(r"<[^>]+>", "", line).strip():

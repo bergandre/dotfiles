@@ -434,14 +434,6 @@ hl.window_rule({
 	workspace = "3 silent",
 })
 
-hl.window_rule({
-	name = "workspace_3_276",
-	match = {
-		class = "battle.net.exe",
-	},
-	workspace = 3,
-})
-
 --### DP-3 - Top Ultrawide
 --### HDMI-n - Side Portrait
 -- 21 - main, tipo v brauzere sizhu na side
@@ -534,6 +526,14 @@ hl.window_rule({
 	name = "workspace_special_ma_302",
 	match = {
 		class = "vesktop",
+	},
+	workspace = "special:magic silent",
+})
+
+hl.window_rule({
+	name = "workspace_special_ma_303",
+	match = {
+		title = "Battle.net",
 	},
 	workspace = "special:magic silent",
 })
@@ -637,15 +637,15 @@ hl.bind(
 hl.bind(hyper .. " + " .. "UP", hl.dsp.exec_cmd("playerctl --player=spotify volume 0.1+"))
 hl.bind(hyper .. " + " .. "DOWN", hl.dsp.exec_cmd("playerctl --player=spotify volume 0.1-"))
 
--- youtube (freey)
+-- youtube (freetube)
 
 hl.bind(hyper .. " + " .. "K", hl.dsp.exec_cmd("playerctl --player=chromium play-pause"))
 hl.bind(hyper .. " + " .. "N", hl.dsp.exec_cmd("playerctl --player=chromium next"))
 hl.bind(hyper .. " + " .. "P", hl.dsp.exec_cmd("playerctl --player=chromium previous"))
---hl.bind(hyper .. " + " .. 1, hl.dsp.exec_cmd("playerctl --player=chromium position 5-"))
---hl.bind(hyper .. " + " .. 2, hl.dsp.exec_cmd("playerctl --player=chromium position 5+"))
---hl.bind(hyper .. " + " .. 3, hl.dsp.exec_cmd("playerctl --player=chromium volume .1-"))
---hl.bind(hyper .. " + " .. 4, hl.dsp.exec_cmd("playerctl --player=chromium volume .1+"))
+hl.bind(hyper .. " + " .. "j", hl.dsp.exec_cmd("playerctl --player=chromium position 5-"))
+hl.bind(hyper .. " + " .. "i", hl.dsp.exec_cmd("playerctl --player=chromium position 5+"))
+hl.bind(hyper .. " + " .. "o", hl.dsp.exec_cmd("playerctl --player=chromium volume .1-"))
+hl.bind(hyper .. " + " .. "p", hl.dsp.exec_cmd("playerctl --player=chromium volume .1+"))
 
 -- WoW: hyper + keys -> WoW on the top monitor (naga side grid + rshift/rctrl via keyd/naga.conf)
 dofile(os.getenv("HOME") .. "/.config/hypr/wow.lua")(hyper, top_monitor)
@@ -781,4 +781,5 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("hyprctl reload")
 	hl.exec_cmd("sleep 3 && ticktick")
 	hl.exec_cmd("thunderbird")
+	hl.exec_cmd("flatpak run --command=bottles-cli com.usebottles.bottles run -b bottleNetV12 -p 'Battle.net'")
 end)

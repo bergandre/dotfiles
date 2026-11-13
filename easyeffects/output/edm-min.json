@@ -21,7 +21,9 @@
             "output-gain": 0.0,
             "scope": 233.08
         },
-        "blocklist": [],
+        "blocklist": [
+            "podcast_out"
+        ],
         "compressor#0": {
             "attack": 0.0,
             "boost-amount": 6.0,

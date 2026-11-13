@@ -1,0 +1,6 @@
+{
+    "device": "alsa_output.usb-Razer_Razer_Leviathan_V2_X_000000000000000-01.analog-stereo",
+    "device-description": "Razer Leviathan V2 X Analog Stereo",
+    "device-profile": "Analog Output",
+    "preset-name": "huj"
+}

@@ -1,6 +1,0 @@
-{
-    "device": "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra1",
-    "device-description": "AD102 High Definition Audio Controller Digital Stereo (HDMI 2)",
-    "device-profile": "HDMI / DisplayPort 2",
-    "preset-name": "Advanced Auto Gain"
-}

@@ -191,7 +191,7 @@ hl.monitor({
 	position = "3440x-720",
 	--position = "2320x-720", --this is for tv
 	scale = 1,
-	transform = 3,
+	transform = 0,
 	vrr = 3,
 	bitdepth = 10,
 	cm = "hdr",

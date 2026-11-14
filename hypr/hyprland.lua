@@ -437,25 +437,7 @@ hl.window_rule({
 --### DP-3 - Top Ultrawide
 --### HDMI-n - Side Portrait
 -- 21 - main, tipo v brauzere sizhu na side
--- 22 - Device connection and switching
-
-hl.window_rule({
-	name = "workspace_22_silent_283",
-	match = {
-		class = "blueman.*",
-	},
-	workspace = "22 silent",
-})
-
-hl.window_rule({
-	name = "workspace_22_silent_284",
-	match = {
-		class = "org.pulseaudio.pavucontrol",
-	},
-	workspace = "22 silent",
-})
-
--- 23 - music and EQ
+-- 23 - music and video
 
 hl.window_rule({
 	name = "workspace_23_silent_286",
@@ -466,11 +448,45 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "workspace_23_silent_287",
+	name = "workspace_23_silent_freetube",
+	match = {
+		class = "[Ff]ree[Tt]ube",
+	},
+	workspace = "23 silent",
+})
+
+hl.window_rule({
+	name = "workspace_23_silent_soundcloud",
+	match = {
+		class = "soundcloud-desktop",
+	},
+	workspace = "23 silent",
+})
+
+-- 24 - EQ, device connection and switching
+
+hl.window_rule({
+	name = "workspace_24_silent_287",
 	match = {
 		class = "com.github.wwmm.easyeffects",
 	},
-	workspace = "23 silent",
+	workspace = "24 silent",
+})
+
+hl.window_rule({
+	name = "workspace_24_silent_283",
+	match = {
+		class = "blueman.*",
+	},
+	workspace = "24 silent",
+})
+
+hl.window_rule({
+	name = "workspace_24_silent_284",
+	match = {
+		class = "org.pulseaudio.pavucontrol",
+	},
+	workspace = "24 silent",
 })
 
 -- 24 - social

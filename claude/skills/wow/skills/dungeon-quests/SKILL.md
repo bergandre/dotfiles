@@ -5,7 +5,8 @@ description: Build or update a quest-chain note for a WoW Forever dungeon (Razor
 
 # Dungeon quest notes (WoW Forever)
 
-Output: `~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/<Dungeon Name>.md` (Obsidian vault). Update it if it exists.
+Output: the `## Quests` section of `~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/<Dungeon Name>.md`
+(shared with the `dungeon-cheatsheet` skill, which owns `## Map` and `## Bosses` - keep those). New note -> create it with just the title + `## Quests`.
 Game data repo: `~/repositories/wow-forever-addon-settings` (its CLAUDE.md has accounts/chars).
 Default context: Horde, Karums-Warrior (Arms) + Karums-Priest duo.
 
@@ -41,19 +42,17 @@ Strip VTT timing lines/tags before reading. Use transcripts only for tips (route
 Follow the `notes` skill style (cheatsheet: one-line bullets, `->` chains, checklists, no prose).
 Items: inline icon + link like `notes` does, reuse `items/` cards, make new ones with its `gen_cards.py`.
 ```
-# <Dungeon> - <faction> quests
-- <level range> - <where it is>
-
-## Before you go
-### <Town>
+## Quests
+### Before you go
+#### <Town>
 - [ ] <Quest> - <giver> (<coords>) - <what to grab / pre-quest>
-## Inside (in path order)
+### Inside (in path order)
 - [ ] <objective> - <boss / spot>
-## After
+### After
 - [ ] <town> - turn in <Quest> -> <follow-up unlocked>
-## Check in game
+### Check in game
 <the /run macro from step 1>
 ```
-Class quests for the user's classes go in their own `### <Class> only` block.
+Class quests for the user's classes go in their own `#### <Class> only` block.
 Research sources stay in chat (the vault notes have no sources); mention level conflicts in chat.
 If `wow forever.md` (todo list) has a matching todo, tick it and link the note.

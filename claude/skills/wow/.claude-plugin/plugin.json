@@ -1,0 +1,12 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "wow",
+  "version": "0.1.0",
+  "description": "WoW Forever helpers: profession plans, dungeon quest chains, Obsidian progression notes",
+  "author": {
+    "name": "bergandre"
+  },
+  "skills": [
+    "./skills/"
+  ]
+}

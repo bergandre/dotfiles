@@ -5,6 +5,7 @@ usage: python3 -I gen_cards.py <out_dir> <item_id> [<item_id> ...] [--force]
 Writes <out_dir>/<Item Name>.md (callout card + ^card block id) and
 <out_dir>/icons/<icon>.jpg. Existing notes are kept unless --force.
 """
+import os
 import html
 import json
 import re

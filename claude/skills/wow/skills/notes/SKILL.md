@@ -1,5 +1,5 @@
 ---
-name: wow-notes
+name: notes
 description: Record WoW Forever progression (class leveling, talents, rotations, gear and profession progression) into the gaming Obsidian vault, with tooltip-style item cards and checklists.
 disable-model-invocation: true
 argument-hint: [what to record / note to modernize — e.g. "priest leveling", "modernize mining"]
@@ -61,7 +61,7 @@ Reference notes (copy their format): `warrior leveling.md`, `warrior weapons.md`
    - Local data: `python3 tsm-analyze.py --item "<name>"` in the addon-settings repo → `(id N)`
    - Gear guides with item links: timesaver.gg leveling-gear, method.gg weapon lists
 2. Generate — prints `id, note name, icon, quality`; skips existing notes, `--force` regenerates:
-   `python3 -I ~/.claude/skills/wow-notes/gen_cards.py ~/Documents/obsidian/gaming/Wow_FOREVER/items <id> …`
+   `python3 -I ~/.claude/skills/wow/skills/notes/gen_cards.py ~/Documents/obsidian/gaming/Wow_FOREVER/items <id> …`
 3. Check every printed name matches the item — local TSM data has wrong name→ID pairs.
    Wrong/missing → try the Classic ID and check the printed name; never use an unchecked ID
 4. No ID found → stub card in `items/`, tell the user which:

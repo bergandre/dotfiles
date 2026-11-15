@@ -5,7 +5,7 @@ description: Build or update a quest-chain note for a WoW Forever dungeon (Razor
 
 # Dungeon quest notes (WoW Forever)
 
-Output: the `## Quests` section of `~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/<Dungeon Name>.md`
+Output: the `## Quests` section of `~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/<Dungeon Name>/<Dungeon Name>.md` (one folder per dungeon)
 (shared with the `dungeon-cheatsheet` skill, which owns `## Map` and `## Bosses` - keep those). New note -> create it with just the title + `## Quests`.
 Game data repo: `~/repositories/wow-forever-addon-settings` (its CLAUDE.md has accounts/chars).
 Default context: Horde, Karums-Warrior (Arms) + Karums-Priest duo.

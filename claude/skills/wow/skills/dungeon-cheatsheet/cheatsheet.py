@@ -207,7 +207,7 @@ def main():
 
     key, bosses = atlasloot_bosses(a.dungeon)
     if not a.no_map:
-        out = a.map_out or Path(f"~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/maps/{a.dungeon}.png").expanduser()
+        out = a.map_out or Path(f"~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/{a.dungeon}/{a.dungeon} map.png").expanduser()
         build_map(a.slug or slugify(a.dungeon), out, a.dungeon, [b["name"] for b in bosses])
     gear = equipped(chars)
     print(f"\n# Bosses + loot (AtlasLoot {key}, path order)")

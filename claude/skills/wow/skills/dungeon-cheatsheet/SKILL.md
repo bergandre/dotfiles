@@ -5,7 +5,7 @@ description: Make a WoW Forever dungeon cheatsheet in the Obsidian vault - 1) du
 
 # Dungeon cheatsheet (WoW Forever)
 
-Output: `~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/<Dungeon>.md`, sections in this order:
+Output: `~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/<Dungeon>/<Dungeon>.md` (one folder per dungeon: note, `<Dungeon> (interactive).md`, `<Dungeon> map.png`; keep file names unique - Obsidian links by name), sections in this order:
 `## Map` -> `## Bosses` -> `## Quests` (the last one belongs to the `dungeon-quests` skill - keep it if present).
 Game data repo: `~/repositories/wow-forever-addon-settings` (CLAUDE.md there: accounts, chars).
 
@@ -14,7 +14,7 @@ Game data repo: `~/repositories/wow-forever-addon-settings` (CLAUDE.md there: ac
 python3 -I ~/.claude/skills/wow/skills/dungeon-cheatsheet/cheatsheet.py "<Dungeon>" [--slug <foreverchanges-slug>] [--chars "Karums Warrior,Karums Priest"]
 ```
 - **Map**: downloads `foreverchanges.pro/dungeons/<slug>` map + boss pins, draws numbered red
-  markers (numbers = boss path order) -> `dungeons/maps/<Dungeon>.png`. Prints which bosses have no pin.
+  markers (numbers = boss path order) -> `dungeons/<Dungeon>/<Dungeon> map.png`. Prints which bosses have no pin.
   Slug default = lowercased name with dashes; SM wings etc. may need `--slug` (check the site's URL).
   No web map -> falls back to local `InstanceAtlas/Maps/*.tga` (no markers). Multi-floor dungeons:
   script uses the first image only - check the page and draw other floors by hand if needed.
@@ -47,7 +47,7 @@ then inline them as `![[<icon>|inline]] [[<Item>]]` (icon from the card's `icon:
 - W = Karums Warrior (Arms 2H), P = Karums Priest (heals)
 
 ## Map
-![[maps/<Dungeon>.png]]
+![[<Dungeon> (interactive)]]   <- set by interactive_map.py (static PNG only as fallback)
 
 ## Bosses
 ### <map nr>. <Boss> — <level> [(rare)] [(no map marker)]
@@ -61,3 +61,22 @@ then inline them as `![[<icon>|inline]] [[<Item>]]` (icon from the card's `icon:
 <kept from dungeon-quests, headings demoted one level>
 ```
 Back up an existing note to the scratchpad before rewriting it.
+
+## 5. Interactive map (top of the note = the "run view")
+After the note is written: `python3 -I ~/.claude/skills/wow/skills/dungeon-cheatsheet/interactive_map.py "<Dungeon>" [--slug ...]`
+-> `dungeons/<Dungeon>/<Dungeon> (interactive).md` (generated, never edit by hand) and `## Map` in the main
+note embeds it. Boss portraits (rares = silver ring), hover = boss card (from `## Bosses`), hover a loot
+line = full item tooltip (from `items/<Item>.md`). Images are inlined as data URIs.
+Quest pins come from the main note's frontmatter (x/y = % of the map image):
+```
+pins:
+  - {kind: quest, name: Blueleaf Tubers, match: Blueleaf Tuber, x: 43, y: 54, guess: true}
+  - {kind: boss, name: Aggem Thorncurse, x: 70, y: 50, guess: true}   # add/move a boss pin
+```
+`match` picks the quest's lines from `### Inside`; `guess: true` = dashed ring + "approx. position".
+Add a pin for every in-dungeon quest objective (guess from guide text, mark `guess: true`); when the
+user confirms/corrects a spot, fix x/y and drop `guess`. Regenerate after editing the note.
+Styles: `.wowmap` / `.wm-*` in `gaming/.obsidian/snippets/wow.css` (cards scale with map width via
+container queries; pins right of center open left).
+Quirks: Live Preview wraps HTML blocks in widgets with `contain: paint`, and note embeds get
+`overflow: auto` + max height - both clip popups; wow.css lifts them for anything `:has(.wowmap)`.

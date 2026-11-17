@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Collect material for dungeons/<Dungeon>/<Dungeon> tactics.md and build its assets.
+"""Collect material for dungeons/<Dungeon>/map/<Dungeon> map data.md (boss / trash banners) and build its assets.
 
 usage: python3 -I tactics.py "<Dungeon>" [--slug SLUG] [--force]
 
@@ -7,6 +7,7 @@ usage: python3 -I tactics.py "<Dungeon>" [--slug SLUG] [--force]
   -> ability cards in Wow_FOREVER/abilities/ (gen_abilities.py, "Used by: <mob> (<Dungeon>)")
 - warcrafttavern (Classic): per boss intro + Tank / Healer / Damage Dealers strategy (printed)
 - art: boss portraits (foreverchanges.pro) + pencil sketches (DungeonJournal addon, few bosses)
+  + method.gg model render per mob/boss tile -> art/method/<tile>.jpg (trash banners, portrait fallback)
   -> dungeons/<Dungeon>/art/; journal flag icons (method.gg) -> abilities/icons/ej-<flag>.png
 Prints everything as raw material; the note itself is written by hand (see SKILL.md).
 """
@@ -44,7 +45,8 @@ def plain(s):
 
 
 def method_mobs(slug):
-    """[(name, flags, [(spell_id, spell_name)], [text lines])] in page order (trash first, then bosses)."""
+    """[(name, flags, [(spell_id, spell_name)], [text lines], [important spell names], image path)] in page order
+    (trash first, then bosses)."""
     page = get(f"https://www.method.gg/wow-forever/dungeons/{slug}")
     mobs = []
     for tile in page.split('<h3 class="mob-name">')[1:]:
@@ -56,8 +58,25 @@ def method_mobs(slug):
         spells = list(dict.fromkeys([(i, n) for i, n in re.findall(r'spell=(\d+)[^"]*"[^>]*>([^<]+)</a>', tile)
                                         if n.strip(" ,.") not in PLAYER_SPELLS]))
         text = [plain(li) for li in re.findall(r"<(?:li|p)>(.*?)</(?:li|p)>", tile, re.S)]
-        mobs.append((name, flags, spells, [t for t in text if t]))
+        img = re.search(r'src="(/images/guides/dungeons/[^"]+\.jpg)"', tile)
+        mobs.append((name, flags, spells, [t for t in text if t], important(tile), img and img.group(1)))
     return mobs
+
+
+# guides have no per-ability "important" tag (method.gg's Forever pages leave its tracker empty);
+# the emphasis is in the prose -> spells linked in a sentence with one of these words
+IMPORTANT_WORDS = re.compile(r"main mechanic|most important|dangerous|deadly|lethal|wipe|one-?shot|"
+                             r"watch out|be careful|biggest threat|key mechanic|priority", re.I)
+
+
+def important(tile):
+    """Spell names the guide stresses (suggestion for the ej-important flag)."""
+    hits = []
+    for chunk in re.findall(r"<(?:li|p)[^>]*>(.*?)</(?:li|p)>", tile, re.S):
+        for sent in re.split(r"(?<=[.!?])\s+(?=[A-Z<])", chunk):
+            if IMPORTANT_WORDS.search(plain(sent)):
+                hits += [plain(n).strip(" ,.:") for n in re.findall(r'spell=\d+[^"]*"[^>]*>([^<]+)</a>', sent)]
+    return [n for n in dict.fromkeys(hits) if n not in PLAYER_SPELLS]
 
 
 # spells the guide only mentions as advice (counters, kiting) - not mob abilities
@@ -143,8 +162,15 @@ def main():
 
     mobs = method_mobs(slug)
     print("# Abilities (method.gg) -> abilities/")
-    for name, flags, spells, text in mobs:
+    mdir = VAULT / "dungeons" / a.dungeon / "art" / "method"   # mob renders: trash banners + boss pin fallback
+    mdir.mkdir(parents=True, exist_ok=True)
+    for name, flags, spells, text, imp, img in mobs:
         print(f"\n## {name}  flags={','.join(flags) or '-'}")
+        f = mdir / f"{name.replace('/', '-')}.jpg"
+        if img and not f.exists():
+            f.write_bytes(get(f"https://www.method.gg{img}", binary=True))
+        if imp:
+            print(f"  ! important (guide stresses it -> add ![[ej-important.png|inline]]): {', '.join(imp)}")
         for sid, _ in spells:
             gen.build(int(sid), adir, f"{re.sub(r' [(]Rare Spawn[)]', '', name)} ({a.dungeon})", a.force)
         for t in text:

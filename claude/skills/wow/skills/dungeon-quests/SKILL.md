@@ -1,12 +1,13 @@
 ---
 name: dungeon-quests
-description: Build or update a quest-chain note for a WoW Forever dungeon (Razorfen Kraul, SM, Uldaman...) - every quest to pick up before going in, prerequisites, where to turn in, class quests the in-game guide skips - from the local Zygor guide cross-checked with Forever web guides and YouTube. Use when the user asks which quests a dungeon has, what they missed, or wants to prepare for a dungeon run.
+description: Build or update the quests note (notes/<Dungeon> quests.md) for a WoW Forever dungeon (Razorfen Kraul, SM, Uldaman...) - every quest to pick up before going in, prerequisites, where to turn in, class quests the in-game guide skips - from the local Zygor guide cross-checked with Forever web guides and YouTube. Use when the user asks which quests a dungeon has, what they missed, or wants to prepare for a dungeon run.
 ---
 
 # Dungeon quest notes (WoW Forever)
 
-Output: the `## Quests` section of `~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/<Dungeon Name>/<Dungeon Name>.md` (one folder per dungeon)
-(shared with the `dungeon-cheatsheet` skill, which owns `## Map` and `## Bosses` - keep those). New note -> create it with just the title + `## Quests`.
+Output: `~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/<Dungeon Name>/notes/<Dungeon Name> quests.md`
+(the main note `<Dungeon Name>.md` belongs to `dungeon-cheatsheet` and only links here from `## Notes`; its
+frontmatter holds the quest pins). Folder layout: see dungeon-cheatsheet SKILL.md.
 Game data repo: `~/repositories/wow-forever-addon-settings` (its CLAUDE.md has accounts/chars).
 Default context: Horde, Karums-Warrior (Arms) + Karums-Priest duo.
 
@@ -44,17 +45,28 @@ Strip VTT timing lines/tags before reading. Use transcripts only for tips (route
 Follow the `notes` skill style (cheatsheet: one-line bullets, `->` chains, checklists, no prose).
 Items: inline icon + link like `notes` does, reuse `items/` cards, make new ones with its `gen_cards.py`.
 ```
-## Quests
-### Before you go
-#### <Town>
-- [ ] <Quest> - <giver> (<coords>) - <what to grab / pre-quest>
-### Inside (in path order)
-- [ ] <objective> - <boss / spot>
-### After
-- [ ] <town> - turn in <Quest> -> <follow-up unlocked>
-### Check in game
+# <Dungeon> — quests
+- [[<Dungeon>]] · objectives inside are the yellow ! pins on the map
+- <level / faction notes, e.g. "Gear drops → [[warrior weapons]]">
+
+## Pick up
+### <Town>
+- [ ] <Quest> - <giver> (<coords>) - <what to grab / pre-quest> [→ <item to get inside, if no pin shows it>]
+## Turn in
+- [ ] <Town> - <NPC> - <Quest> -> ![[icon|inline]] [[<reward>]] (W / P) / <follow-up unlocked>
+## Check in game
 <the /run macro from step 1>
 ```
-Class quests for the user's classes go in their own `#### <Class> only` block.
+No `## Inside` list: in the dungeon the user only looks at the interactive map. Each
+in-dungeon quest becomes a quest pin on it (`dungeon-cheatsheet`, main note frontmatter `pins:`) whose
+`text:` lines hold the objective, the turn-in NPC + coords and the rewards that matter:
+```
+  - {kind: quest, name: <Quest>, x: <%>, y: <%>, guess: true, text: [
+      "<objective> (<mobs / spot>)",
+      "→ <NPC>, <town> (<coords>): W <reward> · P <reward>"]}
+```
+Class quests for the user's classes go in their own `### <Class> only` block under `## Pick up`.
 Research sources stay in chat (the vault notes have no sources); mention level conflicts in chat.
-If `wow forever.md` (todo list) has a matching todo, tick it and link the note.
+Todos live in TickTick, not the vault: a matching open task (gaming / wow) gets ticked via `ticktick:done`
+once the user agrees it's finished. When the user reports quest status (macro output), tick `[x]` the lines in
+`## Pick up` / `## Turn in` of the quests note.

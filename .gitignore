@@ -17,3 +17,10 @@ waybar/colors.css
 
 #file types
 *bak
+
+# python bytecode
+__pycache__/
+
+# ticktick web skill: map is copied from the vault by build.sh (private), zip is a build artifact
+claude/skills/ticktick/web/ticktick/map.md
+claude/skills/ticktick/web/ticktick.zip

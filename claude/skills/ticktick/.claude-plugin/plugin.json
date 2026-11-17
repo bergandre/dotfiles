@@ -1,0 +1,12 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "ticktick",
+  "version": "0.1.0",
+  "description": "TickTick helpers via the official TickTick MCP server: file tasks into the right list and tag, sort the Inbox, tick off finished work",
+  "author": {
+    "name": "bergandre"
+  },
+  "skills": [
+    "./skills/"
+  ]
+}

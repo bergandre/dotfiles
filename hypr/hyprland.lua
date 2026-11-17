@@ -570,6 +570,14 @@ hl.window_rule({
 	workspace = "25 silent",
 })
 
+hl.window_rule({
+	name = "TSM-worskpace_26_silent",
+	match = {
+		class = "TradeSkillMaster",
+	},
+	workspace = "26 silent",
+})
+
 --##### Dump stuff I rarely use or has problems with floating
 --windowrule = workspace 27 silent, match:class Immersed
 --### Scratchpad

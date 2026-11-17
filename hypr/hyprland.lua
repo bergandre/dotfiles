@@ -356,9 +356,41 @@ hl.workspace_rule({
 	monitor = "DP-1",
 })
 
+-- 24: equal rows in fixed order, whatever order the apps start in
+local rows_order = { "blueman", "easyeffects", "Spotify", "pavucontrol" }
+
+hl.layout.register("rows", {
+	recalculate = function(ctx)
+		local function rank(t)
+			local class = t.window and t.window.class or ""
+			for i, pat in ipairs(rows_order) do
+				if class:find(pat, 1, true) then
+					return i
+				end
+			end
+			return #rows_order + 1
+		end
+		local sorted = {}
+		for _, t in ipairs(ctx.targets) do
+			sorted[#sorted + 1] = t
+		end
+		table.sort(sorted, function(a, b)
+			local ra, rb = rank(a), rank(b)
+			if ra ~= rb then
+				return ra < rb
+			end
+			return a.index < b.index
+		end)
+		for i, t in ipairs(sorted) do
+			t:place(ctx:row(i, #sorted))
+		end
+	end,
+})
+
 hl.workspace_rule({
 	workspace = 24,
 	monitor = "DP-1",
+	layout = "lua:rows",
 })
 
 hl.workspace_rule({
@@ -453,14 +485,6 @@ hl.window_rule({
 -- 23 - music and video
 
 hl.window_rule({
-	name = "workspace_23_silent_286",
-	match = {
-		class = "Spotify",
-	},
-	workspace = "23 silent",
-})
-
-hl.window_rule({
 	name = "workspace_23_silent_freetube",
 	match = {
 		class = "[Ff]ree[Tt]ube",
@@ -476,7 +500,15 @@ hl.window_rule({
 	workspace = "23 silent",
 })
 
--- 24 - EQ, device connection and switching
+-- 24 - spotify, EQ, device connection and switching
+
+hl.window_rule({
+	name = "workspace_24_silent_286",
+	match = {
+		class = "Spotify",
+	},
+	workspace = "24 silent",
+})
 
 hl.window_rule({
 	name = "workspace_24_silent_287",

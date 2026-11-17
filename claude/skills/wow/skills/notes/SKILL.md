@@ -16,8 +16,9 @@ Reference notes (copy their format): `warrior leveling.md`, `warrior weapons.md`
 - `<class> <slot>.md` — gear progression, e.g. `warrior weapons.md`
 - `professions/<profession>.md` — profession progression
 - `items/` — one card note per item (any type), icons in `items/icons/`
-- Item notes are shared — reuse if it exists, never duplicate
-- `wow forever.md` — todo list; tick + link the note if this completes a todo
+- `abilities/` — one card note per NPC/boss spell (in-game spell tooltip), icons in `abilities/icons/`
+- Item and ability notes are shared — reuse if it exists, never duplicate
+- Todos live in TickTick (ticktick:add), never in the vault — don't add or tick todo lines in notes
 
 ## Style — cheatsheet, not a report
 - `#` title with who/what (e.g. "Horde Arms duo", "Cooking — Karums Warrior (Horde)")
@@ -89,3 +90,11 @@ Reference notes (copy their format): `warrior leveling.md`, `warrior weapons.md`
 
 ## Finish
 One line per file: what was added, where. List stub items.
+
+## Ability cards (boss / NPC spells)
+`python3 -I ~/.claude/skills/wow/skills/notes/gen_abilities.py ~/Documents/obsidian/gaming/Wow_FOREVER/abilities --by "<Boss> (<Dungeon>)" <spell_id> …`
+- `> [!wow|spell]` card: cost/range, cast time, gold description, debuff box with dispel type
+  (Magic/Curse/Poison/Disease colored like in-game), "Used by" lines; frontmatter `cast`, `dispel`
+- Existing note → only a missing "Used by" line is added; same name, other spell id → `<Name> (<id>).md`
+- Spell IDs: method.gg Forever dungeon guides link them (`dungeon-cheatsheet/tactics.py` does it per dungeon)
+- Inline: `![[<icon>|inline]] [[<Ability>]]`, like items

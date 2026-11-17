@@ -1,0 +1,157 @@
+{
+ "ranks": [
+  "Journeyman — skill 50, level 10 → cap 150",
+  "Expert — skill 125, level 20 → cap 225",
+  "Artisan — skill 200, level 35 → cap 300"
+ ],
+ "have": {
+  "Durotar": 1,
+  "Mulgore": 1,
+  "Tirisfal Glades": 1,
+  "Zephras Isle": 1,
+  "Silverpine Forest": 1,
+  "The Barrens": 65,
+  "Stonetalon Mountains": 75,
+  "Ashenvale": 65,
+  "Hillsbrad Foothills": 75,
+  "Thousand Needles": 75,
+  "Arathi Highlands": 125,
+  "Wetlands": 65,
+  "Alterac Mountains": 125,
+  "Desolace": 125,
+  "Stranglethorn Vale": 125,
+  "Dustwallow Marsh": 125,
+  "Badlands": 155,
+  "Swamp of Sorrows": 125,
+  "Tanaris": 175,
+  "Feralas": 175,
+  "The Hinterlands": 175,
+  "Blasted Lands": 230,
+  "Searing Gorge": 230,
+  "Burning Steppes": 230,
+  "Azshara": 230,
+  "Felwood": 230,
+  "Un'Goro Crater": 230,
+  "Winterspring": 230,
+  "Western Plaguelands": 230,
+  "Eastern Plaguelands": 230,
+  "Silithus": 230
+ },
+ "targets": [
+  {
+   "level": 1,
+   "skill": 1,
+   "nodes": [
+    "Copper Vein"
+   ],
+   "zones": [
+    "Durotar",
+    "Mulgore",
+    "Tirisfal Glades",
+    "Zephras Isle"
+   ]
+  },
+  {
+   "level": 10,
+   "skill": 50,
+   "note": "train Journeyman"
+  },
+  {
+   "level": 12,
+   "skill": 75,
+   "nodes": [
+    "Tin Vein",
+    "Silver Vein"
+   ],
+   "zones": [
+    "Silverpine Forest",
+    "The Barrens"
+   ]
+  },
+  {
+   "level": 20,
+   "skill": 125,
+   "note": "train Expert"
+  },
+  {
+   "level": 22,
+   "skill": 125,
+   "nodes": [
+    "Iron Deposit"
+   ],
+   "zones": [
+    "Ashenvale",
+    "Hillsbrad Foothills"
+   ]
+  },
+  {
+   "level": 28,
+   "skill": 155,
+   "nodes": [
+    "Gold Vein"
+   ],
+   "zones": [
+    "Thousand Needles",
+    "Arathi Highlands"
+   ]
+  },
+  {
+   "level": 33,
+   "skill": 175,
+   "nodes": [
+    "Mithril Deposit"
+   ],
+   "zones": [
+    "Alterac Mountains",
+    "Desolace"
+   ]
+  },
+  {
+   "level": 35,
+   "skill": 200,
+   "note": "train Artisan"
+  },
+  {
+   "level": 41,
+   "skill": 230,
+   "nodes": [
+    "Truesilver Deposit"
+   ],
+   "zones": [
+    "Tanaris",
+    "Dustwallow Marsh"
+   ]
+  },
+  {
+   "level": 50,
+   "skill": 245,
+   "nodes": [
+    "Small Thorium Vein"
+   ],
+   "zones": [
+    "Blasted Lands"
+   ]
+  },
+  {
+   "level": 52,
+   "skill": 275,
+   "nodes": [
+    "Rich Thorium Vein"
+   ],
+   "zones": [
+    "Azshara"
+   ]
+  },
+  {
+   "level": 58,
+   "skill": 300,
+   "nodes": [
+    "Rich Thorium Vein"
+   ],
+   "zones": [
+    "Eastern Plaguelands",
+    "Silithus"
+   ]
+  }
+ ]
+}

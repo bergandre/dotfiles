@@ -1,0 +1,211 @@
+{
+ "ranks": [
+  "Journeyman — skill 50, level 10 → cap 150",
+  "Expert — skill 125, level 20 → cap 225",
+  "Artisan — skill 200, level 35 → cap 300"
+ ],
+ "have": {
+  "Durotar": 1,
+  "Mulgore": 1,
+  "Tirisfal Glades": 1,
+  "Zephras Isle": 1,
+  "Silverpine Forest": 50,
+  "The Barrens": 50,
+  "Stonetalon Mountains": 100,
+  "Ashenvale": 100,
+  "Hillsbrad Foothills": 100,
+  "Thousand Needles": 115,
+  "Arathi Highlands": 150,
+  "Wetlands": 100,
+  "Alterac Mountains": 160,
+  "Desolace": 120,
+  "Stranglethorn Vale": 150,
+  "Dustwallow Marsh": 160,
+  "Badlands": 170,
+  "Swamp of Sorrows": 235,
+  "Tanaris": 205,
+  "Feralas": 185,
+  "The Hinterlands": 210,
+  "Blasted Lands": 230,
+  "Searing Gorge": 205,
+  "Burning Steppes": 280,
+  "Azshara": 230,
+  "Felwood": 260,
+  "Un'Goro Crater": 260,
+  "Winterspring": 290,
+  "Western Plaguelands": 270,
+  "Eastern Plaguelands": 280,
+  "Silithus": 270
+ },
+ "targets": [
+  {
+   "level": 1,
+   "skill": 1,
+   "nodes": [
+    "Peacebloom",
+    "Silverleaf"
+   ],
+   "zones": [
+    "Durotar",
+    "Mulgore",
+    "Tirisfal Glades",
+    "Zephras Isle"
+   ]
+  },
+  {
+   "level": 10,
+   "skill": 50,
+   "note": "train Journeyman"
+  },
+  {
+   "level": 12,
+   "skill": 70,
+   "nodes": [
+    "Mageroyal",
+    "Briarthorn"
+   ],
+   "zones": [
+    "Silverpine Forest",
+    "The Barrens"
+   ]
+  },
+  {
+   "level": 17,
+   "skill": 115,
+   "nodes": [
+    "Bruiseweed",
+    "Wild Steelbloom"
+   ],
+   "zones": [
+    "Stonetalon Mountains",
+    "Ashenvale"
+   ]
+  },
+  {
+   "level": 20,
+   "skill": 125,
+   "note": "train Expert"
+  },
+  {
+   "level": 22,
+   "skill": 125,
+   "nodes": [
+    "Kingsblood"
+   ],
+   "zones": [
+    "Hillsbrad Foothills"
+   ]
+  },
+  {
+   "level": 26,
+   "skill": 150,
+   "nodes": [
+    "Liferoot"
+   ],
+   "zones": [
+    "Ashenvale"
+   ]
+  },
+  {
+   "level": 30,
+   "skill": 170,
+   "nodes": [
+    "Fadeleaf",
+    "Goldthorn"
+   ],
+   "zones": [
+    "Arathi Highlands"
+   ]
+  },
+  {
+   "level": 33,
+   "skill": 195,
+   "nodes": [
+    "Khadgar's Whisker",
+    "Wintersbite"
+   ],
+   "zones": [
+    "Alterac Mountains"
+   ]
+  },
+  {
+   "level": 35,
+   "skill": 200,
+   "note": "train Artisan"
+  },
+  {
+   "level": 39,
+   "skill": 210,
+   "nodes": [
+    "Firebloom",
+    "Purple Lotus"
+   ],
+   "zones": [
+    "Badlands"
+   ]
+  },
+  {
+   "level": 41,
+   "skill": 235,
+   "nodes": [
+    "Blindweed"
+   ],
+   "zones": [
+    "Swamp of Sorrows"
+   ]
+  },
+  {
+   "level": 43,
+   "skill": 260,
+   "nodes": [
+    "Sungrass",
+    "Golden Sansam"
+   ],
+   "zones": [
+    "Feralas"
+   ]
+  },
+  {
+   "level": 51,
+   "skill": 280,
+   "nodes": [
+    "Dreamfoil",
+    "Mountain Silversage"
+   ],
+   "zones": [
+    "Burning Steppes"
+   ]
+  },
+  {
+   "level": 53,
+   "skill": 285,
+   "nodes": [
+    "Plaguebloom"
+   ],
+   "zones": [
+    "Felwood"
+   ]
+  },
+  {
+   "level": 55,
+   "skill": 290,
+   "nodes": [
+    "Icecap"
+   ],
+   "zones": [
+    "Winterspring"
+   ]
+  },
+  {
+   "level": 58,
+   "skill": 300,
+   "nodes": [
+    "Black Lotus"
+   ],
+   "zones": [
+    "Winterspring",
+    "Silithus"
+   ]
+  }
+ ]
+}

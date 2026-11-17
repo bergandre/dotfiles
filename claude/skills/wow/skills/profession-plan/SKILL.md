@@ -39,6 +39,8 @@ icy-veins and wowvendor return 403 to WebFetch - skip them. Guides disagree on r
 - Recipes: trainer vs vendor/AH plans; only recommend buying plans that are cheaper per point or useful to the character.
 - Respect [profession priorities] in memory (must-keep vs postponed profs) when suggesting smelting/using shared mats.
 
+Gathering professions (Herbalism, Mining): which node grows in which zone along the route -> `gather-zones` skill.
+
 ## 5. "Anything useful for my character?"
 Check char level + equipped gear (BagBrother), then: Forever-only plans that fill empty/weak slots, self-buff consumables, campsite objects, currency-gated plans (Merchant's Favor from Waylaid Crates - don't sell crates), and long-term milestones. Custom Forever items (IDs > ~200000) have no local stats - say "unknown, compare tooltips".
 

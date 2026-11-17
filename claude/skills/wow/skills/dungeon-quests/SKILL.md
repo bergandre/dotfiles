@@ -20,7 +20,9 @@ Completed quests are NOT in SavedVariables (RXP `questObjectivesCache` is only a
 macro is the only reliable "what did I miss" check. Ask the user to run it and paste the output.
 
 Zygor known gaps: skips **class quests** (e.g. warrior Brutal Armor / Fire Hardened Mail) and
-pre-quests started far away. RXPGuides (`<repo>/Interface/AddOns/RXPGuides`) is the second local source.
+pre-quests started far away. Second local source (best for Forever): `<repo>/Interface/AddOns/ForeverDungeonJournal/Data/Dungeons.lua`
+(`FDJ.DB["<Dungeon>"].quests`: faction, giver, levels, rewards, warnings) + `QuestChains.lua` (prereqs).
+RXPGuides (`<repo>/Interface/AddOns/RXPGuides`) is the third.
 
 ## 2. Web cross-check (required)
 WebFetch, prefer Forever pages over Classic:

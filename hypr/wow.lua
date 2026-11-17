@@ -29,40 +29,54 @@ return function(hyper, monitor)
 		return target, "address:" .. prev.address
 	end
 
+	-- a dispatch that throws (e.g. "send_key_state: key not found" after a monitor/keyboard
+	-- re-plug, or a target window that just closed) must not abort the job halfway:
+	-- that left `busy` stuck at true and every later hyper press was silently dropped
+	local function dispatch(d)
+		pcall(hl.dispatch, d)
+	end
+
 	-- hyper's left mods leak into wine as held keys (wow would see ALT-CTRL-SHIFT-1):
 	-- shift/ctrl hide [mod:rshift] / [mod:rctrl], alt is wow's self-cast key
 	local function release_left_mods(target)
 		for _, left in ipairs({ "Shift_L", "Control_L", "Alt_L", "Super_L" }) do
-			hl.dispatch(hl.dsp.send_key_state({ mods = "", key = left, state = "up", window = target }))
+			dispatch(hl.dsp.send_key_state({ mods = "", key = left, state = "up", window = target }))
 		end
 	end
 
 	-- presses are serialized: while a switch is in flight the next press waits (only the
 	-- latest is kept, enough for spamming) and is sent while the target still has focus;
 	-- `home` stays the window we came from, so focus can't get stuck on the target
-	local busy, pending, home, home_follow_mouse = false, nil, nil, nil
+	local busy, pending, home, home_follow_mouse = false, nil, nil, 1
+
+	-- focus back + restore settings; always reached, even if something above threw
+	local function finish(prev, follow_mouse)
+		pending = nil
+		dispatch(hl.dsp.focus({ window = prev }))
+		pcall(hl.config, { cursor = { no_warps = false }, input = { follow_mouse = follow_mouse or 1 } })
+		busy = false
+	end
 
 	local function run(job)
 		-- release hyper's left mods, then re-press the right ones so wine sees rshift / rctrl
 		release_left_mods(job.target)
 		for _, m in ipairs(job.held) do
-			hl.dispatch(hl.dsp.send_key_state({ mods = "", key = m.right, state = "up", window = job.target }))
-			hl.dispatch(hl.dsp.send_key_state({ mods = "", key = m.right, state = "down", window = job.target }))
+			dispatch(hl.dsp.send_key_state({ mods = "", key = m.right, state = "up", window = job.target }))
+			dispatch(hl.dsp.send_key_state({ mods = "", key = m.right, state = "down", window = job.target }))
 		end
-		hl.dispatch(hl.dsp.send_shortcut({ mods = job.mods, key = job.key, window = job.target }))
+		dispatch(hl.dsp.send_shortcut({ mods = job.mods, key = job.key, window = job.target }))
 		for _, m in ipairs(job.held) do
-			hl.dispatch(hl.dsp.send_key_state({ mods = job.mods, key = m.right, state = "up", window = job.target }))
+			dispatch(hl.dsp.send_key_state({ mods = job.mods, key = m.right, state = "up", window = job.target }))
 		end
 		hl.timer(function()
 			if pending then
 				local next_job = pending
 				pending = nil
-				run(next_job)
-				return
+				if pcall(run, next_job) then
+					return
+				end
 			end
-			hl.dispatch(hl.dsp.focus({ window = home }))
-			hl.config({ cursor = { no_warps = false }, input = { follow_mouse = home_follow_mouse } })
-			busy = false
+			finish(home, home_follow_mouse)
 		end, { timeout = delay, type = "oneshot" })
 	end
 
@@ -100,9 +114,11 @@ return function(hyper, monitor)
 			-- or the slightest mouse move (pressing a naga button) pulls focus straight back
 			home_follow_mouse = hl.get_config("input:follow_mouse")
 			hl.config({ cursor = { no_warps = true }, input = { follow_mouse = 0 } })
-			hl.dispatch(hl.dsp.focus({ window = target }))
+			dispatch(hl.dsp.focus({ window = target }))
 			hl.timer(function()
-				run(job)
+				if not pcall(run, job) then
+					finish(home, home_follow_mouse)
+				end
 			end, { timeout = focus_delay, type = "oneshot" })
 		end
 	end
@@ -119,18 +135,17 @@ return function(hyper, monitor)
 			-- no focus-follows-mouse while steering, or a mouse move would steal focus back
 			local follow_mouse = hl.get_config("input:follow_mouse")
 			hl.config({ cursor = { no_warps = true }, input = { follow_mouse = 0 } })
-			hl.dispatch(hl.dsp.focus({ window = target }))
+			dispatch(hl.dsp.focus({ window = target }))
 			hl.timer(function()
 				release_left_mods(target)
-				hl.dispatch(hl.dsp.send_key_state({ mods = "", key = key, state = "down", window = target }))
+				dispatch(hl.dsp.send_key_state({ mods = "", key = key, state = "down", window = target }))
 				local watch
 				watch = hl.timer(function()
-					if not hl.is_key_down(key:lower()) then
+					local ok, down = pcall(hl.is_key_down, key:lower())
+					if not ok or not down then
 						watch:set_enabled(false)
-						hl.dispatch(hl.dsp.send_key_state({ mods = "", key = key, state = "up", window = target }))
-						hl.dispatch(hl.dsp.focus({ window = prev }))
-						hl.config({ cursor = { no_warps = false }, input = { follow_mouse = follow_mouse } })
-						busy = false
+						dispatch(hl.dsp.send_key_state({ mods = "", key = key, state = "up", window = target }))
+						finish(prev, follow_mouse)
 					end
 				end, { timeout = delay, type = "repeat" })
 			end, { timeout = focus_delay, type = "oneshot" })

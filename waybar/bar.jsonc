@@ -37,7 +37,7 @@
   "modules-center": [
     "hyprland/workspaces"
   ],
-  "modules-right": ["group/right2", "custom/music", "group/right1"],
+  "modules-right": ["custom/music", "group/right1"],
 
   "group/right1": {
     "orientation": "inherit",
@@ -52,10 +52,6 @@
       "gpu",
       "clock"
     ]
-  },
-  "group/right2": {
-    "orientation": "inherit",
-    "modules": ["custom/pomotui"]
   },
 
   "hyprland/workspaces": {

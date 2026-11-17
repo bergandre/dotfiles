@@ -146,6 +146,8 @@ hl.config({
 	misc = {
 		force_default_wallpaper = 0,
 		-- Set to 0 or 1 to disable the anime mascot wallpapers
+		-- fps cap for render_unfocused windows on hidden workspaces (WoW multibox)
+		render_unfocused_fps = 60,
 	},
 })
 
@@ -416,6 +418,17 @@ hl.window_rule({
 		class = "com.usebottles.bottles",
 	},
 	workspace = "3 silent",
+})
+
+-- WoW (Bottles/Wine): keep rendering on hidden workspaces, otherwise the
+-- Vulkan present blocks without frame callbacks and the game loop stalls
+hl.window_rule({
+	name = "wow_render_unfocused",
+	match = {
+		class = "steam_proton",
+		title = "World of Warcraft",
+	},
+	render_unfocused = true,
 })
 
 hl.window_rule({

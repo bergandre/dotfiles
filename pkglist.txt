@@ -10,7 +10,7 @@ autotiling
 awww
 base
 base-devel
-beeper-v4-bin
+beeper-bin
 betterbird-bin
 bitwarden
 bitwarden-cli
@@ -23,7 +23,6 @@ bspwm
 btop
 calf
 calibre
-chatgpt-desktop-bin
 chromium
 cliphist
 cozy-audiobooks
@@ -227,8 +226,6 @@ rpm-tools
 rsync
 rustup
 samba
-sddm
-sddm-sugar-candy-git
 simple-scan
 solaar
 soundcloud-bin
@@ -239,7 +236,6 @@ steam
 steamachievementnotifier-bin
 stow
 strace
-sunshine
 sway
 swaybg
 swayidle
@@ -251,7 +247,6 @@ thunderbird
 ticktick
 timg
 tinysparql
-todoist
 todoist-appimage
 toilet
 transmission-gtk
@@ -266,7 +261,6 @@ usbmuxd
 uwsm
 v4l2loopback-dkms
 vesktop
-video2x
 vim
 vkbasalt
 vlc
@@ -292,7 +286,6 @@ xclip
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
 yay
-youtube-music-bin
 yt-dlp
 ytfzf
 zathura

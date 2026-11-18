@@ -1,0 +1,10 @@
+[core]
+	editor = vim
+[user]
+	name = bergandre
+	email = andrejs@jansbergs.io
+[safe]
+	directory = /home/supernova/repositories/dotfiles
+	directory = /home/supernova/dotfiles/dotbot
+[init]
+	defaultBranch = main

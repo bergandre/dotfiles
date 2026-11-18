@@ -14,7 +14,7 @@ Content is mostly shell scripts and config files — no build, no tests.
 ## Repo layout
 
 - `zsh/` — zsh config: `.zshrc`, `.zshenv`, `.zprofile`, `.aliases`,
-  `.functions`, `.p10k.zsh` (powerlevel10k).
+  `.functions`; prompt is starship (`starship/starship.toml`).
 - `hypr/` — Hyprland configs for the Arch machine (`hyprland.conf`,
   `hypridle.conf`, `hyprlock.conf`, `hyprback.conf`).
 - `nvim/` — Neovim config (lazy.nvim, `init.lua`).

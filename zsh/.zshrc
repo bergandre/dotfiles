@@ -47,7 +47,7 @@ zinit wait lucid for \
 ### Settings
 setopt correct
 
-source "$DOTFILES/zsh/.aliases"
+[[ -f "$DOTFILES/zsh/.aliases" ]] && source "$DOTFILES/zsh/.aliases"
 source "$DOTFILES/zsh/.functions"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT) grinning teeth emoji

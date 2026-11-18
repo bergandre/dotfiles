@@ -1,0 +1,32 @@
+{
+  "name": "WoW Dungeon",
+  "base": "dark",
+  "overrides": {
+    "claude": "rgb(111,227,224)",
+    "claudeShimmer": "rgb(170,245,240)",
+    "clawd_body": "rgb(111,227,224)",
+    "briefLabelClaude": "rgb(111,227,224)",
+    "promptBorder": "rgb(176,130,69)",
+    "promptBorderShimmer": "rgb(214,170,104)",
+    "text": "rgb(236,222,192)",
+    "inactive": "rgb(156,138,104)",
+    "inactiveShimmer": "rgb(196,178,140)",
+    "subtle": "rgb(92,76,52)",
+    "suggestion": "rgb(95,212,214)",
+    "remember": "rgb(95,212,214)",
+    "permission": "rgb(214,170,104)",
+    "permissionShimmer": "rgb(240,205,145)",
+    "planMode": "rgb(79,154,138)",
+    "bashBorder": "rgb(201,118,58)",
+    "success": "rgb(143,191,90)",
+    "error": "rgb(222,96,74)",
+    "warning": "rgb(230,175,75)",
+    "userMessageBackground": "rgb(48,38,24)",
+    "userMessageBackgroundHover": "rgb(62,50,32)",
+    "bashMessageBackgroundColor": "rgb(52,42,30)",
+    "memoryBackgroundColor": "rgb(30,52,50)",
+    "selectionBg": "rgb(40,92,92)",
+    "rate_limit_fill": "rgb(95,212,214)",
+    "rate_limit_empty": "rgb(60,74,58)"
+  }
+}

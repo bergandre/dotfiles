@@ -6,6 +6,18 @@
     ]
   },
   "model": "opus",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r \".prompt // empty\" | grep -qiE \"to-?do\" && printf \"%s\" \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"UserPromptSubmit\\\",\\\"additionalContext\\\":\\\"The user mentioned a todo. Any todo goes to TickTick: invoke the ticktick:add skill. Never write todos into Obsidian notes or other files.\\\"}}\" || true"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
@@ -33,17 +45,5 @@
       "effortLevel": "high"
     }
   },
-  "theme": "auto",
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "jq -r \".prompt // empty\" | grep -qiE \"to-?do\" && printf \"%s\" \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"UserPromptSubmit\\\",\\\"additionalContext\\\":\\\"The user mentioned a todo. Any todo goes to TickTick: invoke the ticktick:add skill. Never write todos into Obsidian notes or other files.\\\"}}\" || true"
-          }
-        ]
-      }
-    ]
-  }
+  "theme": "custom:wow-dungeon"
 }

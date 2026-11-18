@@ -1,0 +1,32 @@
+{
+  "name": "WoW Profession",
+  "base": "dark",
+  "overrides": {
+    "claude": "rgb(255,138,42)",
+    "claudeShimmer": "rgb(255,200,80)",
+    "clawd_body": "rgb(255,138,42)",
+    "briefLabelClaude": "rgb(255,138,42)",
+    "promptBorder": "rgb(232,110,30)",
+    "promptBorderShimmer": "rgb(255,180,70)",
+    "text": "rgb(244,234,222)",
+    "inactive": "rgb(150,154,160)",
+    "inactiveShimmer": "rgb(190,194,200)",
+    "subtle": "rgb(84,80,78)",
+    "suggestion": "rgb(255,200,69)",
+    "remember": "rgb(255,200,69)",
+    "permission": "rgb(212,165,55)",
+    "permissionShimmer": "rgb(240,205,110)",
+    "planMode": "rgb(140,150,160)",
+    "bashBorder": "rgb(160,110,220)",
+    "success": "rgb(156,204,101)",
+    "error": "rgb(255,90,74)",
+    "warning": "rgb(255,200,69)",
+    "userMessageBackground": "rgb(46,28,18)",
+    "userMessageBackgroundHover": "rgb(62,38,24)",
+    "bashMessageBackgroundColor": "rgb(40,34,44)",
+    "memoryBackgroundColor": "rgb(44,40,36)",
+    "selectionBg": "rgb(110,50,16)",
+    "rate_limit_fill": "rgb(255,138,42)",
+    "rate_limit_empty": "rgb(80,56,40)"
+  }
+}

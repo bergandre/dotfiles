@@ -24,3 +24,7 @@ __pycache__/
 # ticktick web skill: map is copied from the vault by build.sh (private), zip is a build artifact
 claude/skills/ticktick/web/ticktick/map.md
 claude/skills/ticktick/web/ticktick.zip
+
+# engine-written types of Claude Code mods
+claude/mods/*/.claude-plugin/types/
+claude/mods/*/tsconfig.json

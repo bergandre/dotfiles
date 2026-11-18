@@ -32,8 +32,34 @@ return function(hyper, monitor)
 	-- a dispatch that throws (e.g. "send_key_state: key not found" after a monitor/keyboard
 	-- re-plug, or a target window that just closed) must not abort the job halfway:
 	-- that left `busy` stuck at true and every later hyper press was silently dropped
+	-- debug: `touch /tmp/wow-trace.on` -> every press is logged to /tmp/wow-trace.log
+	local function trace(...)
+		local on = io.open("/tmp/wow-trace.on", "r")
+		if not on then
+			return
+		end
+		on:close()
+		local f = io.open("/tmp/wow-trace.log", "a")
+		if f then
+			local parts = {}
+			for _, v in ipairs({ ... }) do
+				parts[#parts + 1] = tostring(v)
+			end
+			f:write(os.date("%H:%M:%S "), table.concat(parts, " "), "\n")
+			f:close()
+		end
+	end
+
 	local function dispatch(d)
-		pcall(hl.dispatch, d)
+		local ok, err = pcall(hl.dispatch, d)
+		if not ok then
+			trace("  dispatch error:", err)
+		end
+	end
+
+	local function active_address()
+		local a = hl.get_active_window()
+		return a and ("address:" .. a.address) or "none"
 	end
 
 	-- hyper's left mods leak into wine as held keys (wow would see ALT-CTRL-SHIFT-1):
@@ -58,6 +84,23 @@ return function(hyper, monitor)
 	end
 
 	local function run(job)
+		-- focus can be taken back before the key goes out (seen with a fullscreen wow under the
+		-- cursor: a tiny mouse move refocuses it), so re-focus and wait again, a few times at most
+		local focused = active_address()
+		if focused ~= job.target then
+			job.tries = (job.tries or 0) + 1
+			trace("  focus taken by", focused, "retry", job.tries)
+			if job.tries <= 3 then
+				dispatch(hl.dsp.focus({ window = job.target }))
+				hl.timer(function()
+					if not pcall(run, job) then
+						finish(home, home_follow_mouse)
+					end
+				end, { timeout = focus_delay, type = "oneshot" })
+				return
+			end
+		end
+		trace("  run", job.key, "mods=" .. job.mods, focused == job.target and "focus ok" or ("FOCUS WRONG: " .. focused))
 		-- release hyper's left mods, then re-press the right ones so wine sees rshift / rctrl
 		release_left_mods(job.target)
 		for _, m in ipairs(job.held) do
@@ -83,6 +126,7 @@ return function(hyper, monitor)
 	local function send_to_wow(key)
 		return function()
 			local target, prev = find_windows()
+			trace("press", key, "target=" .. tostring(target), "from=" .. tostring(prev), "busy=" .. tostring(busy))
 			if not target then
 				return
 			end

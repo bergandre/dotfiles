@@ -146,6 +146,8 @@ hl.config({
 	misc = {
 		force_default_wallpaper = 0,
 		-- Set to 0 or 1 to disable the anime mascot wallpapers
+		-- plain background until hyprpaper is up, no logo flash before the lock
+		disable_hyprland_logo = true,
 		-- fps cap for render_unfocused windows on hidden workspaces (WoW multibox)
 		render_unfocused_fps = 60,
 	},
@@ -154,6 +156,12 @@ hl.config({
 hl.device({
 	name = "sino-wealth-usb-keyboard",
 	kb_options = "grp:CTRL_space_toggle,altwin:swap_alt_win",
+})
+
+-- keyd re-emits every keyboard it grabs; alt/meta swaps live in keyd/*.conf (nuphy), not here
+hl.device({
+	name = "keyd-virtual-keyboard",
+	kb_options = "grp:ctrl_space_toggle",
 })
 
 --░█▄█░█▀█░█▀█░▀█▀░▀█▀░█▀█░█▀▄░█▀▀
@@ -706,15 +714,15 @@ hl.bind(
 hl.bind(hyper .. " + " .. "UP", hl.dsp.exec_cmd("playerctl --player=spotify volume 0.1+"))
 hl.bind(hyper .. " + " .. "DOWN", hl.dsp.exec_cmd("playerctl --player=spotify volume 0.1-"))
 
--- youtube (freetube)
+-- youtube (firefox)
 
-hl.bind(hyper .. " + " .. "K", hl.dsp.exec_cmd("playerctl --player=chromium play-pause"))
-hl.bind(hyper .. " + " .. "N", hl.dsp.exec_cmd("playerctl --player=chromium next"))
-hl.bind(hyper .. " + " .. "P", hl.dsp.exec_cmd("playerctl --player=chromium previous"))
-hl.bind(hyper .. " + " .. "l", hl.dsp.exec_cmd("playerctl --player=chromium position 5-"))
-hl.bind(hyper .. " + " .. "SEMICOLON", hl.dsp.exec_cmd("playerctl --player=chromium position 5+"))
-hl.bind(hyper .. " + " .. "j", hl.dsp.exec_cmd("playerctl --player=chromium volume .1-"))
-hl.bind(hyper .. " + " .. "i", hl.dsp.exec_cmd("playerctl --player=chromium volume .1+"))
+hl.bind(hyper .. " + " .. "K", hl.dsp.exec_cmd("playerctl --player=firefox play-pause"))
+hl.bind(hyper .. " + " .. "N", hl.dsp.exec_cmd("playerctl --player=firefox next"))
+hl.bind(hyper .. " + " .. "P", hl.dsp.exec_cmd("playerctl --player=firefox previous"))
+hl.bind(hyper .. " + " .. "l", hl.dsp.exec_cmd("playerctl --player=firefox position 5-"))
+hl.bind(hyper .. " + " .. "SEMICOLON", hl.dsp.exec_cmd("playerctl --player=firefox position 5+"))
+hl.bind(hyper .. " + " .. "j", hl.dsp.exec_cmd("playerctl --player=firefox volume .1-"))
+hl.bind(hyper .. " + " .. "i", hl.dsp.exec_cmd("playerctl --player=firefox volume .1+"))
 
 -- WoW: hyper + keys -> WoW on the top monitor (naga side grid + rshift/rctrl via keyd/naga.conf)
 dofile(os.getenv("HOME") .. "/.config/hypr/wow.lua")(hyper, top_monitor)
@@ -837,6 +845,8 @@ hl.bind(mainMod .. " + " .. "mouse:273", hl.dsp.window.resize(), { mouse = true 
 --Do and posle kategoriji i.e. BINDS 2 empty lines
 -- Autostart
 hl.on("hyprland.start", function()
+	-- tty1 autologins, so the lock screen is the login
+	hl.exec_cmd("hyprlock -c ~/.config/hypr/hyprlock-login.conf")
 	hl.exec_cmd("spotify")
 	--	hl.exec_cmd("steam")
 	-- hl.exec_cmd("obsidian")
@@ -847,7 +857,6 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("systemctl --user start waybar")
 	hl.exec_cmd("beeper")
 	hl.exec_cmd("blueman-manager")
-	hl.exec_cmd("sunshine")
 	hl.exec_cmd("hyprctl reload")
 	hl.exec_cmd("sleep 3 && ticktick")
 	hl.exec_cmd("thunderbird")

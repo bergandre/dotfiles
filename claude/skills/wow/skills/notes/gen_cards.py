@@ -43,6 +43,7 @@ def tooltip_lines(tt: str) -> list[str]:
     s = re.sub(r"(<div[^>]*>)\s*<br\s*/?>", r"\1", s)                  # no break right after a div opens
     s = re.sub(r"<div class=\"[^\"]*whtt-reagents[^\"]*\">", '\n<span class="reagents">', s)
     s = re.sub(r"<div class=\"[^\"]*whtt-extra[^\"]*\">", '\n<span class="extra">', s)
+    s = re.sub(r"<div( [^>]*)?>", r"\n<span\1>", s)  # any other div (set pieces list) -> span, so tags balance per line
     s = s.replace("</div>", "</span>\n")
     s = re.sub(r"<br\s*/?>|</tr>", "\n", s)
     s = re.sub(r"</?(table|tr|td)[^>]*>", "", s)

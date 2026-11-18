@@ -59,12 +59,13 @@ def slugify(name):
 
 
 # ---------- tooltips ----------
-def tooltip(item_id):
+def tooltip(item_id, bonus=None):
+    """bonus = bonus IDs from the item link ("12725" or "1:2") -> real random-suffix stats."""
     CACHE.mkdir(parents=True, exist_ok=True)
-    f = CACHE / f"{item_id}.json"
+    f = CACHE / (f"{item_id}-b{bonus.replace(':', '_')}.json" if bonus else f"{item_id}.json")
     if not f.exists():
         try:
-            f.write_text(get(TOOLTIP.format(item_id)))
+            f.write_text(get(TOOLTIP.format(item_id) + (f"?bonus={bonus}" if bonus else "")))
         except Exception as e:  # noqa: BLE001 - report and keep going
             return {"id": item_id, "name": f"?{item_id}", "err": str(e), "lines": []}
     d = json.loads(f.read_text())
@@ -136,11 +137,15 @@ def equipped(chars):
         for line in res.stdout.splitlines():
             c, cls, lvl, gear = line.split("|", 3)
             if c in chars:
-                g = {}
+                g, bon = {}, {}
                 for kv in gear.split():
                     i, link = kv.split("=", 1)
-                    g[int(i)] = int(link.split(":")[0])
-                out[c] = {"class": cls, "level": lvl, "gear": g, "file": str(f)}
+                    parts = link.split(":")
+                    g[int(i)] = int(parts[0])
+                    # item link: id:enchant:gem1-4:suffix:unique:level:spec:upgrade:difficulty:numBonus:bonus...
+                    if len(parts) > 13 and parts[12].isdigit() and int(parts[12]) > 0:
+                        bon[int(i)] = ":".join(parts[13:13 + int(parts[12])])
+                out[c] = {"class": cls, "level": lvl, "gear": g, "bonus": bon, "file": str(f)}
     return out
 
 
@@ -234,7 +239,7 @@ def main():
                 for sid in SLOT_IDS[slot]:
                     w = g["gear"].get(sid)
                     if w:
-                        wt = tooltip(w)
+                        wt = tooltip(w, g["bonus"].get(sid))
                         worn.append(f"{SLOT_NAMES[sid]}: {wt['name']} [{w}] {describe(wt)[3]}")
                     else:
                         worn.append(f"{SLOT_NAMES[sid]}: EMPTY")

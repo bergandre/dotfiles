@@ -25,7 +25,7 @@ There is no separate tactics note: the map's banners show the map data. Game dat
 `~/repositories/wow-forever-addon-settings` (CLAUDE.md there: accounts, chars).
 
 ## Workflow
-1. `cheatsheet.py` - map image + bosses + loot vs worn gear (section 1)
+1. `fdj_map.py` (journal map + boss pins) / `cheatsheet.py` (bosses + loot vs worn gear) (section 1)
 2. `tactics.py` - ability cards, guide text, art (section 2)
 3. write `map/<Dungeon> map data.md` (section 3) incl. W/P upgrades (section 3b)
 4. `loot_note.py` - loot note + `## Loot` embed in the main note
@@ -35,6 +35,17 @@ Done = route on the map, TLDR, map, loot, quests note. Back up existing notes to
 Scripts live in `~/.claude/skills/wow/skills/dungeon-cheatsheet/`; run them with `python3 -I`.
 
 ## 1. Collect data
+**Map + boss pins: the in-game journal first.**
+```
+python3 -I fdj_map.py "<Dungeon>" [--write]
+```
+ForeverDungeonJournal's map tab (`Core/Journal.lua` `FDJ.DUNGEON_MAPS`) has the author's in-game boss spots per
+floor, the entrance, floor transitions (ladders, "Level 2") and NPCs inside - better than foreverchanges' pins
+(Dalaran: Atrexis was on the wrong side). For dungeons with the addon's own art (Forever-only ones: Dalaran,
+Excavation Site, Ruins of Lordaeron, Drowned City, Hall of Thanes, Blackmaw Hold, ...) it builds
+`map/<Dungeon> map.png` (floors side by side, "Level n") and `--write` sets `map:` + all `kind: boss` pins in the
+main note. Use its entrance / transitions as route anchors. Classic dungeons use the client's map tiles (not
+extractable) -> it only prints positions; use cheatsheet.py's map there.
 ```
 python3 -I cheatsheet.py "<Dungeon>" [--slug <foreverchanges-slug>] [--chars "Karums Warrior,Karums Priest"] [--no-map]
 ```
@@ -77,7 +88,18 @@ needs other classes. Spell tooltips beat guide prose (e.g. Dominate Mind tooltip
 
 ## 3. Map data (`map/<Dungeon> map data.md`)
 Style of the `notes` skill: cheatsheet, no prose, no sources. Line 2 = the flag legend. Starts with
-`## Pulls — kill order` (shown as the numbered "Kill order" row above the trash banners):
+`## TLDR` (-> `map/<Dungeon> tldr.md`, embedded at the top of the main note):
+```
+- <4-6 bullets: what kills you here and what to do - boss order + which to skip, the dungeon-wide threat
+  (disease/poison/fear/stealth packs), the pack to kill first, the hardest boss's key move, quest objectives inside.
+  Role-general ("the tank"/"healer"). No level range / location / W-P legend lines - they carry no info>
+```
+Write every boss / trash mob as `**<Name>**` -> portrait chip that jumps to its banner (matched by shared words, plural
+s ignored: `**Necromancers**` -> Kirin Tor Necromancer; no match = plain bold). Abilities as
+`![[<icon>|inline]] [[<Ability>]]` -> hover icon. Under the bullets interactive_map.py adds **Big drops** by itself:
+boss upgrades >= `BIG` % (40), empty slots and every weapon upgrade from `upgrades.json`, with the boss chip and the classes that would roll
+Need (`loot_note.py` `rivals()`: armor/weapon type ∩ stats, minus W/P) - so the user picks the group around them
+(wand wanted -> no warlock). Run loot_note.py first. Then `## Pulls — kill order` (shown as the numbered "Kill order" row above the trash banners):
 ```
 Any trash pack, top first. You have no CC, so the kill order does the job of CC:
 1. <inline icon> [[<totem/ability>]] or **<Mob>** — <why first>          <- totems, stunners, healers, mana burners, summoners, melee last
@@ -92,7 +114,7 @@ reports it. Then per boss in map order:
 > [!boss] <creature type> · <where / adds>
 > [![[<Boss> sketch.png]]]
 > <one-line overview>
-> **TLDR:** <kill order / key move>          <- banner + pin card show this line
+> **TLDR:** <how to reach the boss if it is not obvious (barrier, portal, summon); then the fight: kill order / key move / what not to stand in>   <- banner + pin card show this line; never only the access part
 
 - ![[<spell icon>|inline]] [[<Ability>]] ![[ej-<flag>.png|inline]] ![[ej-tank.png|inline]] — <cast time, what it does> → <who does what>
 
@@ -120,6 +142,7 @@ Priest dispels Magic (Dispel Magic) and Disease; no poison/curse removal -> "hea
 
 ### 3b. Judge loot
 From the cheatsheet.py output pick only real upgrades per char; skip side-grades. Rules:
+The loot note computes this itself (approx % per char, below); hand-written lines are for the map's boss cards.
 - Warrior = Arms 2H, levels as the duo's tank in Def/Battle stance: Str, 2H DPS, Sta, armor. No 1H/shields.
 - Priest = healer: +healing, Int, Spirit, Sta. Cloth only. Note empty slots (free upgrades).
 - Random-suffix gear (`<Random enchantment>`) - stats unknown, say so.
@@ -130,8 +153,11 @@ python3 -I loot_note.py "<Dungeon>"
 ```
 -> `notes/<Dungeon> loot.md` (no title; embedded under `## Loot` of the main note, added above `## Notes` if
 missing): `## <nr>. <Boss> — <level>` heading per boss, then one banner per item = the full item tooltip, always
-visible (scroll, no hover) - upgrades first with a yellow W/P header + the reason, then the other gear, quest
-items / recipes dimmed. Drops from AtlasLoot (Forever-only dungeons: trash from ForeverDungeonJournal); item
+visible (scroll, no hover). Header: approx % change for W / P vs what they wear in that slot (BagBrother, incl.
+random-suffix stats via the link's bonus IDs; rough weights in `score()`: W Str/Sta/2H DPS/armor/hit/crit,
+P healing/mp5/Int/Spi; rings vs the weaker one, 2H vs main + off hand; W skips cloth/leather/1H/off-hands),
+"empty slot" or "? random stats". Green = upgrade (>= 5%). Sorted by best upgrade; quest items / recipes dimmed.
+BagBrother refreshes on `/reload` / logout - stale gear = wrong %. Drops from AtlasLoot (Forever-only dungeons: trash from ForeverDungeonJournal); item
 cards are made for every drop (`notes/gen_cards.py`). Re-run after changing upgrades.
 
 ## 4. Main note (`<Dungeon>.md`)
@@ -144,9 +170,7 @@ route: [...]                  # section 5, required
 # <Dungeon> — Horde, Karums duo (<level>)
 
 ## TLDR
-- <4-6 bullets: what kills you here and what to do - boss order + which to skip, the dungeon-wide threat
-  (disease/poison/fear/stealth packs), the pack to kill first, the hardest boss's key move, quest objectives inside.
-  Role-general ("the tank"/"healer"). No level range / location / W-P legend lines - they carry no info>
+![[<Dungeon> tldr]]          <- set by interactive_map.py from the map data's `## TLDR`
 
 ## Map
 ![[<Dungeon> (interactive)]]   <- set by interactive_map.py
@@ -206,7 +230,10 @@ Regenerate after editing the main note or the map data.
 - Obsidian restyles HTML inside notes: images become `display: block` (keep `!important` on inline icons), lists
   get its own bullets (banners use plain spans), `text-indent` inherits into inline-blocks.
 - Live Preview wraps HTML blocks in widgets with `contain: paint`, and note embeds get `overflow: auto` + a max
-  height - both clip popups / scroll; wow.css lifts them for embeds `:has(.wowmap)` / `:has(.wowloot)`.
+  height - both clip popups / scroll; wow.css lifts them for embeds `:has(.wowmap)` / `:has(.wowloot)`. Embeds
+  also get an inline `min-height` estimated from the source (huge with data URIs -> empty block) - reset too.
+- Item cards: set items' Wowhead tooltips carry a `<div>` piece list - gen_cards turns divs into spans so tags
+  balance per line (an unclosed tag in one card breaks every banner after it).
 - A note tab holds both Live Preview and Reading view (one hidden) - DOM lookups must pick the visible copy.
 - Check layout changes in a headless render first: wrap the generated HTML + wow.css in a page (dark body,
   plus `img{display:block;margin:auto}` to mimic Obsidian), `chromium --headless=new --screenshot`, Read the PNG.

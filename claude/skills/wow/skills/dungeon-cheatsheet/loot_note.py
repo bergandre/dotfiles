@@ -11,13 +11,16 @@ Generated - never edit the note by hand. Sources:
   - portraits: art/<Boss>.webp (foreverchanges) or art/method/ (method.gg render)
 Embedded in the main note under `## Loot` (added above `## Notes` if missing), so no title of its own.
 Layout: `## <map nr>. <Boss> — <level>` heading per boss, then one banner per item = the full item tooltip,
-always visible (scroll, no hover). Upgrades first with a W/P header + the reason, then the other gear,
-then quest items / recipes (dimmed). `## Quest rewards` from the map data the same way.
-Item cards are made for every drop (notes/gen_cards.py -> Wow_FOREVER/items/).
+always visible (scroll, no hover). Header: approx % change for W / P vs the item they wear in that slot
+(BagBrother; rough stat weights in score(); rings/trinkets vs the weaker one, 2H vs main + off hand), "empty slot",
+or "? random stats". Sorted by the best upgrade; quest items / recipes dimmed. `## Quest rewards` from the map data.
+Item cards are made for every drop (notes/gen_cards.py -> Wow_FOREVER/items/). The upgrades (>= 5% or empty slot)
+also go to map/<Dungeon> upgrades.json - the interactive map's boss cards show those (run this before interactive_map.py).
 Styles: .wowloot / .wm-item in gaming/.obsidian/snippets/wow.css.
 """
 import argparse
 import html
+import json
 import importlib.util
 import re
 from pathlib import Path
@@ -75,6 +78,132 @@ def card_icon(name):
     return m.group(1).strip() if m else ""
 
 
+# ---------- approx upgrade % vs what each char wears (BagBrother) ----------
+CHARS = {"W": "Karums Warrior", "P": "Karums Priest"}
+NUM = r"([\d.]+)"
+
+
+def stats(item_id, bonus=None):
+    """Rough stat dict from the Wowhead tooltip lines; random suffix without bonus ID -> {"random": 1}."""
+    L = cs.tooltip(item_id, bonus)["lines"]
+    st = {}
+    add = lambda k, v: st.__setitem__(k, st.get(k, 0) + float(v))
+    for l in L:
+        if l.startswith("(") and "Set" in l:
+            continue  # set bonuses
+        if "<Random enchantment>" in l or "Random enchantment" in l:
+            st["random"] = 1
+        for k, pat in (("armor", rf"^\+?{NUM} Armor$"), ("str", rf"^\+{NUM} Strength"), ("agi", rf"^\+{NUM} Agility"),
+                       ("sta", rf"^\+{NUM} Stamina"), ("int", rf"^\+{NUM} Intellect"), ("spi", rf"^\+{NUM} Spirit"),
+                       ("dps", rf"\({NUM} damage per second\)"), ("mp5", rf"Restores \+?{NUM} mana per 5"),
+                       ("ap", rf"\+{NUM} Attack Power\.?$"), ("hit", rf"chance to hit by {NUM}%"),
+                       ("crit", rf"critical strike by {NUM}%"), ("def", rf"Increased Defense \+{NUM}"),
+                       ("heal", rf"healing done by (?:magical spells and effects )?(?:by )?up to {NUM}")):
+            m = re.search(pat, l)
+            if m:
+                add(k, m.group(1))
+    return st
+
+
+def score(c, st, slot=None):
+    if c == "W":
+        s = (st.get("str", 0) + .5 * st.get("agi", 0) + .8 * st.get("sta", 0) + .5 * st.get("ap", 0) + .03 * st.get("armor", 0)
+             + 8 * st.get("hit", 0) + 8 * st.get("crit", 0) + .6 * st.get("def", 0) + .05 * st.get("spi", 0))
+        return s + (7 * st.get("dps", 0) if slot == "Two-Hand" else 0)
+    s = st.get("heal", 0) + 2 * st.get("mp5", 0) + .5 * st.get("int", 0) + .6 * st.get("spi", 0) + .25 * st.get("sta", 0)
+    return s + (.5 * st.get("dps", 0) if slot == "Ranged" else 0)
+
+
+RECIPE = re.compile(r"^(Schematic|Plans|Pattern|Recipe|Formula|Design|Manual)[:\s-]")
+SKIP = {"W": {"One-Hand", "Main Hand", "Off Hand", "Held In Off-hand"}, "P": {"Off Hand"}}
+
+
+def upgrade(c, gear, item_id):
+    """Approx % vs the worn item(s) in that slot: number, "new" (empty slot), "?" (random stats) or None (not for c)."""
+    g = gear.get(CHARS[c])
+    tt = cs.tooltip(item_id)
+    if RECIPE.match(tt["name"]):
+        return None  # recipe tooltips embed the crafted item, slot line included
+    slot, typ, req, _ = cs.describe(tt)
+    if not g or not slot or slot in SKIP[c] or not cs.can_equip(g["class"], slot, typ):
+        return None
+    if c == "W" and (typ in ("Shield", "Wand", "Dagger", "Fist Weapon", "Cloth", "Leather")):
+        return None  # Arms 2H in mail (plate at 40): cloth/leather never beats it
+    new = stats(item_id)
+    if new.get("random"):
+        return "?"
+    sid = cs.SLOT_IDS[slot]
+    worn = [(i, g["gear"].get(i)) for i in sid]
+    if slot == "Two-Hand":  # replaces main + off hand
+        worn = [(i, g["gear"].get(i)) for i in (16, 17)]
+        cur = sum(score(c, stats(w, g["bonus"].get(i)), cs.describe(cs.tooltip(w))[0]) for i, w in worn if w)
+        if any(w and stats(w, g["bonus"].get(i)).get("random") for i, w in worn):
+            return "?"
+    else:
+        if all(w is None for _, w in worn):
+            return "new"
+        olds = []
+        for i, w in worn:
+            if w is None:
+                return "new"
+            ws = stats(w, g["bonus"].get(i))
+            if ws.get("random"):
+                return "?"
+            olds.append(score(c, ws, cs.describe(cs.tooltip(w))[0]))
+        cur = min(olds)  # rings / trinkets: replace the weaker one
+    nw = score(c, new, slot)
+    if cur <= 0:
+        return "new" if nw > 0 else None
+    return round(100 * (nw - cur) / cur)
+
+
+# ---------- who else rolls Need on it (for "Big drops": pick the group around them) ----------
+CLASSES = ("Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "Druid")
+WEARS = {  # who wants this armor / weapon type (Classic rules: hunter/shaman wear leather until 40)
+    "Cloth": {"Priest", "Mage", "Warlock"}, "Leather": {"Rogue", "Druid", "Hunter", "Shaman"},
+    "Mail": {"Warrior", "Paladin", "Hunter", "Shaman"}, "Plate": {"Warrior", "Paladin"},
+    "Wand": {"Priest", "Mage", "Warlock"}, "Shield": {"Warrior", "Paladin", "Shaman"},
+    "Bow": {"Hunter", "Warrior", "Rogue"}, "Crossbow": {"Hunter", "Warrior", "Rogue"}, "Gun": {"Hunter", "Warrior", "Rogue"},
+    "Thrown": {"Warrior", "Rogue"}, "Polearm": {"Warrior", "Paladin", "Hunter"},
+    "Staff": {"Priest", "Mage", "Warlock", "Druid", "Shaman", "Hunter", "Warrior"},
+    "Dagger": {"Rogue", "Mage", "Warlock", "Priest", "Hunter", "Warrior", "Druid", "Shaman"},
+    "Held In Off-hand": {"Priest", "Mage", "Warlock", "Druid", "Shaman", "Paladin"},
+}
+WEAPON_SLOTS = {"Two-Hand", "One-Hand", "Main Hand", "Off Hand", "Ranged", "Thrown"}
+HEALERS = {"Priest", "Paladin", "Druid", "Shaman"}
+CASTERS = {"Priest", "Mage", "Warlock", "Druid", "Shaman", "Paladin"}
+
+
+def rivals(item_id, own=("Warrior", "Priest")):
+    """Classes besides ours that would Need it: armor/weapon type ∩ stats (rough; random suffix -> type only)."""
+    tt = cs.tooltip(item_id)
+    slot, typ, _, _ = cs.describe(tt)
+    by_type = WEARS.get(typ) or WEARS.get(slot) or set(CLASSES)
+    if typ in ("Axe", "Sword", "Mace", "Fist Weapon"):
+        by_type = set(CLASSES) - {"Priest", "Mage", "Warlock"}
+        by_type |= {"Priest"} if typ == "Mace" else set()
+        by_type |= {"Mage", "Warlock"} if typ == "Sword" and slot != "Two-Hand" else set()
+    st, text = stats(item_id), " ".join(tt["lines"])
+    want = set()
+    if "healing done" in text and "damage and healing" not in text:
+        want |= HEALERS
+    if re.search(r"damage (?:and healing )?done by (?:\w+ )?(?:magical )?spells|spell power|Your spells", text, re.I):
+        want |= CASTERS
+    if st.get("int") or st.get("mp5") or (st.get("spi") and not st.get("str") and not st.get("agi")):
+        want |= CASTERS
+    if st.get("str"):
+        want |= {"Warrior", "Paladin", "Shaman", "Druid"}
+    if st.get("agi"):
+        want |= {"Rogue", "Hunter", "Druid", "Shaman"}
+    if st.get("ap") or st.get("crit") or st.get("hit"):
+        want |= {"Warrior", "Rogue", "Hunter", "Paladin", "Shaman"}
+    if st.get("def"):
+        want |= {"Warrior", "Paladin", "Druid"}
+    if st.get("random") or not want:
+        want = set(CLASSES)  # unknown stats: anyone who wears it
+    return [c for c in CLASSES if c in by_type and c in want and c not in own]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("dungeon")
@@ -89,27 +218,56 @@ def main():
         m = re.match(r"(\d+)\.\s*(.+?)(?:\s+—\s+(\d+))?(?:\s+\(.*\))?\s*$", h)
         if m:
             nums[key(m.group(2))], lvls[key(m.group(2))] = m.group(1), m.group(3)
-    ups = im.parse_loot(data) if data else {}
     qr = re.search(r"\n## Quest rewards[^\n]*\n(.*?)(?=\n## |\Z)", text, re.S)
 
     _, bosses = cs.atlasloot_bosses(a.dungeon)
     if not any(b["name"].lower() == "trash" for b in bosses) and (tr := fdj_trash(a.dungeon)):
         bosses.append({"name": "Trash", "level": None, "items": tr})
+    # map-number order; bosses without a number after them, trash last
+    bosses.sort(key=lambda b: (b["name"].lower() == "trash", int(nums.get(key(b["name"]), 999))))
 
     icons = Icons()
 
-    def banner(name, icon, who="", head="", why="", dim=False):
-        """One item = one banner: the full tooltip, always visible; upgrades get a W/P header with the reason."""
+    gear = cs.equipped(list(CHARS.values()))
+
+    def card_id(name):
+        f = VAULT / "items" / f"{name}.md"
+        m = re.search(r"^id: (\d+)", f.read_text(), re.M) if f.exists() else None
+        return int(m.group(1)) if m else None
+
+    def badges(iid):
+        """[(char, pct)] for chars who can use it; pct = int | "new" | "?"."""
+        return [(c, u) for c in CHARS if iid and (u := upgrade(c, gear, iid)) is not None]
+
+    def rank(b):  # sort key: best upgrade first, unknown in the middle, misc last
+        nums = [100 if u == "new" else u for _, u in b if u != "?"]
+        return -(max(nums) if nums else (0 if b else -999))
+
+    found = {}  # boss key -> computed upgrades, for the map's boss cards (map/<Dungeon> upgrades.json)
+
+    def banner(name, icon, head="", dim=False, boss=None):
+        """One item = one banner: the full tooltip, always visible; a header with W/P approx % vs worn gear."""
+        iid = card_id(name)
         tip = im.item_tip(name, icons(icon)).replace('<span class="wm-tip">', '<span class="wm-itip">', 1)
         if not tip:  # no card (shouldn't happen): name only
             tip = f'<span class="wm-itip"><span class="wm-q-{im.item_quality(name)} wm-tip-name">{html.escape(name)}</span></span>'
-        top = ""
-        if who or head or why:
-            top = ('<span class="wm-upg">' + (f'<b class="wm-who wm-{who}">{who}</b>' if who else "")
-                   + (f'<b class="wm-upg-q">{html.escape(head)}</b>' if head else "")
-                   + (f'<span>{html.escape(why)}</span>' if why else "") + "</span>")
-        cls = "wm-item" + (" wm-item-up" if who else "") + (" wm-item-dim" if dim else "")
-        return f'<div class="{cls}">{top}{tip}</div>'
+        b = badges(iid) if not dim else []
+        up = any((u == "new" or (isinstance(u, int) and u >= 5)) for _, u in b)
+        parts = [f'<b class="wm-upg-q">{html.escape(head)}</b>'] if head else []
+        for c, u in b:
+            txt = "empty slot" if u == "new" else ("? random stats" if u == "?" else f"{u:+d}%")
+            cls = "up" if (u == "new" or (isinstance(u, int) and u >= 5)) else ("unk" if u == "?" else "down")
+            parts.append(f'<span class="wm-pct wm-pct-{cls}"><b class="wm-who wm-{c}">{c}</b>{txt}</span>')
+        top = f'<span class="wm-upg">{"".join(parts)}</span>' if parts else ""
+        cls = "wm-item" + (" wm-item-up" if up else "") + (" wm-item-dim" if dim else "")
+        if boss:
+            for c, u in b:
+                if u == "new" or (isinstance(u, int) and u >= 5):
+                    found.setdefault(boss, []).append(dict(who=c, item=name, icon=icon,
+                                                           why="empty slot" if u == "new" else f"{u:+d}%",
+                                                           pct=999 if u == "new" else u, rivals=rivals(iid),
+                                                           weapon=cs.describe(cs.tooltip(iid))[0] in WEAPON_SLOTS))
+        return rank(b), f'<div class="{cls}">{top}{tip}</div>'
 
     out = []  # no title / intro: the note is embedded under `## Loot` of the main note
     for b in bosses:
@@ -118,11 +276,7 @@ def main():
         num, lvl = nums.get(k), lvls.get(k) or b["level"]
         out.append("## Trash (BoE, random)" if trash else
                    f"## {num + '. ' if num else ''}{b['name']}{f' — {lvl}' if lvl else ''}")
-        items, seen = [], set()
-        for u in ups.get(k, []):
-            items.append(banner(u["item"], u["icon"], u["who"], why=u["why"]))
-            seen.add(u["item"])
-        gear, misc = [], []
+        gear_b, misc, seen = [], [], set()
         for iid in dict.fromkeys(b["items"]):
             tt = cs.tooltip(iid)
             if tt.get("err"):
@@ -134,21 +288,25 @@ def main():
             if not (VAULT / "items" / f"{name}.md").exists():
                 cards.build(iid, VAULT / "items", False)
             slot = cs.describe(tt)[0]
-            (gear if slot else misc).append(banner(name, card_icon(name), dim=not slot))
-        out += ['<div class="wowloot"><div class="wm-items">' + "".join(items + gear + misc) + "</div></div>", ""]
+            (gear_b if slot else misc).append(banner(name, card_icon(name), dim=not slot, boss=k if slot else None))
+        rows = [h for _, h in sorted(gear_b, key=lambda x: x[0])] + [h for _, h in misc]
+        out += ['<div class="wowloot"><div class="wm-items">' + "".join(rows) + "</div></div>", ""]
     if qr:
         out.append("## Quest rewards")
         items = []
         for l in (l.strip() for l in qr.group(1).splitlines() if l.strip().startswith("- ")):
-            m = re.match(r"- (?:\[[ x]\] )?(?:([WP]) — )?(.*)", l)
-            who, rest = (m.group(1) or "", m.group(2)) if m else ("", l[2:])
+            rest = re.sub(r"^- (?:\[[ x]\] )?(?:[WP] — )?", "", l)
             quest = re.split(r"\s+—\s+", rest)[0] if not rest.startswith("![[") else ""
-            why = rest.rsplit(" — ", 1)[1] if rest.count(" — ") >= (2 if quest else 1) else ""
             for icon, name in re.findall(ITEM, rest):
-                items.append(banner(name, icon, who, head=quest, why=why))
-        out += ['<div class="wowloot"><div class="wm-items">' + "".join(items) + "</div></div>", ""]
+                items.append(banner(name, icon, head=quest))
+        out += ['<div class="wowloot"><div class="wm-items">' + "".join(h for _, h in sorted(items, key=lambda x: x[0]))
+                + "</div></div>", ""]
 
     note.parent.mkdir(parents=True, exist_ok=True)
+    for v in found.values():
+        v.sort(key=lambda u: -u["pct"])
+    (d / "map").mkdir(exist_ok=True)
+    (d / "map" / f"{a.dungeon} upgrades.json").write_text(json.dumps(found, indent=1, ensure_ascii=False))
     note.write_text("\n".join(out).rstrip() + "\n")
 
     # main note: `## Loot` embeds this note, right above `## Notes` (the links block at the end)
@@ -159,7 +317,7 @@ def main():
         mt = mt.replace("## Notes\n", block + "## Notes\n", 1) if "## Notes\n" in mt else mt.rstrip() + "\n\n" + block
         main.write_text(mt)
         print(f"{main.name}: ## Loot embeds {embed}")
-    print(f"{note}  ({len(bosses)} sections, {sum(len(v) for v in ups.values())} upgrades"
+    print(f"{note}  ({len(bosses)} sections"
           f"{', quest rewards' if qr else ''})")
 
 

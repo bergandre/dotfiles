@@ -34,6 +34,7 @@ Drawn as a dashed red line with direction arrows under the pins. `--preview PNG`
 route + pin dots burnt in (to Read and check positions).
 """
 import argparse
+import json
 import base64
 import html
 import re
@@ -47,6 +48,7 @@ VAULT = Path("~/Documents/obsidian/gaming/Wow_FOREVER").expanduser()
 SITE = "https://foreverchanges.pro"
 UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) wow-cheatsheet"}
 CACHE = Path("~/.cache/wow-bosses").expanduser()
+BIG = 40  # "Big drops" in the TLDR: upgrade % worth picking the group around (any weapon upgrade counts too)
 
 
 def get(url, binary=False):
@@ -153,7 +155,7 @@ def md_inline(t, icons, flags):
         elif am:
             ic = icons.get(am.group(1), "")
             out.append(f'<span class="wm-ab" tabindex="0"><img src="{ic}">'
-                       f'{item_tip(am.group(2), ic, "abilities")}</span> {html.escape(am.group(2))}')
+                       f'{item_tip(am.group(2), ic, "abilities")}</span> {html.escape(re.sub(r" [(]\\d+[)]$", "", am.group(2)))}')
         else:
             out.append(html.escape(tok))
     return "".join(out)
@@ -318,6 +320,10 @@ def main():
     trash = [b for b in bosses if b.get("trash")]
     bosses = [b for b in bosses if not b.get("trash") and b["name"] != "Trash loot"]
     loot = parse_loot(data) if data else {}  # W/P upgrade lines under each boss / `## Trash` of the map data
+    computed = ddir / "map" / f"{a.dungeon} upgrades.json"  # loot_note.py's approx % (wins over hand-written lines)
+    if computed.exists():
+        loot = {k: [dict(who=u["who"], icon=u["icon"], item=u["item"], why=u["why"]) for u in v]
+                for k, v in json.loads(computed.read_text()).items()}
     for b in bosses:
         b["loot"] = loot.get(lkey(b["name"]), b["loot"])
     if loot.get("trash"):
@@ -472,7 +478,8 @@ def main():
             lis = "".join(f'<span class="wm-pt">{p}</span>' for p in pts) + "".join(
                 f'<span class="wm-do wm-do-{r}"><img class="wm-roleb" src="{flags.get(r, "")}">{t}</span>' if r
                 else f'<span class="wm-do">{t}</span>' for r, t in acts)
-            out.append(f'<div class="wm-mob{" wm-danger" if m["imp"] else ""}">{img}<div class="wm-mob-body">'
+            out.append(f'<div class="wm-mob{" wm-danger" if m["imp"] else ""}" id="{anchor(m["name"])}" '
+                       f'data-wm-id="{anchor(m["name"])}">{img}<div class="wm-mob-body">'
                        f'<span class="wm-mob-name">{html.escape(m["name"])}</span>{lis}</div></div>')
         out.append("</div>")
 
@@ -494,6 +501,68 @@ def main():
                        input=map_raw, check=True)
         tmp.unlink()
         print(f"preview: {a.preview}")
+
+    # TLDR (map data `## TLDR`) -> map/<Dungeon> tldr.md, embedded under `## TLDR` of the main note:
+    # **Mob** = portrait chip that jumps to its banner (wowmap-jump plugin), icon + [[Ability]] = hover icon
+    tl = re.search(r"\n## TLDR[^\n]*\n(.*?)(?=\n## |\Z)", data_text, re.S)
+    if tl:
+        refs = {}
+        for b in bosses:
+            if b["name"] in has_banner:
+                f = method_art(main_note.parent, b["name"])
+                refs[b["name"]] = (anchor(b["name"]), data_uri(f.read_bytes(), "jpeg", 82, "40x40") if f else face(b["name"]))
+        for m in trash:
+            f = method_art(main_note.parent, m["name"])
+            refs[m["name"]] = (anchor(m["name"]), data_uri(f.read_bytes(), "jpeg", 82, "40x40") if f else "")
+        words = lambda t: {w.rstrip("s") for w in re.findall(r"[a-z']+", t.lower())} - {"and", "the", "of"}
+
+        def ref(name):
+            """**Name** -> best banner by shared words (plural s ignored): "Necromancers" -> Kirin Tor Necromancer."""
+            want = words(name)
+            best = max(refs, key=lambda r: len(want & words(r)), default=None)
+            if best and len(want & words(best)) >= min(2, len(want)):
+                aid, src = refs[best]
+                img = f'<img class="wm-ref-face" src="{src}">' if src else ""
+                return f'<a class="wm-ref" data-wm-jump="{aid}" href="#{aid}" title="{html.escape(best)}">{img}{html.escape(name)}</a>'
+            return f"<b>{html.escape(name)}</b>"
+
+        rows = []
+        for line in (l.strip()[2:] for l in tl.group(1).splitlines() if l.strip().startswith("- ")):
+            parts = re.split(r"\*\*([^*]+)\*\*", line)
+            rows.append('<div class="wm-tl">' + "".join(ref(x) if i % 2 else md_inline(x, icons, flags)
+                                                      for i, x in enumerate(parts)) + "</div>")
+        # Big drops: boss upgrades >= BIG % (or empty slot) and every weapon upgrade from loot_note.py, + the classes that would roll Need
+        # on them -> decides who to invite (a wand you want = no warlock). Trash drops are random, left out.
+        if computed.exists():
+            names = {lkey(b["name"]): b["name"] for b in bosses}
+            big = {}
+            for k, ups in json.loads(computed.read_text()).items():
+                for u in ups:
+                    if k in names and (u["pct"] >= BIG or u.get("weapon")):
+                        e = big.setdefault(u["item"], dict(u, boss=names[k], whos=[]))
+                        e["whos"].append((u["who"], u["why"]))
+                        e["pct"] = max(e["pct"], u["pct"])
+            if big:
+                bd = []
+                for it in sorted(big.values(), key=lambda e: -e["pct"]):
+                    ic = icons.get(it["icon"], "")
+                    who = "".join(f'<b class="wm-who wm-{c}">{c}</b><span class="wm-why">{html.escape(w)}</span>'
+                                  for c, w in it["whos"])
+                    riv = ", ".join(it.get("rivals") or []) or "nobody"
+                    bd.append(f'<div class="wm-bd"><span class="wm-loot">{who}<img src="{ic}">'
+                              f'<span class="wm-q-{item_quality(it["item"])}">{html.escape(it["item"])}</span>'
+                              f'{item_tip(it["item"], ic)}</span>{ref(it["boss"])}'
+                              f'<span class="wm-riv">rivals: {html.escape(riv)}</span></div>')
+                rows.append('<div class="wm-big"><span class="wm-big-h">Big drops — don\'t bring the rivals</span>'
+                            + "".join(bd) + "</div>")
+        tfile = ddir / "map" / f"{a.dungeon} tldr.md"
+        tfile.write_text('<div class="wowtldr">' + "".join(rows) + "</div>\n")
+        tembed = f"![[{tfile.stem}]]"
+        if tembed not in note:  # main note: `## TLDR` = the embed (its old bullets now live in the map data)
+            note = re.sub(r"## TLDR\n(?:(?!## ).*\n)*", f"## TLDR\n{tembed}\n\n", note, count=1) if "## TLDR\n" in note \
+                else note.replace("## Map\n", f"## TLDR\n{tembed}\n\n## Map\n", 1)
+            main_note.write_text(note)
+            print(f"{main_note.name}: ## TLDR embeds {tembed}")
 
     target = ddir / "map" / f"{a.dungeon} (interactive).md"
     target.parent.mkdir(exist_ok=True)

@@ -11,7 +11,6 @@
     "output": "DP-1",
     "modules-left": [
       "group/left1",
-      "group/left2",
       "group/left4"
     ],
     "modules-right": ["group/right1"]

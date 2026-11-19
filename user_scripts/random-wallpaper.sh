@@ -21,6 +21,10 @@ for i in {1..20}; do
   sleep 0.5
 done
 
+# only talk to connected monitors, hyprpaper errors with "Invalid monitor" otherwise
+ACTIVE_MONITORS=$(hyprctl monitors -j | jq -r '.[].name')
+set_wp() { grep -qx "$1" <<< "$ACTIVE_MONITORS" && hyprctl hyprpaper wallpaper "$1,$2"; }
+
 PORTRAIT_WP=$(find "$PORTRAIT_DIR" -type f ! -ipath '*/archive/*' | shuf -n 1)
 TELEVISION_WP=$(find "$TELEVISION_DIR" -type f ! -ipath '*/archive/*' | shuf -n 1)
 
@@ -39,17 +43,16 @@ do
 	echo "$MON" 
       	WP="${FILES[RANDOM % ${#FILES[@]}]}"
   echo "$WP"
-  hyprctl hyprpaper wallpaper "$MON,$WP"
+  set_wp "$MON" "$WP"
   MON_WP[$MON]="$WP"
 done
 
 
-hyprctl hyprpaper wallpaper "$PORTRAIT_MONITOR, $PORTRAIT_WP"
-hyprctl hyprpaper wallpaper "$TELEVISION_MONITOR, $TELEVISION_WP"
+set_wp "$PORTRAIT_MONITOR" "$PORTRAIT_WP"
+set_wp "$TELEVISION_MONITOR" "$TELEVISION_WP"
 MON_WP[$PORTRAIT_MONITOR]="$PORTRAIT_WP"
 MON_WP[$TELEVISION_MONITOR]="$TELEVISION_WP"
 
-ACTIVE_MONITORS=$(hyprctl monitors -j | jq -r '.[].name')
 for MON in "${COLOR_PRIORITY[@]}";
 do
   if grep -qx "$MON" <<< "$ACTIVE_MONITORS"; then

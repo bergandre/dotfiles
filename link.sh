@@ -72,3 +72,8 @@ echo
 echo "# tty1 autologin (replaces sddm), run as root:"
 echo "sudo install -Dm644 \"$DOTFILES/etc/systemd/system/getty@tty1.service.d/autologin.conf\" /etc/systemd/system/getty@tty1.service.d/autologin.conf"
 echo "sudo systemctl disable sddm"
+
+echo
+echo "# lact GPU fan curve (copy, lactd rewrites its config), run as root:"
+echo "sudo install -Dm644 \"$DOTFILES/lact/config.yaml\" /etc/lact/config.yaml"
+echo "sudo systemctl enable --now lactd"

@@ -1,0 +1,27 @@
+version: 7
+daemon:
+  log_level: info
+  admin_group: wheel
+  disable_clocks_cleanup: false
+apply_settings_timer: 5
+gpus:
+  # RTX 4090; ID from `lact cli list-gpus`
+  10DE:2684-10DE:167C-0000:01:00.0:
+    fan_control_enabled: true
+    fan_control_settings:
+      mode: curve
+      static_speed: 0.5
+      temperature_key: GPU
+      interval_ms: 500
+      # temp °C: fan speed (0-1); 0.30 is the driver minimum, throttling starts at 84 °C
+      curve:
+        50: 0.30
+        60: 0.35
+        70: 0.45
+        78: 0.60
+        84: 0.85
+      # wait 5 s before lowering speed, ignore changes under 2 °C
+      spindown_delay_ms: 5000
+      change_threshold: 2
+current_profile: null
+auto_switch_profiles: false

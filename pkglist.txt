@@ -107,6 +107,7 @@ kdenlive
 keyd
 kio-extras
 kubectl
+lact
 lazygit
 lib32-gdk-pixbuf2
 lib32-gtk2

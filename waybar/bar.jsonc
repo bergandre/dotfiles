@@ -16,7 +16,7 @@
   "group/left1": {
     "orientation": "inherit",
     "modules": [
-      "idle_inhibitor"
+      "custom/idle-indicator"
     ]
   },
   "group/left3": {
@@ -174,12 +174,13 @@
     "interval": 1,
     "tooltip": false
   },
-  "idle_inhibitor": {
-    "format": "{icon}",
-    "format-icons": {
-      "activated": "󰛊",
-      "deactivated": "󰾪"
-    }
+  // hypridle ignores app inhibitors, so the override stops hypridle itself (see the script)
+  "custom/idle-indicator": {
+    "exec": "~/.config/waybar/scripts/idle-toggle.sh",
+    "return-type": "json",
+    "interval": 5,
+    "signal": 10,
+    "on-click": "~/.config/waybar/scripts/idle-toggle.sh toggle"
   },
   "cpu": {
     "interval": 2,

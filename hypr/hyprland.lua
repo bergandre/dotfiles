@@ -158,10 +158,10 @@ hl.device({
 	kb_options = "grp:CTRL_space_toggle,altwin:swap_alt_win",
 })
 
--- keyd re-emits every keyboard it grabs; alt/meta swaps live in keyd/*.conf (nuphy), not here
+-- keyd re-emits every keyboard it grabs: the alt/win swap happens here, keyd/*.conf don't swap
 hl.device({
 	name = "keyd-virtual-keyboard",
-	kb_options = "grp:ctrl_space_toggle",
+	kb_options = "grp:ctrl_space_toggle,altwin:swap_alt_win",
 })
 
 --░█▄█░█▀█░█▀█░▀█▀░▀█▀░█▀█░█▀▄░█▀▀

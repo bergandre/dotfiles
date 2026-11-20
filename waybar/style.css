@@ -5,7 +5,7 @@
   border: none;
   border-radius: 0px;
   min-height: 24px;
-  font-family: 'JetBrainsMono Nerd Font';
+  font-family: 'JetBrainsMono Nerd Font', 'Waybar Icons';
   font-weight: 500;
   font-size: 15px;
 }

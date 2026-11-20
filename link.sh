@@ -52,6 +52,9 @@ link user_scripts/backlog-watcher.py "$HOME/.local/bin/backlog-watcher.py"
 link user_scripts/random-wallpaper.sh "$HOME/.local/bin/random-wallpaper.sh"
 link user_scripts/audio-out.sh "$HOME/.local/bin/audio-out.sh"
 
+## fonts
+link waybar/fonts/waybar-icons.otf "$HOME/.local/share/fonts/waybar-icons.otf"
+
 ## systemd user units
 SYSTEMD_USER="$HOME/.config/systemd/user"
 link systemd-services/random-wallpaper.service "$SYSTEMD_USER/random-wallpaper.service"

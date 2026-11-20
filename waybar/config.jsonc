@@ -3,7 +3,16 @@
 [
   {
     "include": "~/.config/waybar/bar.jsonc",
-    "output": "!DP-1"
+    "output": ["!DP-1", "!DP-2", "*"]
+  },
+  {
+    // DP-2 is the top monitor: data drives in the storage pill instead of / and ~
+    "include": "~/.config/waybar/bar.jsonc",
+    "output": "DP-2",
+    "group/right5": {
+      "orientation": "inherit",
+      "modules": ["disk#datassd", "disk#datahdd"]
+    }
   },
   {
     // DP-1 is the portrait monitor: no window class, no countdown, no music

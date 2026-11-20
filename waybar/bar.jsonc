@@ -230,6 +230,23 @@
     "tooltip-format": "/home {used} / {total} used ({percentage_used}%)",
     "states": { "warning": 85, "critical": 95 }
   },
+  // data drives: shown on DP-2 instead of root/home (see config.jsonc)
+  "disk#datassd": {
+    "path": "/dataSSD",
+    "interval": 30,
+    "format": "󰋊 ssd {specific_free:0.0f}G",
+    "unit": "GiB",
+    "tooltip-format": "/dataSSD {used} / {total} used ({percentage_used}%)",
+    "states": { "warning": 85, "critical": 95 }
+  },
+  "disk#datahdd": {
+    "path": "/dataHDD",
+    "interval": 30,
+    "format": "󰋊 hdd {specific_free:0.0f}G",
+    "unit": "GiB",
+    "tooltip-format": "/dataHDD {used} / {total} used ({percentage_used}%)",
+    "states": { "warning": 85, "critical": 95 }
+  },
   "custom/gpu": {
     "exec": "~/.config/waybar/scripts/gpu.sh",
     "interval": 2,

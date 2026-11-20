@@ -1,2 +1,1 @@
-com.usebottles.bottles
 org.ryujinx.Ryujinx

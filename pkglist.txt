@@ -18,6 +18,7 @@ blueman
 bluez
 bluez-deprecated-tools
 bluez-utils
+bottles
 brightnessctl
 bspwm
 btop

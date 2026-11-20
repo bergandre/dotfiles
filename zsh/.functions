@@ -6,7 +6,10 @@ ls() {
 
 # splits of one Ghostty window share its window id (Hyprland on linux, yabai on mac), so the note
 # is stored per window and a new pane loads it on startup (the window is still focused right after the split key)
-if [[ $TERM_PROGRAM == ghostty ]]; then
+# PANE_NOTE_FILE is exported so child processes (claude's statusline, its `!` shell) find the same file
+if [[ -n $PANE_NOTE_FILE ]]; then
+  _note_file=$PANE_NOTE_FILE
+elif [[ $TERM_PROGRAM == ghostty ]]; then
   if (( $+commands[hyprctl] )); then
     _note_win=$(hyprctl activewindow -j 2>/dev/null | jq -r 'select(.class == "com.mitchellh.ghostty") | .address')
   elif (( $+commands[yabai] )); then
@@ -14,16 +17,17 @@ if [[ $TERM_PROGRAM == ghostty ]]; then
   fi
   # macOS has no XDG_RUNTIME_DIR, $TMPDIR is its per-user temp dir
   [[ -n $_note_win ]] && _note_file="${XDG_RUNTIME_DIR:-$TMPDIR}/pane-notes/$_note_win"
-  [[ -r $_note_file ]] && export PANE_NOTE=$(<$_note_file)
 fi
+[[ -n $_note_file ]] && export PANE_NOTE_FILE=$_note_file
+[[ -r $_note_file ]] && export PANE_NOTE=$(<$_note_file)
 
 note() {
   if (( $# == 0 )); then
     unset PANE_NOTE
-    [[ -n $_note_file ]] && rm -f "$_note_file"
+    [[ -n $PANE_NOTE_FILE ]] && rm -f "$PANE_NOTE_FILE"
   else
     export PANE_NOTE="$*"
-    [[ -n $_note_file ]] && mkdir -p "${_note_file:h}" && print -r -- "$*" > "$_note_file"
+    [[ -n $PANE_NOTE_FILE ]] && mkdir -p "${PANE_NOTE_FILE:h}" && print -r -- "$*" > "$PANE_NOTE_FILE"
   fi
 }
 

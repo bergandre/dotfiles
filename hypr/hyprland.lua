@@ -636,6 +636,7 @@ hl.bind(mainMod .. " + " .. "R", hl.dsp.exec_cmd("wofi --show drun"))
 hl.bind(mainMod .. " + " .. "Return", hl.dsp.exec_cmd("ghostty"))
 hl.bind(mainMod .. " + " .. "Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "Q", hl.dsp.window.kill())
+hl.bind(mainMod .. " + " .. "CTRL" .. " + " .. "Q", hl.dsp.exec_cmd("loginctl lock-session"))
 hl.bind(mainMod .. " + " .. "M", hl.dsp.exit())
 hl.bind(mainMod .. " + " .. "E", hl.dsp.exec_cmd("dolphin"))
 -- wl-kbptr: hints on detected elements / grid for precise clicks
@@ -849,7 +850,7 @@ hl.bind(mainMod .. " + " .. "mouse:273", hl.dsp.window.resize(), { mouse = true 
 -- Autostart
 hl.on("hyprland.start", function()
 	-- tty1 autologins, so the lock screen is the login
-	hl.exec_cmd("hyprlock -c ~/.config/hypr/hyprlock-login.conf")
+	hl.exec_cmd("hyprlock")
 	hl.exec_cmd("spotify")
 	--	hl.exec_cmd("steam")
 	-- hl.exec_cmd("obsidian")

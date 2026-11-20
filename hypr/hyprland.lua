@@ -728,6 +728,15 @@ hl.bind(hyper .. " + " .. "i", hl.dsp.exec_cmd("playerctl --player=firefox volum
 -- waybar sits on the overlay layer (above fullscreen games): hyper + O shows/hides it
 hl.bind(hyper .. " + " .. "O", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar"))
 
+-- keyboard volume keys -> default sink (whatever output is active), capped at 100%
+
+hl.bind(
+	"XF86AudioRaiseVolume",
+	hl.dsp.exec_cmd("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 1%+"),
+	{ repeating = true }
+)
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-"), { repeating = true })
+
 -- WoW: hyper + keys -> WoW on the top monitor (naga side grid + rshift/rctrl via keyd/naga.conf)
 dofile(os.getenv("HOME") .. "/.config/hypr/wow.lua")(hyper, top_monitor)
 

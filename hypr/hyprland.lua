@@ -802,6 +802,12 @@ hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "END", hl.dsp.window.move({ work
 hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "PAGE_UP", hl.dsp.window.move({ workspace = 24 }))
 hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "PAGE_DOWN", hl.dsp.window.move({ workspace = 25 }))
 
+-- audio outputs, same key order
+hl.bind(hyper .. " + " .. "DELETE", hl.dsp.exec_cmd("$HOME/.local/bin/audio-out.sh arctis"))
+hl.bind(hyper .. " + " .. "HOME", hl.dsp.exec_cmd("$HOME/.local/bin/audio-out.sh razer"))
+hl.bind(hyper .. " + " .. "END", hl.dsp.exec_cmd("$HOME/.local/bin/audio-out.sh soundbar"))
+hl.bind(hyper .. " + " .. "PAGE_UP", hl.dsp.exec_cmd("$HOME/.local/bin/audio-out.sh hdmi"))
+
 -- focus
 
 hl.bind(mainMod .. " + " .. "left", hl.dsp.focus({ direction = "left" }))

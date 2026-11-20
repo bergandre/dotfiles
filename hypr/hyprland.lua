@@ -724,6 +724,9 @@ hl.bind(hyper .. " + " .. "SEMICOLON", hl.dsp.exec_cmd("playerctl --player=firef
 hl.bind(hyper .. " + " .. "j", hl.dsp.exec_cmd("playerctl --player=firefox volume .1-"))
 hl.bind(hyper .. " + " .. "i", hl.dsp.exec_cmd("playerctl --player=firefox volume .1+"))
 
+-- waybar sits on the overlay layer (above fullscreen games): hyper + O shows/hides it
+hl.bind(hyper .. " + " .. "O", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar"))
+
 -- WoW: hyper + keys -> WoW on the top monitor (naga side grid + rshift/rctrl via keyd/naga.conf)
 dofile(os.getenv("HOME") .. "/.config/hypr/wow.lua")(hyper, top_monitor)
 

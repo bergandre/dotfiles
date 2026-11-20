@@ -1,5 +1,6 @@
 {
   "exclusive": true,
+  "layer": "overlay",
   "reload_style_on_change": true,
   "position": "top",
   "spacing": 4,

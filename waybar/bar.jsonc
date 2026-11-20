@@ -67,6 +67,7 @@
       "bluetooth",
       "pulseaudio#output",
       "pulseaudio#input",
+      "hyprland/language",
       "clock"
     ]
   },
@@ -267,6 +268,10 @@
       "🌖",
       "🌕"
     ]
+  },
+  // active keyboard layout: us / ru / lv
+  "hyprland/language": {
+    "format": "{short}"
   },
   "clock": {
     "format": "{:%d/%m/%Y  %H:%M}",

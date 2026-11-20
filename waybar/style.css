@@ -21,7 +21,7 @@ window#waybar > box {
   background-color: alpha(@background, 0.7);
 }
 
-#left1, #left2, #left3, #left4, #right1, #right2, #right3, #right4, #right5 {
+#left1, #left2, #left3, #left4, #left6, #right1, #right2, #right3, #right4, #right5 {
   background-color: alpha(@foreground, 0.1);
   margin: 4px 2px;
   padding: 0px 8px; 
@@ -33,7 +33,7 @@ margin-left: 4px;
   border-radius: 10px 4px 4px 10px;
 }
 
-#left2, #left3, #left4, #right2, #right3, #right4, #right5 {
+#left2, #left3, #left4, #left6, #right2, #right3, #right4, #right5 {
  border-radius: 4px;
   padding: 0px 10px; 
 }
@@ -122,6 +122,7 @@ button:hover {
 #custom-pomotui,
 #custom-countdown,
 #custom-window-audio,
+#custom-audio-out,
 #idle_inhibitor,
 #custom-updatespacman,
 #custom-launcher,

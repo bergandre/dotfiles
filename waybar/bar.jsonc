@@ -11,7 +11,8 @@
     "group/left3",
     "group/left4",
     "group/left5",
-    "custom/news"
+    "custom/news",
+    "group/left6"
   ],
   "group/left1": {
     "orientation": "inherit",
@@ -30,6 +31,10 @@
   "group/left5": {
     "orientation": "inherit",
     "modules": ["custom/countdown"]
+  },
+  "group/left6": {
+    "orientation": "inherit",
+    "modules": ["custom/audio-out"]
   },
   "modules-center": [
     "hyprland/workspaces"
@@ -181,6 +186,12 @@
     "interval": 5,
     "signal": 10,
     "on-click": "~/.config/waybar/scripts/idle-toggle.sh toggle"
+  },
+  // default audio output; script listens to pactl subscribe, so no interval
+  "custom/audio-out": {
+    "exec": "~/.config/waybar/scripts/audio-out.sh",
+    "return-type": "json",
+    "on-click": "pavucontrol"
   },
   "cpu": {
     "interval": 2,

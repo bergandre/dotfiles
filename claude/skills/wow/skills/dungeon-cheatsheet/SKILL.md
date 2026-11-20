@@ -44,7 +44,8 @@ floor, the entrance, floor transitions (ladders, "Level 2") and NPCs inside - be
 (Dalaran: Atrexis was on the wrong side). For dungeons with the addon's own art (Forever-only ones: Dalaran,
 Excavation Site, Ruins of Lordaeron, Drowned City, Hall of Thanes, Blackmaw Hold, ...) it builds
 `map/<Dungeon> map.png` (floors side by side, "Level n") and `--write` sets `map:` + all `kind: boss` pins in the
-main note. Use its entrance / transitions as route anchors. Classic dungeons use the client's map tiles (not
+main note. Use its entrance / transitions as route anchors. `--write` needs the main note to exist (create a skeleton first) and writes names
+unquoted: quote names starting with `"` (`'"Pyromancer" Braxton'`) or YAML breaks. Classic dungeons use the client's map tiles (not
 extractable) -> it only prints positions; use cheatsheet.py's map there.
 ```
 python3 -I cheatsheet.py "<Dungeon>" [--slug <foreverchanges-slug>] [--chars "Karums Warrior,Karums Priest"] [--no-map]
@@ -130,6 +131,8 @@ reports it. Then per boss in map order:
 
 - [ ] W — ![[<icon>|inline]] [[<Item>]] — <why, vs what is worn>      <- upgrades (3b)
 ```
+Level unknown (Forever-only bosses) -> drop ` — <level>`: anything but digits there becomes part of the boss name
+and its pin no longer matches ("N without pin").
 Then `## Trash` - one line per mob type, shown as a trash banner:
 `- [ej-important] **<Mob>** — <point>, <icon> [[<Ability>]] <effect> → [ej-tank] <tank does>; [ej-healer] <healer does>`
 (points split on ", " - no commas inside a point; actions split on ";", a leading role flag = shield/cross/sword

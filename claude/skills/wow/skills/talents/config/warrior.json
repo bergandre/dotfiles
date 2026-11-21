@@ -1,0 +1,466 @@
+{
+ "class": "warrior",
+ "source": "method.gg Forever talent embeds (Babyhoof, Patch 1.60.1, Nov 2026)",
+ "trees": [
+  {
+   "name": "Arms",
+   "bg": 161
+  },
+  {
+   "name": "Fury",
+   "bg": 164
+  },
+  {
+   "name": "Protection",
+   "bg": 163
+  }
+ ],
+ "talents": [
+  {
+   "did": 105926,
+   "spell": 20504,
+   "max": 2,
+   "tree": 1,
+   "tier": 4,
+   "col": 3
+  },
+  {
+   "did": 105927,
+   "spell": 12328,
+   "max": 1,
+   "tree": 1,
+   "tier": 4,
+   "col": 1
+  },
+  {
+   "did": 105928,
+   "spell": 12319,
+   "max": 3,
+   "tree": 1,
+   "tier": 5,
+   "col": 2
+  },
+  {
+   "did": 105930,
+   "spell": 23881,
+   "max": 1,
+   "tree": 1,
+   "tier": 6,
+   "col": 1
+  },
+  {
+   "did": 105931,
+   "spell": 12317,
+   "max": 5,
+   "tree": 1,
+   "tier": 2,
+   "col": 3
+  },
+  {
+   "did": 105932,
+   "spell": 20502,
+   "max": 2,
+   "tree": 1,
+   "tier": 3,
+   "col": 3
+  },
+  {
+   "did": 105933,
+   "spell": 23584,
+   "max": 5,
+   "tree": 1,
+   "tier": 3,
+   "col": 0
+  },
+  {
+   "did": 105934,
+   "spell": 16487,
+   "max": 3,
+   "tree": 1,
+   "tier": 2,
+   "col": 2
+  },
+  {
+   "did": 105935,
+   "spell": 12323,
+   "max": 1,
+   "tree": 1,
+   "tier": 2,
+   "col": 1
+  },
+  {
+   "did": 105937,
+   "spell": 12322,
+   "max": 5,
+   "tree": 1,
+   "tier": 1,
+   "col": 2
+  },
+  {
+   "did": 105938,
+   "spell": 12321,
+   "max": 5,
+   "tree": 1,
+   "tier": 0,
+   "col": 1
+  },
+  {
+   "did": 105939,
+   "spell": 12320,
+   "max": 5,
+   "tree": 1,
+   "tier": 0,
+   "col": 2
+  },
+  {
+   "did": 105941,
+   "spell": 12294,
+   "max": 1,
+   "tree": 0,
+   "tier": 6,
+   "col": 1
+  },
+  {
+   "did": 105942,
+   "spell": 12289,
+   "max": 3,
+   "tree": 0,
+   "tier": 5,
+   "col": 2
+  },
+  {
+   "did": 105944,
+   "spell": 1290261,
+   "max": 5,
+   "tree": 0,
+   "tier": 4,
+   "col": 2
+  },
+  {
+   "did": 105945,
+   "spell": 12292,
+   "max": 1,
+   "tree": 0,
+   "tier": 4,
+   "col": 1
+  },
+  {
+   "did": 105947,
+   "spell": 16493,
+   "max": 2,
+   "tree": 0,
+   "tier": 3,
+   "col": 2
+  },
+  {
+   "did": 105948,
+   "spell": 12163,
+   "max": 3,
+   "tree": 0,
+   "tier": 3,
+   "col": 1
+  },
+  {
+   "did": 105949,
+   "spell": 1310222,
+   "max": 1,
+   "tree": 0,
+   "tier": 3,
+   "col": 0
+  },
+  {
+   "did": 105950,
+   "spell": 12834,
+   "max": 3,
+   "tree": 0,
+   "tier": 2,
+   "col": 2
+  },
+  {
+   "did": 105951,
+   "spell": 12296,
+   "max": 1,
+   "tree": 0,
+   "tier": 2,
+   "col": 1
+  },
+  {
+   "did": 105952,
+   "spell": 12290,
+   "max": 2,
+   "tree": 0,
+   "tier": 1,
+   "col": 3
+  },
+  {
+   "did": 105953,
+   "spell": 1323963,
+   "max": 3,
+   "tree": 1,
+   "tier": 2,
+   "col": 0
+  },
+  {
+   "did": 105954,
+   "spell": 12295,
+   "max": 3,
+   "tree": 0,
+   "tier": 1,
+   "col": 1
+  },
+  {
+   "did": 105955,
+   "spell": 12285,
+   "max": 2,
+   "tree": 0,
+   "tier": 1,
+   "col": 0
+  },
+  {
+   "did": 105956,
+   "spell": 12286,
+   "max": 3,
+   "tree": 0,
+   "tier": 0,
+   "col": 2
+  },
+  {
+   "did": 105957,
+   "spell": 16462,
+   "max": 5,
+   "tree": 0,
+   "tier": 0,
+   "col": 1
+  },
+  {
+   "did": 105958,
+   "spell": 12282,
+   "max": 3,
+   "tree": 0,
+   "tier": 0,
+   "col": 0
+  },
+  {
+   "did": 105959,
+   "spell": 23922,
+   "max": 1,
+   "tree": 2,
+   "tier": 6,
+   "col": 1
+  },
+  {
+   "did": 105961,
+   "spell": 29787,
+   "max": 3,
+   "tree": 2,
+   "tier": 4,
+   "col": 2
+  },
+  {
+   "did": 105962,
+   "spell": 16538,
+   "max": 5,
+   "tree": 2,
+   "tier": 5,
+   "col": 2
+  },
+  {
+   "did": 105963,
+   "spell": 12311,
+   "max": 2,
+   "tree": 2,
+   "tier": 3,
+   "col": 2
+  },
+  {
+   "did": 105964,
+   "spell": 12312,
+   "max": 2,
+   "tree": 2,
+   "tier": 4,
+   "col": 0
+  },
+  {
+   "did": 105965,
+   "spell": 12809,
+   "max": 1,
+   "tree": 2,
+   "tier": 4,
+   "col": 1
+  },
+  {
+   "did": 105966,
+   "spell": 1310317,
+   "max": 1,
+   "tree": 2,
+   "tier": 3,
+   "col": 1
+  },
+  {
+   "did": 105967,
+   "spell": 12313,
+   "max": 3,
+   "tree": 2,
+   "tier": 2,
+   "col": 2
+  },
+  {
+   "did": 105968,
+   "spell": 12308,
+   "max": 3,
+   "tree": 2,
+   "tier": 3,
+   "col": 0
+  },
+  {
+   "did": 105969,
+   "spell": 12797,
+   "max": 3,
+   "tree": 2,
+   "tier": 1,
+   "col": 2
+  },
+  {
+   "did": 105970,
+   "spell": 12975,
+   "max": 1,
+   "tree": 2,
+   "tier": 2,
+   "col": 0
+  },
+  {
+   "did": 105971,
+   "spell": 1310316,
+   "max": 2,
+   "tree": 2,
+   "tier": 2,
+   "col": 1
+  },
+  {
+   "did": 105972,
+   "spell": 12287,
+   "max": 3,
+   "tree": 2,
+   "tier": 1,
+   "col": 3
+  },
+  {
+   "did": 105974,
+   "spell": 12301,
+   "max": 2,
+   "tree": 2,
+   "tier": 0,
+   "col": 0
+  },
+  {
+   "did": 105975,
+   "spell": 12297,
+   "max": 5,
+   "tree": 2,
+   "tier": 1,
+   "col": 0
+  },
+  {
+   "did": 105976,
+   "spell": 12298,
+   "max": 5,
+   "tree": 2,
+   "tier": 0,
+   "col": 1
+  },
+  {
+   "did": 105977,
+   "spell": 1310315,
+   "max": 2,
+   "tree": 1,
+   "tier": 5,
+   "col": 0
+  },
+  {
+   "did": 105978,
+   "spell": 20500,
+   "max": 2,
+   "tree": 1,
+   "tier": 4,
+   "col": 0
+  },
+  {
+   "did": 110524,
+   "spell": 1289682,
+   "max": 2,
+   "tree": 0,
+   "tier": 4,
+   "col": 0
+  },
+  {
+   "did": 110856,
+   "spell": 12792,
+   "max": 3,
+   "tree": 2,
+   "tier": 2,
+   "col": 3
+  },
+  {
+   "did": 110857,
+   "spell": 1323964,
+   "max": 5,
+   "tree": 1,
+   "tier": 1,
+   "col": 1
+  },
+  {
+   "did": 110858,
+   "spell": 12862,
+   "max": 2,
+   "tree": 0,
+   "tier": 5,
+   "col": 0
+  },
+  {
+   "did": 113569,
+   "spell": 1323967,
+   "max": 2,
+   "tree": 1,
+   "tier": 4,
+   "col": 2
+  },
+  {
+   "did": 113570,
+   "spell": 12962,
+   "max": 5,
+   "tree": 2,
+   "tier": 0,
+   "col": 2
+  },
+  {
+   "did": 113636,
+   "spell": 1329555,
+   "max": 1,
+   "tree": 1,
+   "tier": 3,
+   "col": 1
+  }
+ ],
+ "builds": {
+  "arms_level": {
+   "title": "Arms \u2014 leveling (Method leveling guide)",
+   "order": "ZZZaaVVXXXUTTTYRRRSYPuuOOxxOOOMLLLLLwwwwwEEEEEaaapp",
+   "url": "https://www.method.gg/wow-forever/wow-forever-warrior-leveling-guide-and-talents"
+  },
+  "arms_end": {
+   "title": "Arms \u2014 standard end build (Method)",
+   "order": "ZZZbbXXXVVUTTTbRRRQQSPuuOOOOOxxMLLLLLJJJJJEEEEE0FFw",
+   "url": "https://www.method.gg/wow-forever/class-guides/arms-warrior/talents"
+  },
+  "prot_dungeon": {
+   "title": "Protection \u2014 standard dungeon build (Method)",
+   "order": "LLLLLJJJJJEEEEErrrrrlllooonnvvvmiffhddgeeeeegcIdaa0",
+   "url": "https://www.method.gg/wow-forever/class-guides/protection-warrior/talents"
+  },
+  "prot_dungeon_40": {
+   "title": "Protection \u2014 dungeon build cut to 31 points: Protection tree only, tier order, Improved Shield Wall 1/2",
+   "order": "rrrrrlllooomnnvvviffghdddeeeeec",
+   "url": "https://www.method.gg/wow-forever/class-guides/protection-warrior/talents"
+  }
+ }
+}

@@ -8,6 +8,11 @@
 - Я учусь: когда используешь неочевидный приём, одной строкой поясни почему.
 
 ## Working style
+- Any todo I mention goes to TickTick (skill ticktick:add) — never into notes or files.
+
+## Obsidian
+Where notes go (local file, not in this repo):
+@~/.claude/obsidian-vaults.md
 
 ## Git / commits
 

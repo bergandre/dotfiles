@@ -2,7 +2,7 @@
 
 usage:
   python3 -I gather_zones.py <prof> --stats        per route zone: nodes, share, skill for half / all nodes
-  python3 -I gather_zones.py <prof> [--shift N]    write professions/<prof>.md + zone maps, stamp item cards
+  python3 -I gather_zones.py <prof> [--shift N]    write professions/<prof>/<prof>.md + zone maps, stamp item cards
 
 <prof> = herbalism | mining. Judgment (arrival skill per zone, Targets rows, char) lives in config/<prof>.json.
 --shift N moves yellow/green/grey by N after the user compares tooltip colours in-game.
@@ -319,7 +319,7 @@ def main():
         order = sorted(cnt, key=lambda n: defs[n][2])
         colour_of = {n: PALETTE[i % len(PALETTE)] for i, n in enumerate(order)}
         img = f"{zone} {suffix}.png"
-        draw_map(VAULT / "professions/maps" / img, area, pts, colour_of)
+        draw_map(VAULT / "professions" / a.prof / "maps" / img, area, pts, colour_of)  # professions/<prof>/maps/
         md += ["", f"## {head[zone]}", f"![[{img}]]", "",
                f"| | {col} | Share | Pick | Yellow | Green | Grey |", "|---|---|---|---|---|---|---|"]
         for n in order:
@@ -327,10 +327,10 @@ def main():
             share = f"{share:.0f}%" if share >= 1 else "<1%"
             md.append(f'| <span class="dot" style="color:{colour_of[n]}">●</span> | {link(n)} | {share} | '
                       f"{colour_cells(defs[n][2], a.shift)} |")
-    out = VAULT / "professions" / f"{a.prof}.md"
+    out = VAULT / "professions" / a.prof / f"{a.prof}.md"  # one folder per profession
     out.write_text("\n".join(md) + "\n", encoding="utf-8")
     write_benchmarks()
-    print(f"wrote {out} + maps in professions/maps/ + professions/profession-benchmarks.md")
+    print(f"wrote {out} + maps in professions/{a.prof}/maps/ + professions/profession-benchmarks.md")
 
 
 main()

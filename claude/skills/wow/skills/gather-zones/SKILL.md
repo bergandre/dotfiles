@@ -5,10 +5,10 @@ description: Build a WoW Forever gathering-profession note (Herbalism, Mining) i
 
 # Gathering zone note (WoW Forever)
 
-Output: `~/Documents/obsidian/gaming/Wow_FOREVER/professions/<prof>.md`, maps in `professions/maps/<Zone> <herbs|ore>.png`,
-`Requires <Prof> N` + colour line on each item card in `items/`. Reference results: `professions/herbalism.md`, `professions/mining.md`.
+Output: `~/Documents/obsidian/gaming/Wow_FOREVER/professions/<prof>/<prof>.md`, maps in `professions/<prof>/maps/<Zone> <herbs|ore>.png`,
+`Requires <Prof> N` + colour line on each item card in `items/`. Reference results: `professions/herbalism/herbalism.md`, `professions/mining/mining.md`.
 Every run also rewrites `professions/profession-benchmarks.md`: skill to have at every level 1-60 for **every**
-profession (alts have other profs), header links to `professions/<prof>.md`. Columns = `BENCH_GROUPS` in the script
+profession (alts have other profs), header links to `professions/<prof>/<prof>.md`. Columns = `BENCH_GROUPS` in the script
 (user's order: Mining/Blacksmithing/Engineering | Cooking/Fishing | Herbalism/Alchemy | Skinning/Leatherworking |
 Tailoring/Enchanting/First Aid):
 Herbalism/Mining = Targets from config interpolated between levels; Skinning = skill to skin mobs of your level

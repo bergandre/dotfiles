@@ -47,7 +47,7 @@ Items: inline icon + link like `notes` does, reuse `items/` cards, make new ones
 ```
 # <Dungeon> — quests
 - [[<Dungeon>]] · objectives inside are the yellow ! pins on the map
-- <level / faction notes, e.g. "Gear drops → [[warrior weapons]]">
+- <level / faction notes, e.g. "Gear drops → [[warrior weapons - arms|arms]] · [[warrior weapons - prot|prot]] weapons">
 
 ## Pick up
 ### <Town>

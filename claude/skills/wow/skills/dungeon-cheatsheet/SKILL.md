@@ -31,7 +31,7 @@ There is no separate tactics note: the map's banners show the map data. Game dat
 4. `loot_note.py` - loot note + `## Loot` embed in the main note
 5. main note: frontmatter pins + **route** (required), TLDR (section 4); quests note via `dungeon-quests`
 6. `interactive_map.py` - map + banners, `--preview` the route (section 5)
-Done = route on the map, TLDR, map, loot, quests note. Back up existing notes to the scratchpad before rewriting.
+Done = route on the map, TLDR, map, loot, quests note.
 Scripts live in `~/.claude/skills/wow/skills/dungeon-cheatsheet/`; run them with `python3 -I`.
 
 ## 1. Collect data
@@ -149,7 +149,7 @@ The loot note computes this itself (approx % per char, below); hand-written line
 - Warrior = Arms 2H, levels as the duo's tank in Def/Battle stance: Str, 2H DPS, Sta, armor. No 1H/shields.
 - Priest = healer: +healing, Int, Spirit, Sta. Cloth only. Note empty slots (free upgrades).
 - Random-suffix gear (`<Random enchantment>`) - stats unknown, say so.
-- Check `warrior weapons.md` / `<class> <slot>.md` notes - tick or link if the item is already planned there.
+- Check `characters/<Char>/<class> weapons - <spec>.md` notes (e.g. `warrior weapons - arms` / `- prot`) - mark Got or link if the item is already an option there.
 Write them as `- [ ] W — ...` lines at the end of the boss's section / `## Trash` (format above). Then
 ```
 python3 -I loot_note.py "<Dungeon>"

@@ -7,7 +7,7 @@ case "$1" in
 	razer) PATTERN=Razer_Leviathan ;;
 	soundbar)
 		PATTERN=bluez_output.${SOUNDBAR//:/_}
-		bluetoothctl connect "$SOUNDBAR" >/dev/null
+		bluetoothctl info "$SOUNDBAR" | grep -q 'BREDR.Connected: yes' || bluetoothctl connect "$SOUNDBAR" >/dev/null
 		;;
 	hdmi) PATTERN=pci-0000_01_00.1.hdmi ;;
 	*) echo "usage: $0 arctis|razer|soundbar|hdmi" >&2; exit 1 ;;
@@ -26,4 +26,10 @@ if [ -z "$SINK" ]; then
 fi
 
 pactl set-default-sink "$SINK"
+
+# the soundbar also holds an LE link that goes stale and stalls audio every minute;
+# dropping it makes the soundbar reopen a fresh one
+if [ "$1" = soundbar ]; then
+	busctl call org.bluez "/org/bluez/hci0/dev_${SOUNDBAR//:/_}" org.bluez.Bearer.LE1 Disconnect 2>/dev/null
+fi
 notify-send -t 1500 "Audio" "→ $1"

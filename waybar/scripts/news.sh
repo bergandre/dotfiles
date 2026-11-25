@@ -40,13 +40,16 @@ source_of() {
 }
 
 # rebuild the item list only when newsboat's db (or the feed names) changed
-# cache: line 1 = total ticks, then per item: slot, overflow, source, url, feed name, title
+# cache: line 1 = total ticks, then per item: slot, overflow, source, url, feed name, alert, title
 build() {
-  local -A name
+  local -A name alert
   local u rest row feed ftitle title url feedname over slot total=0 lines=()
   # feed display names: the "~Name" from the urls file, keyed by feed url
+  # a feed tagged "alert" there gets its items shown in red (class "alert" in style.css)
   while read -r u rest; do
-    [[ $u != \#* && $rest =~ \"~([^\"]+)\" ]] && name[$u]=${BASH_REMATCH[1]}
+    [[ $u == \#* ]] && continue
+    [[ $rest =~ \"~([^\"]+)\" ]] && name[$u]=${BASH_REMATCH[1]}
+    [[ " ${rest%%\"*} " == *" alert "* ]] && alert[$u]=1
   done < "$urls"
 
   while IFS= read -r row; do
@@ -58,7 +61,7 @@ build() {
     over=$(( ${#src} + 2 + ${#title} - width ))
     slot=$(( over > 0 ? hold + over + hold : short ))
     (( total += slot ))
-    lines+=("$slot$us$over$us$src$us$url$us$feedname$us$title")
+    lines+=("$slot$us$over$us$src$us$url$us$feedname$us${alert[$feed]:-0}$us$title")
   done < <(sqlite3 -separator "$us" "file:$db?mode=ro" \
     "select i.feedurl, f.title, i.title, i.url from rss_item i join rss_feed f on f.rssurl = i.feedurl
      where i.unread = 1 and i.deleted = 0 order by i.pubDate desc")
@@ -83,7 +86,7 @@ for (( i = 1; i <= n; i++ )); do
   (( t -= slot ))
 done
 
-IFS=$us read -r slot over src url feedname title <<< "${rows[i]}"
+IFS=$us read -r slot over src url feedname alert title <<< "${rows[i]}"
 echo "$url" > "$cur"
 
 # scroll offset: 0 during the first hold, then 1 char per tick, capped at the end
@@ -94,6 +97,7 @@ fi
 
 # pango-escaped in jq: a bash esc() via $(...) would fork per call
 jq -cn --arg text "󰑫 $src: ${title:pos:width - ${#src} - 2}" --arg feed "$feedname" --arg title "$title" \
-  --arg pos "$i / $n unread · click: open + mark read · right: newsboat" \
+  --arg pos "$i / $n unread · click: open + mark read · right: mark read · middle: newsboat" --arg alert "$alert" \
   'def esc: gsub("&"; "&amp;") | gsub("<"; "&lt;") | gsub(">"; "&gt;");
-   {text: ($text | esc), tooltip: "\($feed | esc)\n\($title | esc)\n\n\($pos)"}'
+   {text: ($text | esc), tooltip: "\($feed | esc)\n\($title | esc)\n\n\($pos)",
+    class: (if $alert == "1" then "alert" else "" end)}'

@@ -187,6 +187,12 @@ tooltip {
 }
 
 #power-profiles-daemon,
+/* items from a feed tagged "alert" in newsboat's urls file (server maintenance) */
+#custom-news.alert {
+  color: @error;
+  font-weight: bold;
+}
+
 #power-profiles-daemon.performance,
 #power-profiles-daemon.balanced,
 #power-profiles-daemon.power-saver {

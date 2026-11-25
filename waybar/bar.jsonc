@@ -428,7 +428,8 @@
     "signal": 9,
     "return-type": "json",
     "on-click": "~/.config/waybar/scripts/news-open.sh",
-    "on-click-right": "ghostty -e newsboat"
+    "on-click-right": "~/.config/waybar/scripts/news-open.sh --read-only",
+    "on-click-middle": "ghostty -e newsboat"
   },
   "custom/countdown": {
     "exec": "~/.config/waybar/scripts/countdown.sh",

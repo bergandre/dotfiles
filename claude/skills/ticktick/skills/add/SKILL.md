@@ -6,7 +6,7 @@ argument-hint: "[todos in free text]"
 
 # TickTick routing
 
-The map `~/Documents/obsidian/glava7/ticktick/map.md` says what each folder, list and tag is for and holds the user's tie-break rules. TickTick decides what exists; the map only stores meaning. Never put IDs in the map - take them from the live calls.
+The map `~/Documents/obsidian/glava7/_claude/ticktick/map.md` says what each folder, list and tag is for and holds the user's tie-break rules. TickTick decides what exists; the map only stores meaning. Never put IDs in the map - take them from the live calls.
 
 Tools are `mcp__ticktick__*` (load with ToolSearch). If the server is not connected, say so and stop - do not fall back to a note or a file.
 

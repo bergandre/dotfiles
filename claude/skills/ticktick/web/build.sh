@@ -3,7 +3,7 @@
 # Copies the current map from the vault so the web skill matches it.
 set -euo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"
-map="${MAP:-$HOME/Documents/obsidian/glava7/ticktick/map.md}"
+map="${MAP:-$HOME/Documents/obsidian/glava7/_claude/ticktick/map.md}"
 
 cp "$map" "$here/ticktick/map.md"
 rm -f "$here/ticktick.zip"

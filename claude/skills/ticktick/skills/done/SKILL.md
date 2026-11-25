@@ -15,7 +15,7 @@ A task is finished when the user and Claude agree on it, not when Claude thinks 
 Work that is half done, waiting on the user, or only drafted is not finished.
 
 ## 2. Find the task
-Search open tasks (`search_task` by keywords from the work; if nothing, `get_project_with_undone_tasks` for the list the work belongs to - see the map `~/Documents/obsidian/glava7/ticktick/map.md`). Match by meaning, not exact words.
+Search open tasks (`search_task` by keywords from the work; if nothing, `get_project_with_undone_tasks` for the list the work belongs to - see the map `~/Documents/obsidian/glava7/_claude/ticktick/map.md`). Match by meaning, not exact words.
 - One clear match -> continue.
 - Several candidates -> ask once, naming them.
 - No match -> do nothing and don't mention it. Never create a task just to complete it.

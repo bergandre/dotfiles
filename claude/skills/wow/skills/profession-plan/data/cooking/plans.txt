@@ -1,0 +1,117 @@
+16072|Expert Cookbook|125||5||1
+6328|Recipe: Longjaw Mud Snapper|50||5||1
+6330|Recipe: Bristle Whisker Catfish|100||5||1
+13939|Recipe: Spotted Yellowtail|225||5|1~8137~Gikkix~440~|1
+273115|Blueprint: Iron Oven|300||2|1~9736~Quartermaster Zigris~1583~|2
+17062|Recipe: Mithril Head Trout|175||5||1
+274972|Recipe: Briny Seafood Stew|200||4/5|5~95121~A Taste of the Sea~~16591;1~259962~Fimbo Greasemitz~16591~|1
+273087|Blueprint: Journeyman Campfire|90||2|1~3673~Lord Serpentis~718~|2
+6325|Recipe: Brilliant Smallfish|1||5||1
+6369|Recipe: Rockscale Cod|175||5||1
+273101|Blueprint: Expert Campfire|200||2|1~258966~Slavecrusher Grox~16842~|2
+13941|Recipe: Filet of Redgill|225||5|1~2664~Kelsey Yance~33~|1
+249884|Recipe: Sage's Tea|250||2|1~7379~Deadwind Ogre Mage~41~|1
+250177|Recipe: Flank au Poivre|275||2|1~249225~Ghostfang Alpha~616~|1
+250180|Recipe: Swiftstrike Steak|275||2|1~7434~Frostsaber Pride Watcher~618~|1
+6326|Recipe: Slitherskin Mackerel|1||5||1
+13945|Recipe: Nightfin Soup|250||5|1~8137~Gikkix~440~|1
+13949|Recipe: Baked Salmon|275||5|~~~357~|1
+251526|Recipe: Savory Whimsyfin Delight|85||2||2
+6661|Recipe: Savory Deviate Delight|85||2||2
+12239|Recipe: Dragonbreath Chili|200||2/5|1~4323~Searing Hatchling~15~|1
+250173|Recipe: Savory Stag Sliders|225||5|1~11189~Qia~618~|1
+3682|Recipe: Curiously Tasty Omelet|130||4/5|5~296~Ormer's Revenge~~11|1
+13946|Recipe: Poached Sunscale Salmon|250||5|1~8137~Gikkix~440~|1
+12231|Recipe: Jungle Stew|175||5||1
+6368|Recipe: Rainbow Fin Albacore|50||5||1
+12229|Recipe: Hot Wolf Ribs|175||5||1
+21219|Recipe: Sagefish Delight|175||5||1
+21099|Recipe: Smoked Sagefish|80||5||1
+249883|Recipe: Sunny Tea|200||2|1~752~Marsh Oracle~8~|1
+238646|Recipe: Filet o' Flank|250||||1
+250178|Recipe: Bear Bruscitti|275||2|1~7446~Rabid Shardtooth~618~|1
+13940|Recipe: Cooked Glossy Mightfish|225||5|1~2664~Kelsey Yance~33~|1
+6892|Recipe: Smoked Bear Meat|40||5||1
+5482|Recipe: Kaldorei Spider Kabob|10||4|5~4161~Recipe of the Kaldorei~~-304|1
+18046|Recipe: Tender Wolf Steak|225||5||1
+12232|Recipe: Carrion Surprise|175||5||1
+12228|Recipe: Roast Raptor|175||5||1
+18160|Recipe: Thistle Tea|60||4/5|1~6779~Smudge Thunderwood~36~|2
+13942|Recipe: Grilled Squid|240||5|1~8137~Gikkix~440~|1
+274977|Recipe: Plain Ol' Paletusk|185||4/5|5~95162~Paletusk Harvesting~~16591;~~~16591~|1
+13948|Recipe: Mightfish Steak|275||5|~~~357~|1
+16767|Recipe: Undermine Clam Chowder|225||5||1
+3683|Recipe: Gooey Spider Cake|110||4/5|5~93~Dusky Crab Cakes~~10;1~340~Kendor Kabonka~1519~|1
+250179|Recipe: Steaming Stag Steak|275||4|~~~616~|1
+273102|Blueprint: Cookie's Feast|140||2|1~645~Cookie~1581~|2
+20075|Recipe: Heavy Crocolisk Stew|150||5|1~4879~Ogg'marr~15~|1
+13947|Recipe: Lobster Stew|275||5|~~~357~|1
+5486|Recipe: Strider Stew|50||4/5|5~2178~Easy Strider Living~~-304;1~3482~Tari'qa~17~|1
+3679|Recipe: Blood Sausage|60||4/5|5~418~Thelsamar Blood Sausages~~38;1~340~Kendor Kabonka~1519~|1
+250176|Recipe: Savory Turtle Stew|275||2|1~249224~Child of Tortolla~616~|1
+250183|Recipe: Prehistoric Pulled Raptor|275||2|~~~16667~|1
+250182|Recipe: Bear Brisket|175||2|1~3809~Ashenvale Bear~~|1
+3734|Recipe: Big Bear Steak|110||4/5|5~498~The Rescue~~267|1
+12227|Recipe: Lean Wolf Steak|125||5|1~12246~Super-Seller 680~405~|1
+2699|Recipe: Redridge Goulash|100||4/5|5~92~Redridge Goulash~~44;1~340~Kendor Kabonka~1519~|1
+249882|Recipe: Triage Tea|180||2|1~5254~Woodpaw Mystic~357~|1
+3681|Recipe: Crocolisk Gumbo|120||4/5|5~471~Apprentice's Duties~~11;1~340~Kendor Kabonka~1519~|1
+249890|Recipe: Wicked Smoothie|250||5||1
+12233|Recipe: Mystery Stew|175||5||1
+3735|Recipe: Hot Lion Chops|125||4/5|5~501~Elixir of Pain~~267|1
+5489|Recipe: Lean Venison|110||5||1
+238649|Recipe: Specklefin Feast|280||||1
+4609|Recipe: Barbecued Buzzard Wing|175||4/5|5~703~Barbecued Buzzard Wings~~3|1
+250175|Recipe: Bat Hachee|275||2|1~8602~Monstrous Plaguebat~139~|1
+5528|Recipe: Clam Chowder|90||5||1
+3736|Recipe: Tasty Lion Steak|150||4|5~564~Costly Menace~~267|1
+2701|Recipe: Seasoned Wolf Kabob|100||4/5|5~90~Seasoned Wolf Kabobs~~10;1~340~Kendor Kabonka~1519~|1
+250184|Recipe: Raptor Rouladen|225||2|1~4357~Bloodfen Lashtail~15~|1
+2698|Recipe: Cooked Crab Claw|85||2/5|1~340~Kendor Kabonka~1519~|1
+249881|Recipe: Root Tea|125||2|1~2376~Torn Fin Oracle~267~|1
+7678|Recipe: Thistle Tea|60||||1
+286153|Recipe: Plated Armorfish|225||2|2~694054~Recipe: Raw Plated Armorfish~41~|1
+250189|Recipe: Clam Linguine|275||2|1~7886~Spitelash Enchantress~16~|1
+238647|Recipe: Sunrise Omelette|250||||1
+249886|Recipe: Slimy Smoothie|100||5||1
+5483|Recipe: Scorpid Surprise|20||5||1
+250174|Recipe: Soaring Pamplona|275||||1
+238645|Recipe: Prowler Steak|250||||1
+16110|Recipe: Monster Omelet|225||5||1
+5488|Recipe: Crispy Lizard Tail|100||5|1~3482~Tari'qa~17~|1
+3737|Recipe: Soothing Turtle Bisque|175||4|~~~267~|1
+249879|Recipe: Peace Tea|25||2|1~1397~Frostmane Seer~1~|1
+16111|Recipe: Spiced Chili Crab|225||5||1
+239021|Carrie's Cookbook|280||||1
+3678|Recipe: Crocolisk Steak|80||4/5|5~385~Crocolisk Hunting~~38;1~340~Kendor Kabonka~1519~|1
+2700|Recipe: Succulent Pork Ribs|110||2/5|1~340~Kendor Kabonka~1519~|1
+250181|Recipe: Raging Raptor Ribs|180||2|1~6508~Venomhide Ravasaur~490~|1
+250187|Recipe: Tasty Raptor Bites|25||2||1
+249889|Recipe: Spicy Smoothie|200||5||1
+238650|Recipe: Grand Lobster Banquet|280||||1
+5484|Recipe: Roasted Kodo Meat|35||5|1~3081~Wunna Darkmane~215~|1
+21025|Recipe: Dirge's Kickin' Chimaerok Chops|300||4|5~8586~Dirge's Kickin' Chimaerok Chops~~440|4
+249880|Recipe: Royal Tea|100||2|1~4003~Windshear Geomancer~406~|1
+249887|Recipe: Mrrggl Smrrthle|125||5||1
+728|Recipe: Westfall Stew|75||4/5|5~38~Westfall Stew~~40;1~340~Kendor Kabonka~1519~|1
+249888|Recipe: Calcified Smoothie|180||5||1
+250185|Recipe: Twice-Spiced Raptor Slice|75||2/4|1~855~Young Stranglethorn Raptor~33~;5~95697~Changing Tastes~~16732|1
+12226|Recipe: Crispy Bat Wing|1||5|1~2118~Abigail Shiel~85~|1
+13943|Recipe: Hot Smoked Bass|240||5|1~2664~Kelsey Yance~33~|1
+274415|Recipe: Sweetpaw Jam|275||5|1~256629~Dala Fairmaw~616~|1
+249885|Recipe: Venomous Smoothie|25||5||1
+3680|Recipe: Murloc Fin Soup|90||4/5|5~127~Selling Fish~~44;1~340~Kendor Kabonka~1519~|1
+6039|Recipe: Giant Clam Scorcho|175||5|1~2664~Kelsey Yance~33~|1
+263513|Recipe: Pincer Bites|35||4|5~93317~Crab Season~~16593|1
+2889|Recipe: Beer Basted Boar Ribs|25||4/5|5~384~Beer Basted Boar Ribs~~-304;1~340~Kendor Kabonka~1519~|1
+6329|Recipe: Loch Frenzy Delight|50||5|1~1684~Khara Deepwater~38~|1
+17200|Recipe: Gingerbread Cookie|1||5||1
+250186|Recipe: Giant Scrambled Eggs|175||2|1~1106~Lost One Cook~8~|1
+5485|Recipe: Fillet of Frenzy|50||5|1~4200~Laird~148~|1
+12240|Recipe: Heavy Kodo Stew|200||5|~~~405~|1
+2697|Recipe: Goretusk Liver Pie|50||4/5|5~22~Goretusk Liver Pie~~40;1~340~Kendor Kabonka~1519~|1
+250188|Recipe: Breakfast Omelette|75||2|1~428~Dire Condor~44~|1
+18267|Recipe: Runn Tum Tuber Surprise|275||2|1~14354~Pusillin~2557~|2
+263511|Recipe: Skywall Souffle|25||4|5~92553~Restocking the Larders~~16593|1
+5487|Recipe: Dig Rat Stew|90||4|5~862~Dig Rat Stew~~-304|1
+17201|Recipe: Egg Nog|35||5||1

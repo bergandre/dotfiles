@@ -1,0 +1,8 @@
+# regex on the recipe name <TAB> field (source | note) <TAB> text. Survives regeneration of recipes.md.
+# source = replaces the Source cell; note = appended to it in italics.
+^(Veteran|Guard|Protector|Acolyte|Crusader)'s (Gloves|Boots|Silvered Chain (Helm|Shirt|Leggings))$	source	Favor — Gor'mak, Barrens
+^(Officer|Sentinel|Warder|Justicar|Prefect)'s (Gauntlet|Pauldrons)$	source	Favor 60 + Friendly — Gor'mak, Barrens
+^(Officer|Sentinel|Warder|Justicar|Prefect)'s Wristguards$	source	Favor 90 + Honored — Gor'mak, Barrens
+^(Copper Rod|Sharpening Wheel)$	note	Forever-custom
+^Anvil$	note	campsite object
+^Steel Weapon Chain$	note	plans AH-only, ~17g

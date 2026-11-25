@@ -1,0 +1,31 @@
+# recipe item id<TAB>npc id~name~zone id;...  Horde-friendly vendors only (Wowhead Forever item page, sold-by tab, react[1]==1; 2026-11-25)
+# 39 of 73 vendor recipes read before Wowhead's bot check appeared; an id with no row = not read. Neutral goblins can be missing (Gikkix was).
+6328	3027~Naal Mistrunner~1638;4574~Lizbeth Cromwell~1497;5940~Harn Longcast~215
+12231	12245~Vendor-Tron 1000~405;1148~Nerrist~33
+16072	12033~Wulan~405
+6330	3027~Naal Mistrunner~1638;3029~Sewa Mistrunner~1638;3497~Kilxx~17;2397~Derak Nightfall~267;4553~Ronald Burch~1497
+17062	12033~Wulan~405;2664~Kelsey Yance~33;4574~Lizbeth Cromwell~1497;3333~Shankys~1637;12962~Wik'Tar~331
+6325	4574~Lizbeth Cromwell~1497;3029~Sewa Mistrunner~1638;3550~Martine Tramblay~85;5940~Harn Longcast~215
+6369	12033~Wulan~405;2664~Kelsey Yance~33;4574~Lizbeth Cromwell~1497;3333~Shankys~1637;12962~Wik'Tar~331
+13941	2664~Kelsey Yance~33
+6326	5942~Zansoa~14;3550~Martine Tramblay~85
+13949	8145~Sheendra Tallgrass~357
+12239	4879~Ogg'marr~15;12246~Super-Seller 680~405
+250173	11189~Qia~618
+3682	1148~Nerrist~33;2821~Keena~45
+6368	3333~Shankys~1637;3497~Kilxx~17;5942~Zansoa~14;4553~Ronald Burch~1497;5748~Killian Sanatha~130
+12229	12246~Super-Seller 680~405;8145~Sheendra Tallgrass~357
+21219	12033~Wulan~405;2664~Kelsey Yance~33;3027~Naal Mistrunner~1638;2397~Derak Nightfall~267;3400~Xen'to~1637
+21099	12033~Wulan~405;2664~Kelsey Yance~33;3027~Naal Mistrunner~1638;2397~Derak Nightfall~267;3400~Xen'to~1637
+13940	2664~Kelsey Yance~33
+6892	3556~Andrew Hilbert~130
+12232	12245~Vendor-Tron 1000~405;4879~Ogg'marr~15;9636~Kireena~405;989~Banalash~8
+12228	12245~Vendor-Tron 1000~405;1148~Nerrist~33;4879~Ogg'marr~15;2821~Keena~45
+18160	6779~Smudge Thunderwood~36
+274977	256728~Na'zok~16591
+13948	8145~Sheendra Tallgrass~357
+20075	4879~Ogg'marr~15
+13947	8145~Sheendra Tallgrass~357
+5486	3482~Tari'qa~17
+3734	12246~Super-Seller 680~405
+12227	12246~Super-Seller 680~405

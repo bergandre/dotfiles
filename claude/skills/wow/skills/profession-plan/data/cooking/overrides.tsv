@@ -1,0 +1,5 @@
+# regex on the recipe name <TAB> field (source | note) <TAB> text. Survives regeneration of recipes.md.
+^Spicy Smoothie$	source	Favor 60 — Merchant's Favor vendor, Barrens
+^(Venomous|Slimy|Calcified|Wicked) Smoothie$	source	Favor 30–90 — Merchant's Favor vendor, Barrens
+^Mrrggl Smrrthle$	source	Favor 30–90 — Merchant's Favor vendor, Barrens
+^Crocolisk Steak$	note	Alliance vendor — AH only for Horde

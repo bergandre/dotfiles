@@ -352,31 +352,113 @@ hl.workspace_rule({
 hl.workspace_rule({
 	workspace = 21,
 	monitor = "DP-1",
+	layout = "lua:rows",
 })
 
 hl.workspace_rule({
 	workspace = 22,
 	monitor = "DP-1",
+	layout = "lua:rows",
 })
 
 hl.workspace_rule({
 	workspace = 23,
 	monitor = "DP-1",
+	layout = "lua:rows",
 })
 
--- 24: equal rows in fixed order, whatever order the apps start in
+-- side monitor: rows, equal until resized (grow/shrink/reset msgs); 24 keeps a fixed order, whatever order the apps start in
 local rows_order = { "blueman", "easyeffects", "Spotify", "pavucontrol" }
+local rows_weight = {} -- window address -> share of the height, 1 when unset
+local rows_step = 0.1
+local rows_min = 0.3
+
+local function rows_place(ctx)
+	local function rank(t)
+		local class = t.window and t.window.class or ""
+		for i, pat in ipairs(rows_order) do
+			if class:find(pat, 1, true) then
+				return i
+			end
+		end
+		return #rows_order + 1
+	end
+	local function weight(t)
+		return t.window and rows_weight[t.window.address] or 1
+	end
+	local sorted = {}
+	local total = 0
+	for _, t in ipairs(ctx.targets) do
+		sorted[#sorted + 1] = t
+		total = total + weight(t)
+	end
+	table.sort(sorted, function(a, b)
+		local ra, rb = rank(a), rank(b)
+		if ra ~= rb then
+			return ra < rb
+		end
+		return a.index < b.index
+	end)
+	local y = ctx.area.y
+	for _, t in ipairs(sorted) do
+		local h = ctx.area.h * weight(t) / total
+		t:place({ x = ctx.area.x, y = y, w = ctx.area.w, h = h })
+		y = y + h
+	end
+end
 
 hl.layout.register("rows", {
+	recalculate = rows_place,
+	layout_msg = function(ctx, msg)
+		if msg == "reset" then
+			for _, t in ipairs(ctx.targets) do
+				if t.window then
+					rows_weight[t.window.address] = nil
+				end
+			end
+		elseif msg == "grow" or msg == "shrink" then
+			local w = hl.get_active_window()
+			if not w then
+				return false
+			end
+			local new = (rows_weight[w.address] or 1) + (msg == "grow" and rows_step or -rows_step)
+			rows_weight[w.address] = math.max(rows_min, new)
+		else
+			return false
+		end
+		rows_place(ctx)
+		return true
+	end,
+})
+
+hl.on("window.close", function(w)
+	if w then
+		rows_weight[w.address] = nil
+	end
+end)
+
+hl.workspace_rule({
+	workspace = 24,
+	monitor = "DP-1",
+	layout = "lua:rows",
+})
+
+-- scratchpad: fixed order, shape follows the monitor it opens on
+-- wide: the chats are equal rows in the left half, the rest equal rows on the right; portrait: equal rows
+local magic_order = { "Beeper", "vesktop", "ticktick", "Battle.net" }
+local magic_left = 2 -- how many of magic_order go to the left half
+
+hl.layout.register("magic", {
 	recalculate = function(ctx)
 		local function rank(t)
-			local class = t.window and t.window.class or ""
-			for i, pat in ipairs(rows_order) do
-				if class:find(pat, 1, true) then
+			-- title too: Battle.net has the class steam_proton
+			local id = t.window and (t.window.class .. " " .. t.window.title) or ""
+			for i, pat in ipairs(magic_order) do
+				if id:find(pat, 1, true) then
 					return i
 				end
 			end
-			return #rows_order + 1
+			return #magic_order + 1
 		end
 		local sorted = {}
 		for _, t in ipairs(ctx.targets) do
@@ -389,46 +471,68 @@ hl.layout.register("rows", {
 			end
 			return a.index < b.index
 		end)
+		local n = #sorted
+		local left = 0
+		for _, t in ipairs(sorted) do
+			if rank(t) <= magic_left then
+				left = left + 1
+			end
+		end
+		-- portrait, or only one side has windows: no halves to fill
+		if ctx.area.w < ctx.area.h or left == 0 or left == n then
+			for i, t in ipairs(sorted) do
+				t:place(ctx.area.w < ctx.area.h and ctx:row(i, n) or ctx:column(i, n))
+			end
+			return
+		end
 		for i, t in ipairs(sorted) do
-			t:place(ctx:row(i, #sorted))
+			local col = i <= left and ctx:column(1, 2) or ctx:column(2, 2)
+			local k = i <= left and left or n - left
+			local h = col.h / k
+			t:place({ x = col.x, y = col.y + ((i <= left and i or i - left) - 1) * h, w = col.w, h = h })
 		end
 	end,
 })
 
 hl.workspace_rule({
-	workspace = 24,
-	monitor = "DP-1",
-	layout = "lua:rows",
+	workspace = "special:magic",
+	layout = "lua:magic",
 })
 
 hl.workspace_rule({
 	workspace = 25,
 	monitor = "DP-1",
+	layout = "lua:rows",
 })
 
 hl.workspace_rule({
 	workspace = 26,
 	monitor = "DP-1",
+	layout = "lua:rows",
 })
 
 hl.workspace_rule({
 	workspace = 27,
 	monitor = "DP-1",
+	layout = "lua:rows",
 })
 
 hl.workspace_rule({
 	workspace = 28,
 	monitor = "DP-1",
+	layout = "lua:rows",
 })
 
 hl.workspace_rule({
 	workspace = 29,
 	monitor = "DP-1",
+	layout = "lua:rows",
 })
 
 hl.workspace_rule({
 	workspace = 30,
 	monitor = "DP-1",
+	layout = "lua:rows",
 })
 
 --░█▀▄░█░█░█░░░█▀▀░█▀▀
@@ -571,14 +675,6 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "workspace_25_silent_293",
-	match = {
-		class = "ticktick",
-	},
-	workspace = "25 silent",
-})
-
-hl.window_rule({
 	name = "TSM-worskpace_26_silent",
 	match = {
 		class = "TradeSkillMaster",
@@ -611,6 +707,14 @@ hl.window_rule({
 	name = "workspace_special_ma_303",
 	match = {
 		title = "Battle.net",
+	},
+	workspace = "special:magic silent",
+})
+
+hl.window_rule({
+	name = "workspace_special_ma_304",
+	match = {
+		class = "ticktick",
 	},
 	workspace = "special:magic silent",
 })
@@ -659,6 +763,15 @@ hl.bind(mainMod .. " + " .. "C", hl.dsp.exec_cmd("wl-copy"))
 hl.bind(mainMod .. " + " .. "V", hl.dsp.exec_cmd("wl-paste"))
 hl.bind(mainMod .. " + " .. "X", hl.dsp.exec_cmd("wl-copy --cut"))
 hl.bind(mainMod .. " + " .. "A", hl.dsp.exec_cmd("wtype -M ctrl a"))
+-- tiled window in the rows layout: resize is a layout msg, the layout ignores window.resize
+local function rows_or(msg, fallback)
+	return function()
+		local w = hl.get_active_window()
+		local rows = w and not w.floating and w.workspace and w.workspace.tiled_layout == "lua:rows"
+		hl.dispatch(rows and hl.dsp.layout(msg) or fallback)
+	end
+end
+
 hl.bind(
 	mainMod .. " + " .. "ALT" .. " + " .. "h",
 	hl.dsp.window.resize({ x = -20, y = 0, relative = true }),
@@ -673,15 +786,16 @@ hl.bind(
 
 hl.bind(
 	mainMod .. " + " .. "ALT" .. " + " .. "k",
-	hl.dsp.window.resize({ x = 0, y = -20, relative = true }),
+	rows_or("shrink", hl.dsp.window.resize({ x = 0, y = -20, relative = true })),
 	{ repeating = true }
 )
 
 hl.bind(
 	mainMod .. " + " .. "ALT" .. " + " .. "j",
-	hl.dsp.window.resize({ x = 0, y = 20, relative = true }),
+	rows_or("grow", hl.dsp.window.resize({ x = 0, y = 20, relative = true })),
 	{ repeating = true }
 )
+hl.bind(mainMod .. " + " .. "ALT" .. " + " .. "0", hl.dsp.layout("reset"))
 
 hl.bind(mainMod .. " + " .. "mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + " .. "mouse:273", hl.dsp.window.resize(), { mouse = true })

@@ -172,6 +172,12 @@ BENCH_PROFS = [p for g in BENCH_GROUPS for p in g]
 CSS = VAULT.parent / ".obsidian/snippets/wow.css"
 
 
+def prof_note(n):
+    """Link target of a profession: crafting notes are split into <prof>/leveling.md + recipes.md (names repeat
+    across folders -> full vault path); gathering notes keep <prof>/<prof>.md."""
+    return f"Wow_FOREVER/professions/{n}/leveling" if (VAULT / "professions" / n / "leveling.md").exists() else n
+
+
 def write_bench_css():
     """Rewrite the prof-bench block in wow.css from BENCH_GROUPS (column colours + group separators)."""
     # W = the level table only: it is the one with a column per profession (char tables have 5 columns)
@@ -237,12 +243,12 @@ def write_benchmarks():
               f'<span class="rk-{c}">{name} {lo}–{cap}</span>'
               for (cap, c, name), lo in zip(RANKS, (1, 76, 151, 226)))]
     for char, profs in chars.items():  # static: only config, no live skill data
-        md += ["", f"## {char}", "| Level | " + " | ".join(f"[[{n}\\|{prof[n][0]}]]" for n in profs) + " |",
+        md += ["", f"## {char}", "| Level | " + " | ".join(f"[[{prof_note(n)}\\|{prof[n][0]}]]" for n in profs) + " |",
                "|---|" + "---|" * len(profs)]
         md += [f"| {level_span(lvl)} | " + " | ".join(rank_span(calc[prof[n][1]](n, lvl)) for n in profs) + " |"
                for lvl in CHAR_LEVELS]
     md += ["", "## Level benchmarks",
-           "| Level | " + " | ".join(f"[[{n}\\|{lab}]]" for n, lab, _, _ in BENCH_PROFS) + " |",
+           "| Level | " + " | ".join(f"[[{prof_note(n)}\\|{lab}]]" for n, lab, _, _ in BENCH_PROFS) + " |",
            "|---|" + "---|" * len(BENCH_PROFS)]
     for lvl in BENCH_LEVELS:
         md.append(f"| {level_span(lvl)} | " + " | ".join(str(calc[how](n, lvl)) for n, _, how, _ in BENCH_PROFS) + " |")

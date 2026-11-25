@@ -6,3 +6,12 @@ progress-color=over {{colors.primary_container.default.hex}}
 
 [urgency=high]
 border-color={{colors.error.default.hex}}
+
+# weather.sh: rain started / stopped; title tinted here, mako escapes markup inside %s
+[app-name=weather category=weather-wet]
+border-color={{colors.blue_source.default.hex | set_hue: 205.0 | set_saturation: 70.0 | set_lightness: 72.0}}
+format=<b><span color='{{colors.blue_source.default.hex | set_hue: 205.0 | set_saturation: 70.0 | set_lightness: 72.0}}'>%s</span></b>\n%b
+
+[app-name=weather category=weather-dry]
+border-color={{colors.yellow_source.default.hex | set_saturation: 60.0 | set_lightness: 72.0}}
+format=<b><span color='{{colors.yellow_source.default.hex | set_saturation: 60.0 | set_lightness: 72.0}}'>%s</span></b>\n%b

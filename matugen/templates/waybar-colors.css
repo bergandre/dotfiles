@@ -7,3 +7,12 @@
 @define-color accent_dim {{colors.secondary.default.hex}};
 @define-color error {{colors.error.default.hex}};
 @define-color warning {{colors.orange_source.default.hex | set_saturation: 60.0 | set_lightness: 72.0}};
+
+/* weather: scripts/weather.sh reads these hex values for its pango spans
+   rain keeps a fixed sky-blue hue: blended blue drifts into the accent color */
+@define-color rain {{colors.blue_source.default.hex | set_hue: 205.0 | set_saturation: 70.0 | set_lightness: 72.0}};
+@define-color wind_weak {{colors.outline.default.hex}};
+@define-color wind_normal {{colors.on_surface.default.hex}};
+@define-color wind_mild {{colors.yellow_source.default.hex | set_saturation: 60.0 | set_lightness: 72.0}};
+@define-color wind_strong {{colors.orange_source.default.hex | set_saturation: 60.0 | set_lightness: 72.0}};
+@define-color wind_extreme {{colors.error.default.hex}};

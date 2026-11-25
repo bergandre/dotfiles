@@ -10,9 +10,8 @@
     "group/left1", 
     "group/left3",
     "group/left4",
-    "group/left5",
     "custom/news",
-    "group/left6"
+    "custom/music"
   ],
   "group/left1": {
     "orientation": "inherit",
@@ -32,14 +31,10 @@
     "orientation": "inherit",
     "modules": ["custom/countdown"]
   },
-  "group/left6": {
-    "orientation": "inherit",
-    "modules": ["custom/audio-out"]
-  },
   "modules-center": [
     "hyprland/workspaces"
   ],
-  "modules-right": ["custom/music", "group/right2", "group/right3", "group/right4", "group/right5", "group/right1"],
+  "modules-right": ["group/right2", "group/right3", "group/right4", "group/right5", "group/right6", "group/right1"],
 
   // system stats: main monitors only (DP-1 overrides modules-right)
   "group/right2": {
@@ -59,15 +54,24 @@
     "modules": ["disk#root", "disk#home"]
   },
 
-  "group/right1": {
+  // services: audio out, network, bluetooth, mic, keyboard layout
+  "group/right6": {
     "orientation": "inherit",
     "modules": [
+      "custom/audio-out",
       "backlight",
       "network",
       "bluetooth",
-      "pulseaudio#output",
       "pulseaudio#input",
-      "hyprland/language",
+      "hyprland/language"
+    ]
+  },
+
+  // date/time/weather
+  "group/right1": {
+    "orientation": "inherit",
+    "modules": [
+      "custom/weather",
       "clock"
     ]
   },
@@ -191,7 +195,7 @@
     "signal": 10,
     "on-click": "~/.config/waybar/scripts/idle-toggle.sh toggle"
   },
-  // default audio output; script listens to pactl subscribe, so no interval
+  // default audio output + its volume; script listens to pactl subscribe, so no interval
   "custom/audio-out": {
     "exec": "~/.config/waybar/scripts/audio-out.sh",
     "return-type": "json",
@@ -430,6 +434,12 @@
     "on-click": "~/.config/waybar/scripts/news-open.sh",
     "on-click-right": "~/.config/waybar/scripts/news-open.sh --read-only",
     "on-click-middle": "ghostty -e newsboat"
+  },
+  // Riga weather (open-meteo); script caches 10 min and notifies when rain starts/stops
+  "custom/weather": {
+    "exec": "~/.config/waybar/scripts/weather.sh",
+    "interval": 60,
+    "return-type": "json"
   },
   "custom/countdown": {
     "exec": "~/.config/waybar/scripts/countdown.sh",

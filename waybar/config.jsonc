@@ -20,9 +20,8 @@
     "output": "DP-1",
     "modules-left": [
       "group/left1",
-      "group/left4",
-      "group/left6"
+      "group/left4"
     ],
-    "modules-right": ["group/right1"]
+    "modules-right": ["group/right6", "group/right1"]
   }
 ]

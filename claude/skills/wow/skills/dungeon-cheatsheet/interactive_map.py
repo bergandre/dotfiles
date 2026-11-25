@@ -309,18 +309,21 @@ def main():
     ap.add_argument("--slug")
     ap.add_argument("--preview", help="also write a PNG with the route and pin dots burnt in (for checking)")
     a = ap.parse_args()
-    slug = a.slug or re.sub(r"[^a-z0-9]+", "-", a.dungeon.lower().replace("'", "")).strip("-")
+    # "Scarlet Monastery/Graveyard" = a wing: folder dungeons/Scarlet Monastery/Graveyard/, files "Graveyard ...";
+    # lookups (AtlasLoot, FDJ, site slugs) use the full name
+    full, base = a.dungeon.replace("/", " "), Path(a.dungeon).name
+    slug = a.slug or re.sub(r"[^a-z0-9]+", "-", full.lower().replace("'", "")).strip("-")
     ddir = VAULT / "dungeons" / a.dungeon                     # one folder per dungeon
-    main_note = ddir / f"{a.dungeon}.md"
+    main_note = ddir / f"{base}.md"
     note = main_note.read_text()
-    data = next((f for f in (ddir / "map" / f"{a.dungeon} map data.md", ddir / f"{a.dungeon} tactics.md")
+    data = next((f for f in (ddir / "map" / f"{base} map data.md", ddir / f"{base} tactics.md")
                  if f.exists()), None)
     data_text = data.read_text() if data else note
     bosses = parse_bosses(data_text)
     trash = [b for b in bosses if b.get("trash")]
     bosses = [b for b in bosses if not b.get("trash") and b["name"] != "Trash loot"]
     loot = parse_loot(data) if data else {}  # W/P upgrade lines under each boss / `## Trash` of the map data
-    computed = ddir / "map" / f"{a.dungeon} upgrades.json"  # loot_note.py's approx % (wins over hand-written lines)
+    computed = ddir / "map" / f"{base} upgrades.json"  # loot_note.py's approx % (wins over hand-written lines)
     if computed.exists():
         loot = {k: [dict(who=u["who"], icon=u["icon"], item=u["item"], why=u["why"]) for u in v]
                 for k, v in json.loads(computed.read_text()).items()}
@@ -555,7 +558,7 @@ def main():
                               f'<span class="wm-riv">rivals: {html.escape(riv)}</span></div>')
                 rows.append('<div class="wm-big"><span class="wm-big-h">Big drops — don\'t bring the rivals</span>'
                             + "".join(bd) + "</div>")
-        tfile = ddir / "map" / f"{a.dungeon} tldr.md"
+        tfile = ddir / "map" / f"{base} tldr.md"
         tfile.write_text('<div class="wowtldr">' + "".join(rows) + "</div>\n")
         tembed = f"![[{tfile.stem}]]"
         if tembed not in note:  # main note: `## TLDR` = the embed (its old bullets now live in the map data)
@@ -564,7 +567,7 @@ def main():
             main_note.write_text(note)
             print(f"{main_note.name}: ## TLDR embeds {tembed}")
 
-    target = ddir / "map" / f"{a.dungeon} (interactive).md"
+    target = ddir / "map" / f"{base} (interactive).md"
     target.parent.mkdir(exist_ok=True)
     target.write_text("".join(out) + "\n")  # no title: the note is embedded at the top of the main note
     print(f"{target}  ({target.stat().st_size // 1024} KB, {len(bosses)} bosses, {len(strip)} without pin, "

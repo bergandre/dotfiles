@@ -67,7 +67,9 @@ def main():
     ap.add_argument("dungeon")
     ap.add_argument("--write", action="store_true")
     a = ap.parse_args()
-    name, e = fdj_entry(a.dungeon)
+    # "Scarlet Monastery/Graveyard" = a wing: folder dungeons/Scarlet Monastery/Graveyard/, files "Graveyard ..."
+    full, base = a.dungeon.replace("/", " "), Path(a.dungeon).name
+    name, e = fdj_entry(full)
     floors = e.get("floors", [])
     n = len(floors)
     cols = n if n <= 2 else 2
@@ -81,7 +83,7 @@ def main():
         return round((c + float(x)) / cols * 100, 2), round((r + float(y)) / rows * 100, 2)
 
     ddir = VAULT / "dungeons" / a.dungeon
-    out = ddir / "map" / f"{a.dungeon} map.png"
+    out = ddir / "map" / f"{base} map.png"
     if own_art:
         out.parent.mkdir(parents=True, exist_ok=True)
         font = subprocess.run(["fc-match", "-f", "%{file}", "DejaVu Sans:bold"], capture_output=True, text=True).stdout
@@ -119,7 +121,7 @@ def main():
         print(f"NPC inside: {t['npc']} {list(pct(t.get('floor'), t['x'], t['y']))}")
 
     if a.write and own_art:
-        main_note = ddir / f"{a.dungeon}.md"
+        main_note = ddir / f"{base}.md"
         s = main_note.read_text()
         m = re.match(r"---\n(.*?\n)---\n(.*)", s, re.S)
         if not m:

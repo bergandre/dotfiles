@@ -95,21 +95,61 @@ def stats(item_id, bonus=None):
             st["random"] = 1
         for k, pat in (("armor", rf"^\+?{NUM} Armor$"), ("str", rf"^\+{NUM} Strength"), ("agi", rf"^\+{NUM} Agility"),
                        ("sta", rf"^\+{NUM} Stamina"), ("int", rf"^\+{NUM} Intellect"), ("spi", rf"^\+{NUM} Spirit"),
-                       ("dps", rf"\({NUM} damage per second\)"), ("mp5", rf"Restores \+?{NUM} mana per 5"),
+                       ("dps", rf"\({NUM} damage per second\)"), ("speed", rf"^Speed {NUM}$"), ("mp5", rf"Restores \+?{NUM} mana per 5"),
                        ("ap", rf"\+{NUM} Attack Power\.?$"), ("hit", rf"chance to hit by {NUM}%"),
                        ("crit", rf"critical strike by {NUM}%"), ("def", rf"Increased Defense \+{NUM}"),
                        ("heal", rf"healing done by (?:magical spells and effects )?(?:by )?up to {NUM}")):
             m = re.search(pat, l)
             if m:
                 add(k, m.group(1))
+        m = re.match(r"^(\d+) - (\d+) Damage$", l)  # main hit only, not "+ 5 - 10 Fire Damage"
+        if m and "avg" not in st:
+            st["avg"] = (int(m.group(1)) + int(m.group(2))) / 2
+        if l.startswith("Chance on hit:") and "proc" not in st:
+            st["proc"] = proc_damage(l, st.get("avg", 0))
     return st
+
+
+# Weapon procs: rate unknown on Forever -> guess PROC_PPM procs/min. Ravager-style AoE whirlwinds count
+# AOE_TARGETS mobs (the duo pulls several at once).
+PROC_PPM = 1
+AOE_TARGETS = 2
+
+
+def proc_damage(line, avg):
+    """Expected damage of one proc from its 'Chance on hit:' line (0 = no direct damage, e.g. stun/armor)."""
+    m = re.search(r"weapon damage plus (\d+) every (\d+) sec for (\d+) sec", line)
+    if m:
+        ticks = int(m.group(3)) // int(m.group(2))
+        return ticks * (avg + int(m.group(1))) * (AOE_TARGETS if "all nearby" in line else 1)
+    m = re.search(r"(\d+) to (\d+) (?:\w+ )?damage", line)
+    if m:
+        return (int(m.group(1)) + int(m.group(2))) / 2
+    m = re.search(r"(\d+) (?:\w+ )?damage", line)
+    return float(m.group(1)) if m else 0
+
+
+# Arms 2H: white swings scale with DPS, Mortal Strike / Overpower / Whirlwind / Slam with one swing's damage
+# (avg hit), so slow hard-hitting weapons win at equal DPS. Per 10 s: 10*DPS white + ABIL_HITS*avg from
+# abilities. 1 Str = 2 AP = 2/14 DPS on every white second + ability (3.3 = normalized 2H speed, guess).
+ABIL_HITS = 2
+STR_DMG = 2 / 14 * (10 + ABIL_HITS * 3.3)
+
+
+def weapon_term(st):
+    if not st.get("dps"):
+        return 0
+    proc = PROC_PPM / 6 * st.get("proc", 0)  # damage per 10 s
+    if not st.get("avg"):
+        return 7 * st["dps"] + proc / STR_DMG
+    return (10 * st["dps"] + ABIL_HITS * st["avg"] + proc) / STR_DMG
 
 
 def score(c, st, slot=None):
     if c == "W":
         s = (st.get("str", 0) + .5 * st.get("agi", 0) + .8 * st.get("sta", 0) + .5 * st.get("ap", 0) + .03 * st.get("armor", 0)
              + 8 * st.get("hit", 0) + 8 * st.get("crit", 0) + .6 * st.get("def", 0) + .05 * st.get("spi", 0))
-        return s + (7 * st.get("dps", 0) if slot == "Two-Hand" else 0)
+        return s + (weapon_term(st) if slot == "Two-Hand" else 0)
     s = st.get("heal", 0) + 2 * st.get("mp5", 0) + .5 * st.get("int", 0) + .6 * st.get("spi", 0) + .25 * st.get("sta", 0)
     return s + (.5 * st.get("dps", 0) if slot == "Ranged" else 0)
 
@@ -208,9 +248,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("dungeon")
     a = ap.parse_args()
+    # "Scarlet Monastery/Graveyard" = a wing: folder dungeons/Scarlet Monastery/Graveyard/, files "Graveyard ...";
+    # lookups (AtlasLoot, FDJ, site slugs) use the full name
+    full, base = a.dungeon.replace("/", " "), Path(a.dungeon).name
     d = VAULT / "dungeons" / a.dungeon
-    note = d / "notes" / f"{a.dungeon} loot.md"
-    data = next((p for p in (d / "map" / f"{a.dungeon} map data.md", d / f"{a.dungeon} tactics.md") if p.exists()), None)
+    note = d / "notes" / f"{base} loot.md"
+    data = next((p for p in (d / "map" / f"{base} map data.md", d / f"{base} tactics.md") if p.exists()), None)
     text = data.read_text() if data else ""
 
     nums, lvls = {}, {}  # map numbers + levels from the map data headings
@@ -220,8 +263,8 @@ def main():
             nums[key(m.group(2))], lvls[key(m.group(2))] = m.group(1), m.group(3)
     qr = re.search(r"\n## Quest rewards[^\n]*\n(.*?)(?=\n## |\Z)", text, re.S)
 
-    _, bosses = cs.atlasloot_bosses(a.dungeon)
-    if not any(b["name"].lower() == "trash" for b in bosses) and (tr := fdj_trash(a.dungeon)):
+    _, bosses = cs.atlasloot_bosses(full)
+    if not any(b["name"].lower() == "trash" for b in bosses) and (tr := fdj_trash(full)):
         bosses.append({"name": "Trash", "level": None, "items": tr})
     # map-number order; bosses without a number after them, trash last
     bosses.sort(key=lambda b: (b["name"].lower() == "trash", int(nums.get(key(b["name"]), 999))))
@@ -306,11 +349,11 @@ def main():
     for v in found.values():
         v.sort(key=lambda u: -u["pct"])
     (d / "map").mkdir(exist_ok=True)
-    (d / "map" / f"{a.dungeon} upgrades.json").write_text(json.dumps(found, indent=1, ensure_ascii=False))
+    (d / "map" / f"{base} upgrades.json").write_text(json.dumps(found, indent=1, ensure_ascii=False))
     note.write_text("\n".join(out).rstrip() + "\n")
 
     # main note: `## Loot` embeds this note, right above `## Notes` (the links block at the end)
-    main = d / f"{a.dungeon}.md"
+    main = d / f"{base}.md"
     embed = f"![[{note.stem}]]"
     if main.exists() and embed not in (mt := main.read_text()):
         block = f"## Loot\n{embed}\n\n"

@@ -208,12 +208,15 @@ def main():
     ap.add_argument("--map-out", type=Path)
     ap.add_argument("--no-map", action="store_true")
     a = ap.parse_args()
+    # "Scarlet Monastery/Graveyard" = a wing: folder dungeons/Scarlet Monastery/Graveyard/, files "Graveyard ...";
+    # lookups (AtlasLoot, FDJ, site slugs) use the full name
+    full, base = a.dungeon.replace("/", " "), Path(a.dungeon).name
     chars = [c.strip() for c in a.chars.split(",")]
 
-    key, bosses = atlasloot_bosses(a.dungeon)
+    key, bosses = atlasloot_bosses(full)
     if not a.no_map:
-        out = a.map_out or Path(f"~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/{a.dungeon}/map/{a.dungeon} map.png").expanduser()
-        build_map(a.slug or slugify(a.dungeon), out, a.dungeon, [b["name"] for b in bosses])
+        out = a.map_out or Path(f"~/Documents/obsidian/gaming/Wow_FOREVER/dungeons/{a.dungeon}/map/{base} map.png").expanduser()
+        build_map(a.slug or slugify(full), out, full, [b["name"] for b in bosses])
     gear = equipped(chars)
     print(f"\n# Bosses + loot (AtlasLoot {key}, path order)")
     for c in chars:

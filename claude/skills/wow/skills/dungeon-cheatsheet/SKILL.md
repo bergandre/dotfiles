@@ -20,6 +20,10 @@ file at the top; everything else sits in subfolders. Keep file names unique - Ob
   notes/<Dungeon> quests.md    pick up / turn in - owned by the dungeon-quests skill
   art/                         portraits (<Boss>.webp), sketches, method/ renders (tactics.py)
 ```
+**Wings** (Scarlet Monastery, Dire Maul...): one parent folder, a subfolder per wing, no prefix in file names -
+pass `"Scarlet Monastery/Graveyard"` to every script -> `dungeons/Scarlet Monastery/Graveyard/Graveyard.md`,
+`map/Graveyard map data.md`...; AtlasLoot / FDJ / site slugs use the full name ("Scarlet Monastery Graveyard").
+The parent holds a hub note `Scarlet Monastery.md` (wing table, run order, key). Reference: `dungeons/Scarlet Monastery/`.
 Shared: `abilities/<Spell>.md` ability cards (+ `abilities/icons/`, incl. `ej-<flag>.png`), `items/<Item>.md`.
 There is no separate tactics note: the map's banners show the map data. Game data repo:
 `~/repositories/wow-forever-addon-settings` (CLAUDE.md there: accounts, chars).
@@ -45,8 +49,11 @@ floor, the entrance, floor transitions (ladders, "Level 2") and NPCs inside - be
 Excavation Site, Ruins of Lordaeron, Drowned City, Hall of Thanes, Blackmaw Hold, ...) it builds
 `map/<Dungeon> map.png` (floors side by side, "Level n") and `--write` sets `map:` + all `kind: boss` pins in the
 main note. Use its entrance / transitions as route anchors. `--write` needs the main note to exist (create a skeleton first) and writes names
-unquoted: quote names starting with `"` (`'"Pyromancer" Braxton'`) or YAML breaks. Classic dungeons use the client's map tiles (not
-extractable) -> it only prints positions; use cheatsheet.py's map there.
+unquoted: quote names starting with `"` (`'"Pyromancer" Braxton'`) or YAML breaks. Classic dungeons use the client's map tiles -> it only
+prints positions (floor-local, not stitched). The addon ships those maps as `Media/Maps/<Name><floor>.blp`
+(1024², map = top-left 1002x668; Pillow opens BLP): crop, paste small extra floors as an inset, `-resize 200%`
+-> `map/<Dungeon> map.png` + `map:`; the printed pins are % of that 1002x668 area. Reference: `dungeons/Uldaman/`
+(Level 2 inset). Else use cheatsheet.py's map.
 ```
 python3 -I cheatsheet.py "<Dungeon>" [--slug <foreverchanges-slug>] [--chars "Karums Warrior,Karums Priest"] [--no-map]
 ```
@@ -149,7 +156,12 @@ The loot note computes this itself (approx % per char, below); hand-written line
 - Warrior = Arms 2H, levels as the duo's tank in Def/Battle stance: Str, 2H DPS, Sta, armor. No 1H/shields.
 - Priest = healer: +healing, Int, Spirit, Sta. Cloth only. Note empty slots (free upgrades).
 - Random-suffix gear (`<Random enchantment>`) - stats unknown, say so.
-- Check `characters/<Char>/<class> weapons - <spec>.md` notes (e.g. `warrior weapons - arms` / `- prot`) - mark Got or link if the item is already an option there.
+- Check `characters/<Char>/<Spec>/Weapons.md` notes (e.g. `Arms/Weapons` / `Prot/Weapons`) - mark Got or link if the item is already an option there.
+  A W weapon upgrade that is **not** there yet goes into that note too (row in its level band), then run
+  `notes/gear_options.py ... --note` (wow:notes "Gear note") - Mograine's Might sat in the SM notes for a day
+  without reaching Arms/Weapons.
+- Quest rewards of the dungeon's quests and their follow-ups (FDJ `rewardItems`, e.g. A Tale Spun Around the Fire
+  after The Drowned City) count as this dungeon's loot: judge them like drops.
 Write them as `- [ ] W — ...` lines at the end of the boss's section / `## Trash` (format above). Then
 ```
 python3 -I loot_note.py "<Dungeon>"

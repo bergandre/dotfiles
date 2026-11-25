@@ -147,7 +147,10 @@ def main():
     ap.add_argument("--slug")
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args()
-    slug = a.slug or re.sub(r"[^a-z0-9]+", "-", a.dungeon.lower().replace("'", "")).strip("-")
+    # "Scarlet Monastery/Graveyard" = a wing: folder dungeons/Scarlet Monastery/Graveyard/, files "Graveyard ...";
+    # lookups (AtlasLoot, FDJ, site slugs) use the full name
+    full, base = a.dungeon.replace("/", " "), Path(a.dungeon).name
+    slug = a.slug or re.sub(r"[^a-z0-9]+", "-", full.lower().replace("'", "")).strip("-")
 
     adir = VAULT / "abilities"
     (adir / "icons").mkdir(parents=True, exist_ok=True)
@@ -172,7 +175,7 @@ def main():
         if imp:
             print(f"  ! important (guide stresses it -> add ![[ej-important.png|inline]]): {', '.join(imp)}")
         for sid, _ in spells:
-            gen.build(int(sid), adir, f"{re.sub(r' [(]Rare Spawn[)]', '', name)} ({a.dungeon})", a.force)
+            gen.build(int(sid), adir, f"{re.sub(r' [(]Rare Spawn[)]', '', name)} ({full})", a.force)
         for t in text:
             print(f"  · {t}")
 

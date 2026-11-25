@@ -5,8 +5,8 @@ description: Build WoW Forever talent tree notes in the Obsidian vault - the thr
 
 # Talent tree notes (WoW Forever)
 
-Output: `~/Documents/obsidian/gaming/Wow_FOREVER/characters/<Char>/<class> talents - <spec>.md`
-(reference: `characters/Karums Warrior/warrior talents - arms.md`, `- prot.md`). Link them from the
+Output: `~/Documents/obsidian/gaming/Wow_FOREVER/characters/<Char>/<Spec>/Talents.md`
+(reference: `characters/Karums Warrior/Arms/Talents.md`, `Prot/Talents.md`). Link them from the
 character hub (`<Char>.md` "Talents —" line).
 
 ```

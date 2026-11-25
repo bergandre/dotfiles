@@ -45,5 +45,6 @@
       "effortLevel": "high"
     }
   },
-  "theme": "custom:wow-dungeon"
+  "theme": "custom:wow-dungeon",
+  "switchModelsOnFlag": true
 }

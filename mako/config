@@ -33,3 +33,7 @@ default-timeout=0
 [category=mpd]
 default-timeout=2000
 group-by=category
+
+# media-toast.sh: play / next / volume toasts from the media keys
+[app-name=media]
+default-timeout=2000

@@ -803,41 +803,35 @@ hl.bind(mainMod .. " + " .. "mouse:273", hl.dsp.window.resize(), { mouse = true 
 -- _____ ___ _| |_|___
 --|     | -_| . | | .'|
 --|_|_|_|___|___|_|__,|
--- spotify
+-- spotify / soundcloud, whichever is playing or played last (music-ctl.sh)
 
 hl.bind(
 	hyper .. " + " .. "RIGHT",
-	hl.dsp.exec_cmd(
-		"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
-	)
+	hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh music next")
 )
 
 hl.bind(
 	hyper .. " + " .. "LEFT",
-	hl.dsp.exec_cmd(
-		"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
-	)
+	hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh music previous")
 )
 
 hl.bind(
 	hyper .. " + " .. "SPACE",
-	hl.dsp.exec_cmd(
-		"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
-	)
+	hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh music play-pause")
 )
 
-hl.bind(hyper .. " + " .. "UP", hl.dsp.exec_cmd("playerctl --player=spotify volume 0.1+"))
-hl.bind(hyper .. " + " .. "DOWN", hl.dsp.exec_cmd("playerctl --player=spotify volume 0.1-"))
+hl.bind(hyper .. " + " .. "UP", hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh music volume 0.1+"))
+hl.bind(hyper .. " + " .. "DOWN", hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh music volume 0.1-"))
 
 -- youtube (firefox)
 
-hl.bind(hyper .. " + " .. "K", hl.dsp.exec_cmd("playerctl --player=firefox play-pause"))
-hl.bind(hyper .. " + " .. "N", hl.dsp.exec_cmd("playerctl --player=firefox next"))
-hl.bind(hyper .. " + " .. "P", hl.dsp.exec_cmd("playerctl --player=firefox previous"))
-hl.bind(hyper .. " + " .. "l", hl.dsp.exec_cmd("playerctl --player=firefox position 5-"))
-hl.bind(hyper .. " + " .. "SEMICOLON", hl.dsp.exec_cmd("playerctl --player=firefox position 5+"))
-hl.bind(hyper .. " + " .. "j", hl.dsp.exec_cmd("playerctl --player=firefox volume .1-"))
-hl.bind(hyper .. " + " .. "i", hl.dsp.exec_cmd("playerctl --player=firefox volume .1+"))
+hl.bind(hyper .. " + " .. "K", hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh firefox play-pause"))
+hl.bind(hyper .. " + " .. "N", hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh firefox next"))
+hl.bind(hyper .. " + " .. "P", hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh firefox previous"))
+hl.bind(hyper .. " + " .. "l", hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh firefox position 5-"))
+hl.bind(hyper .. " + " .. "SEMICOLON", hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh firefox position 5+"))
+hl.bind(hyper .. " + " .. "j", hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh firefox volume .1-"))
+hl.bind(hyper .. " + " .. "i", hl.dsp.exec_cmd("~/.config/waybar/scripts/media-toast.sh firefox volume .1+"))
 
 -- waybar sits on the overlay layer (above fullscreen games): hyper + O shows/hides it
 hl.bind(hyper .. " + " .. "O", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar"))
@@ -846,10 +840,10 @@ hl.bind(hyper .. " + " .. "O", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar"))
 
 hl.bind(
 	"XF86AudioRaiseVolume",
-	hl.dsp.exec_cmd("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 1%+"),
+	hl.dsp.exec_cmd("~/.config/waybar/scripts/volume-toast.sh 1%+"),
 	{ repeating = true }
 )
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-"), { repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("~/.config/waybar/scripts/volume-toast.sh 1%-"), { repeating = true })
 
 -- WoW: hyper + keys -> WoW on the top monitor (naga side grid + rshift/rctrl via keyd/naga.conf)
 dofile(os.getenv("HOME") .. "/.config/hypr/wow.lua")(hyper, top_monitor)

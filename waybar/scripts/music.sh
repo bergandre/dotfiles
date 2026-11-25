@@ -3,11 +3,14 @@
 # polled every second by waybar: --follow doesn't emit on position changes
 
 # \x1f as separator: tab is IFS whitespace, so an empty artist would shift fields
+# music-ctl.sh picks spotify or soundcloud, whichever is playing / played last
+p=$(~/.config/waybar/scripts/music-ctl.sh) || exit 0
 IFS=$'\x1f' read -r status artist title pos len vol player < <(
-  playerctl -i firefox,chromium,brave metadata --format \
+  playerctl -p "$p" metadata --format \
     $'{{lc(status)}}\x1f{{artist}}\x1f{{title}}\x1f{{duration(position)}}\x1f{{duration(mpris:length)}}\x1f{{volume}}\x1f{{playerName}}' 2>/dev/null
 )
 [ -z "$status" ] && exit 0
+[ "$p" = soundcloud_desktop ] && v=$(~/.config/waybar/scripts/music-ctl.sh volume) && vol=$v
 
 esc() { local s=${1//&/&amp;}; s=${s//</&lt;}; echo "${s//>/&gt;}"; }
 

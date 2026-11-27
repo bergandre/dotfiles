@@ -1,0 +1,12 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "wallpapers",
+  "version": "0.1.0",
+  "description": "Wallpaper / photo collection helpers: K-pop album concept photos in original resolution",
+  "author": {
+    "name": "bergandre"
+  },
+  "skills": [
+    "./skills/"
+  ]
+}
